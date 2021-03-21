@@ -1,7 +1,7 @@
-### Otsikko
-_Italic text_
-**Bold text**
-Normal text
-
-* Item 1
-* Item 2
+# Ohjelmistotekniikka, harjoitustyö
+----
+### Tehtävät
+----
+**Viikko1**
+http://github.com - automatic!
+[GitHub](http://github.com)
