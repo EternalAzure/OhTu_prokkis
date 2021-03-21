@@ -1,0 +1,78 @@
+$ git log --stat | cat
+commit 1c7a0d026aea4d180d1216da04f5dea6b021d043
+Author: Miika Kalliokoski <kall.miika@outlook.com>
+Date:   Sun Mar 21 13:34:38 2021 +0200
+
+    Luotu kansio 'tiedostoja ja sinne 3 tiedostoa
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 5f8bfab0d5468e75faeb9f8717911a2b49cef65b
+Author: Miika Kalliokoski <kall.miika@outlook.com>
+Date:   Sun Mar 21 13:14:38 2021 +0200
+
+    muutetaan eka ja kolmas
+
+ eka.txt      | 1 +
+ kolmas.txt   | 3 ++-
+ tiedosto.txt | 0
+ 3 files changed, 3 insertions(+), 1 deletion(-)
+
+commit fe9524455c9c962fb1f4490ec9351d076decaa93
+Author: Miika Kalliokoski <kall.miika@outlook.com>
+Date:   Sun Mar 21 13:03:14 2021 +0200
+
+    Poistettu toinen, uudelleen nimetty 'tiedosto'
+
+ eka.txt    | 0
+ toinen.txt | 1 -
+ 2 files changed, 1 deletion(-)
+
+commit de03afb04de4838e92a889619655b7ad3bb9b7df
+Author: Miika Kalliokoski <kall.miika@outlook.com>
+Date:   Sun Mar 21 12:47:41 2021 +0200
+
+    luotu kansio stuff ja sinne tiedosto joku.txt
+
+ stuff/joku.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit b4a3c5bbf75f95d3acc4d93ecc303fa6469fb428
+Author: Miika Kalliokoski <kall.miika@outlook.com>
+Date:   Sun Mar 21 12:45:00 2021 +0200
+
+    Muutoksia sisältöihin
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 330baf078d4954e41d30f8a06e7657a06a94bc37
+Author: Miika Kalliokoski <kall.miika@outlook.com>
+Date:   Sun Mar 21 12:41:13 2021 +0200
+
+    luotu kolmas
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 88ad43f274f4364f3421fb419dead63c2d0fff10
+Author: Miika Kalliokoski <kall.miika@outlook.com>
+Date:   Sat Mar 20 00:29:00 2021 +0200
+
+    muutos ja lisäys
+
+ toinen.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 2e6a371c6f0004a134c61ff75228d88cd8ab1aba
+Author: Miika Kalliokoski <kall.miika@outlook.com>
+Date:   Sat Mar 20 00:15:23 2021 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
