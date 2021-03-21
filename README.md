@@ -2,6 +2,6 @@
 ----
 ### Tehtävät
 ----
-**Viikko1**
+**Viikko1** </br>
 http://github.com - automatic!
-[GitHub](http://github.com)
+[gitlog](https://github.com/EternalAzure/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
