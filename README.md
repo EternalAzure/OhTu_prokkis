@@ -7,5 +7,5 @@
 [komentorivi.txt](https://github.com/EternalAzure/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
 
-_Tässä kiva README_
+_Tässä kiva _
 [README](https://github.com/EternalAzure/RTS-Demo-1.0)
