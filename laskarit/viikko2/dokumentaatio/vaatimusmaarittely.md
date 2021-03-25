@@ -20,7 +20,7 @@ Kirjautuminen <-> Tehtävän valinta <-> Tehtävä. </br>
 <img src="./kuvat/käyttöliittymä.jpg" width="600">
 
 ----
-## Perusversion tarjoama toiminnallisuus
+## Perusversio
 ----
 Perusversio sallii varastohuoneiden lisäämisen ja poistamisen, tuotteiden lisäämisen ja </br> 
 poistamisen katalogista, tuotteiden määrän muuttamisen varastohuoneessa sekä tuotteiden </br> 
