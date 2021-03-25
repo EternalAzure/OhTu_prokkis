@@ -1,5 +1,3 @@
-<link rel="stylesheet" type="text/css" media="all" href="style.css" />
-
 # Vaatimusmäärittely
 ----
 
@@ -18,4 +16,4 @@ lisätä ja poistaa käyttäjiä.
 ### Käyttöliittymäluonnos
 ----
 
-![](./kuvat/käyttöliittymä.jpg)
+<img src="./kuvat/käyttöliittymä.jpg" width="600">
