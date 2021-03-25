@@ -1,15 +1,15 @@
-#Vaatimusmäärittely
+# Vaatimusmäärittely
 ----
-##Sovelluksen tarkoitus
+## Sovelluksen tarkoitus
 ----
 Sovellus pitää kirjaa varaston tuotteista ja mahdollistaa varaston hallinnoinnin. </br>
 Päätoiminnallisuus on lisätä ja poistaa tuotteita varastosta.
 ---
-##Käyttäjät
+## Käyttäjät
 Aluksi sovelluksessa on yksi käyttäjä. Myöhemmin saatetaan lisätä erottelu </br>
 _varastonhoitajien_ ja _keräilijöiden_ välillä. Sekä yleinen _esimies_ ,joka voi </br>
 lisätä ja poistaa käyttäjiä.
 ----
-###Käyttöliittymäluonnos
+### Käyttöliittymäluonnos
 ----
-![](./kuvat/käyttöliittymä.jpg)
+![](./kuvat/käyttöliittymä.jpg =50x)
