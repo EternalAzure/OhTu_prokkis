@@ -5,8 +5,8 @@
 
 ## Sovelluksen tarkoitus
 ----
-Sovellus pitää kirjaa varaston tuotteista ja mahdollistaa varaston hallinnoinnin. </br>
-Päätoiminnallisuus on lisätä ja poistaa tuotteita varastosta.
+<p>Sovellus pitää kirjaa varaston tuotteista ja mahdollistaa varaston hallinnoinnin. </br>
+Päätoiminnallisuus on lisätä ja poistaa tuotteita varastosta.</p>
 
 ---
 ## Käyttäjät
