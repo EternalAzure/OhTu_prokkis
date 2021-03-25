@@ -1,3 +1,5 @@
+(setq markdown-css-paths '("./style.css"))
+
 # Vaatimusmäärittely
 ----
 
