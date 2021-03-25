@@ -12,3 +12,6 @@ _Tässä kiva_
 </br>
 Paikallinen lisäys
 Luodaan nyt epäsynkrooni
+
+**Viikko2** </br>
+[vaatimusmääritelmä](/laskarit/viikko2/dokumentaatio/vaatimusmaarittely.md)</br>
