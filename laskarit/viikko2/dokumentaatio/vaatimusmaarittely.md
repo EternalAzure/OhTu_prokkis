@@ -13,7 +13,8 @@ _varastonhoitajien_ ja _keräilijöiden_ välillä. Sekä yleinen _esimies_ ,jok
 lisätä ja poistaa käyttäjiä.
 
 ----
-### Käyttöliittymäluonnos
+## Käyttöliittymäluonnos
 ----
-
+Sovellus koostuu kirjautumis-, tehtävänvalinta- ja tehtävänäkymistä. Viimeistä on useaa mallia. </br>
+Kirjautuminen <-> Tehtävän valinta <-> Tehtävä. </br>
 <img src="./kuvat/käyttöliittymä.jpg" width="600">
