@@ -16,4 +16,4 @@ lisätä ja poistaa käyttäjiä.
 ### Käyttöliittymäluonnos
 ----
 
-![](./kuvat/käyttöliittymä.jpg =50x)
+![](./kuvat/käyttöliittymä.jpg)
