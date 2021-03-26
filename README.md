@@ -12,3 +12,8 @@ _Tässä kiva_
 </br>
 Paikallinen lisäys
 Luodaan nyt epäsynkrooni
+
+**Viikko2** </br>
+[Arkkitehtuuri](/laskarit/viikko2/dokumentaatio/arkkitehtuuri.md)</br>
+[tuntikirjanpito](/laskarit/viikko2/dokumentaatio/tuntikirjanpito.md)</br>
+[vaatimusmääritelmä](/laskarit/viikko2/dokumentaatio/vaatimusmaarittely.md)</br>

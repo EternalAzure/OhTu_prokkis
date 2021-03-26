@@ -18,3 +18,17 @@ lisätä ja poistaa käyttäjiä.
 Sovellus koostuu kirjautumis-, tehtävänvalinta- ja tehtävänäkymistä. Viimeistä on useaa mallia. </br>
 Kirjautuminen <-> Tehtävän valinta <-> Tehtävä. </br>
 <img src="./kuvat/käyttöliittymä.jpg" width="600">
+
+----
+## Perusversio
+----
+Perusversio sallii varastohuoneiden lisäämisen ja poistamisen, tuotteiden lisäämisen ja </br> 
+poistamisen katalogista, tuotteiden määrän muuttamisen varastohuoneessa sekä tuotteiden </br> 
+siirtämisen varastohuoneiden välillä.
+
+----
+## Jatkokehitys
+----
+Eräpäivä seuranta </br>
+Uudet käyttäjäprofiilit </br>
+Tapahtumalogi </br>
