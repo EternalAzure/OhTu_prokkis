@@ -65,9 +65,6 @@ public class KassapaateTest {
         assertEquals(101200, kassa.kassassaRahaa());
     }
 
-    private void assertFalse(boolean syoMaukkaasti) {
-    }
-
     @Test
     public void syoEdullisestiKateisella(){
         assertEquals(0, kassa.syoEdullisesti(240));
