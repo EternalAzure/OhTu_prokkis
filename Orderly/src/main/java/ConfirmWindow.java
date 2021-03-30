@@ -1,21 +1,26 @@
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ConfirmWindow {
 
     static Boolean answer;
 
-    public static boolean display(String title, String message){
+    public static boolean display(String message){
         Stage window = new Stage();
-        window.setTitle(title);
         window.initModality(Modality.APPLICATION_MODAL);
+        window.initStyle(StageStyle.UNDECORATED);
 
         Label label = new Label(message);
+        label.setPadding(new Insets(20,20,20,20));
         Button yes = new Button("Yes");
         Button no = new Button("No");
 
@@ -28,16 +33,20 @@ public class ConfirmWindow {
             window.close();
         });
 
-        VBox vBox = new VBox();
-        vBox.getChildren().add(label);
-        vBox.getChildren().add(yes);
-        vBox.getChildren().add(no);
+        BorderPane bp = new BorderPane();
+        VBox vBox = new VBox(10);
+        HBox hBox = new HBox(10);
 
-        yes.setAlignment(Pos.CENTER_LEFT);
-        no.setAlignment(Pos.CENTER_RIGHT);
-        label.setAlignment(Pos.TOP_CENTER);
+        vBox.setAlignment(Pos.CENTER);
+        bp.setCenter(vBox);
+        hBox.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(vBox, 200, 200);
+        vBox.getChildren().addAll(label, hBox);
+        hBox.getChildren().add(yes);
+        hBox.getChildren().add(no);
+        bp.setStyle("-fx-background-color: SlateGrey");
+
+        Scene scene = new Scene(bp, 300, 200);
         window.setScene(scene);
         window.showAndWait();
 

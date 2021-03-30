@@ -1,0 +1,12 @@
+#blue-Vbox{
+    -fx-background-color: SteelBlue;
+}
+.h-box{
+    -fx-background-color: SteelBlue;
+}
+.label{
+    -fx-text-fill: Black;
+}
+#azure{
+    -fx-background-color: White;
+}
