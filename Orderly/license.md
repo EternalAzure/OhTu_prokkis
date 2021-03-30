@@ -4,5 +4,5 @@ and thus cannot be distributed as is.</br>
 User icon on log in page: </br>
 https://www.pngfind.com/mpng/mihoRi_png-file-svg-user-icon-free-copyright-transparent/
 
-Orderly logo:
+Orderly logo:</br>
 Johannes Ihanus
