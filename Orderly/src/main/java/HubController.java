@@ -1,14 +1,7 @@
 import javafx.application.Platform;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 public class HubController {
-
-    public Button logout;
-    public Hyperlink link1;
 
     public static void logout(Stage currentWindow){
         try {
@@ -23,16 +16,5 @@ public class HubController {
         Platform.exit();
     }
 
-    public void selectTask(){
-        System.out.println("Selecting task");
-    }
-
-    public void addTask(){
-
-    }
-
-    public void insertTasks(VBox layout){
-
-    }
 
 }
