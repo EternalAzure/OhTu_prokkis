@@ -1,0 +1,30 @@
+.button{
+    -fx-text-fill: White;
+    -fx-background-color: SteelBlue;
+}
+#exit{
+    -fx-background-color: Red;
+    -fx-background-radius: 5;
+    -fx-height: 5px;
+    -fx-width: 5px;
+}
+.text-field{
+    -fx-prompt-text: "Username";
+    -fx-background-color: Transparent;
+    -fx-border-color: SteelBlue;
+    -fx-border-width: 0px 0px 2px 0px;
+}
+.password-field{
+    -fx-prompt-text: "Password";
+    -fx-background-color: transparent;
+    -fx-border-color: SteelBlue;
+    -fx-border-width: 0px 0px 2px 0px;
+}
+.hyperlink{
+    -fx-text-fill: SteelBlue;
+    -fx-font-family: "Corbel Light";
+    -fx-font-size: 12px;
+}
+#blue-pane{
+    -fx-background-color: SteelBlue;
+}
