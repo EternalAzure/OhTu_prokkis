@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,36 +18,20 @@ public class Hub  extends Application {
         hub.setMinWidth(600);
         hub.setTitle("Orderly - Hub");
         BorderPane borderPane = new BorderPane();
-        Scene scene = new Scene(borderPane, 800, 600);
-        scene.getStylesheets().add("hub.css");
-        window.setScene(scene);
+
         VBox leftVBox = new VBox();
         AnchorPane rightPane = new AnchorPane();
         //endregion
         //region Menubar
         MenuBar menuBar = new MenuBar();
         Button logout = new Button("Logout");
+        logout.setMinWidth(30);
         Button exit = new Button("Exit");
         HBox hBox = new HBox(menuBar, logout, exit);
         HBox.setHgrow(menuBar, Priority.ALWAYS);
         HBox.setHgrow(logout, Priority.NEVER);
         HBox.setHgrow(exit, Priority.NEVER);
-        //endregion
-        //region Panes
-        borderPane.setLeft(leftVBox);
-        borderPane.setTop(hBox);
-        borderPane.setRight(rightPane);
 
-        leftVBox.setId("blue-Vbox");
-        leftVBox.setSpacing(10);
-        leftVBox.setPadding(new Insets(10,10,10,10));
-        leftVBox.setPrefSize(400, 750);
-        leftVBox.setMinWidth(300);
-
-        rightPane.setId("azure");
-        rightPane.setMinWidth(300);
-        //endregion
-        //region Initialize UI elements
         Menu colours = new Menu("Colours");
         colours.getItems().addAll(
                 new MenuItem("red"),
@@ -62,21 +44,59 @@ public class Hub  extends Application {
                 new MenuItem("two"),
                 new MenuItem("three")
         );
-        Label label = new Label("Welcome to task view");
+        //endregion
+        //region Panes
+        borderPane.setLeft(leftVBox);
+        borderPane.setTop(hBox);
+        borderPane.setRight(rightPane);
+
+        leftVBox.setId("blue-Vbox");
+        leftVBox.setSpacing(10);
+        leftVBox.setPadding(new Insets(10,10,10,10));
+        leftVBox.setPrefSize(200, 400);
+        leftVBox.setMinWidth(100);
+
+        rightPane.setId("workspace");
+        rightPane.setMinWidth(300);
+        //endregion
+        //region Initialize UI elements
+        Hyperlink addRoom = new Hyperlink("Add a new room");
+        Hyperlink addProduct = new Hyperlink("Add a new product");
+        Hyperlink removeRoom = new Hyperlink("Remove a room");
+        Hyperlink removeProduct = new Hyperlink("Remove a product");
+        Hyperlink changeBalance = new Hyperlink("Change a balance");
+        Hyperlink transfer = new Hyperlink("Transfer");
+        Hyperlink receive = new Hyperlink("Receive cargo");
+        Hyperlink collect = new Hyperlink("Collect (Beta)");
         //endregion
         //region Set children
         menuBar.getMenus().addAll(colours, numbers);
-        leftVBox.getChildren().addAll(label);
+        leftVBox.getChildren().addAll(
+                addRoom,
+                addProduct,
+                removeRoom,
+                removeProduct,
+                changeBalance,
+                transfer,
+                receive,
+                collect
+        );
         //endregion
-        //region Set UI positions
+
         logout.setStyle("-fx-padding-left: 200px");
-        //endregion
 
         logout.setOnAction(event -> HubController.logout(window));
         exit.setOnAction(event -> HubController.exit());
 
-
+        Scene scene = new Scene(borderPane, 800, 600);
+        scene.getStylesheets().add("hub.css");
+        hub.setScene(scene);
         hub.show();
 
+        double menubarWidth = hub.getWidth() - logout.getWidth() - exit.getWidth();
+        menuBar.setMaxWidth(menubarWidth);
+
+        leftVBox.setMinWidth(hub.getWidth()/3);
+        rightPane.setMinWidth(hub.getWidth()/3*2);
     }
 }

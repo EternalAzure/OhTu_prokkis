@@ -11,20 +11,12 @@ import javafx.stage.StageStyle;
 public class Login extends Application {
 
     public static Stage window;
-    public Button exit;
-    public ImageView forkliftView;
-    public ImageView logoView;
-    private Image image;
-    public TextField username;
-    public PasswordField password;
-    public Button login;
-    public Hyperlink credit;
-    public Image logo;
-    public static void main(String[] args) throws Exception{ launch(args);}
+
+    public static void main(String[] args){ launch(args);}
 
 
     @Override
-    public void start(Stage loginWindow) throws Exception{
+    public void start(Stage loginWindow){
         window = loginWindow;
         window.setResizable(false);
         window.setTitle("Orderly");
@@ -34,58 +26,65 @@ public class Login extends Application {
         BorderPane layout = new BorderPane();
         AnchorPane leftPane = new AnchorPane();
         AnchorPane rightPane = new AnchorPane();
-        layout.setLeft(leftPane);
         layout.setRight(rightPane);
-        leftPane.setPrefHeight(400);
-        leftPane.setPrefWidth(300);
-        rightPane.setPrefHeight(400);
-        rightPane.setPrefWidth(300);
+        layout.setLeft(leftPane);
+        leftPane.setMaxSize(300,400);
+        leftPane.setMinSize(300,400);
+        rightPane.setMinSize(300,400);
+        rightPane.setMaxSize(33,400);
         //endregion
         //region Initialize UI elements
-        forkliftView = new ImageView();
-        logoView = new ImageView();
-        image = new Image("forklift.png");
-        exit = new Button("X");
-        username = new TextField();
-        password = new PasswordField();
-        login = new Button("Login");
-        credit = new Hyperlink("Image source");
-        logo = new Image("ORDERLY_Logo.png");
+        ImageView forkliftView = new ImageView();
+        ImageView logoView = new ImageView();
+        Image forklift = new Image("user icon.png");
+        Image logo = new Image("ORDERLY_Logo_fix.png");
+
+        Button exit = new Button("X");
+        TextField username = new TextField();
+        PasswordField password = new PasswordField();
+        Button login = new Button("Login");
+        Hyperlink credit = new Hyperlink("Image source");
         //endregion
         //region Set children
-        leftPane.getChildren().addAll(forkliftView, logoView);
-        rightPane.getChildren().addAll(exit, username, password, login, credit);
+        leftPane.getChildren().addAll(logoView);
+        rightPane.getChildren().addAll(exit, username, password, login, credit, forkliftView);
         //endregion
         //region Set UI positions
-        forkliftView.setLayoutX(75);
-        forkliftView.setLayoutY(150);
-        username.setLayoutX(50);
-        username.setLayoutY(130);
-        password.setLayoutX(50);
-        password.setLayoutY(200);
+        forkliftView.setLayoutX(125);
+        forkliftView.setLayoutY(50);
+        logoView.setLayoutX(-50);
+        logoView.setLayoutY(60);
+
         login.setLayoutX(115);
         login.setLayoutY(270);
+
         credit.setLayoutX(107);
         credit.setLayoutY(300);
+
         exit.setLayoutX(260);
         exit.setLayoutY(10);
-        logoView.setLayoutX(150);
-        layout.setLayoutY(200);
+
+        username.setLayoutX(50);
+        username.setLayoutY(130);
+
+        password.setLayoutX(50);
+        password.setLayoutY(200);
         //endregion
 
         leftPane.setId("blue-pane");
-        forkliftView.setImage(image);
+        forkliftView.setImage(forklift);
         forkliftView.setPreserveRatio(true);
-        forkliftView.setFitHeight(100);
+        forkliftView.setFitHeight(50);
 
         logoView.setImage(logo);
         logoView.setPreserveRatio(true);
-        logoView.setFitHeight(80);
+        logoView.setFitHeight(280);
 
         username.setPromptText("Username");
         password.setPromptText("Password");
         exit.setId("exit");
 
+        //Actions
         LoginController logInCont = new LoginController();
         login.setOnAction(event -> logInCont.login());
         exit.setOnAction(event -> logInCont.exit());

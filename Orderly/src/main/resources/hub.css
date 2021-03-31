@@ -7,6 +7,9 @@
 .label{
     -fx-text-fill: Black;
 }
-#azure{
+#workspace{
     -fx-background-color: White;
+}
+.hyperlink{
+    -fx-text-fill: White;
 }
