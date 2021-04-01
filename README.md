@@ -20,4 +20,4 @@ Pääasiassa toiminta tapahtuu Hub-ikkunassa, jonka vasen puoli on sininen valik
 josta valitaan oikealla valkoisella pohjalla olevaan työtilaan ilmestyvä toiminnallisuus. </br>
 
 ### Arkkitehtuuri
-
+<img src=
