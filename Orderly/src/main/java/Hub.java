@@ -10,6 +10,7 @@ public class Hub  extends Application {
 
     public static Stage hub;
     private AnchorPane rightPane;
+
     @Override
     public void start(Stage window){
         hub = window;
@@ -101,6 +102,8 @@ public class Hub  extends Application {
 
         leftVBox.setMinWidth(hub.getWidth()/3);
         rightPane.setMinWidth(hub.getWidth()/3*2);
+
+        ServerConnection.defaultConnection();
     }
     private void setWorkSpace(Pane workSpaceLayout){
         rightPane.getChildren().clear();

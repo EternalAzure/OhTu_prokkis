@@ -1,9 +1,7 @@
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.awt.*;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public class LoginController {
 
