@@ -1,19 +1,23 @@
-# Ohjelmistotekniikka, harjoitustyö
+## Ohjelmistotekniikka, harjoitustyö
 ----
-### Tehtävät
-----
-**Viikko1** </br>
-[gitlog.txt](https://github.com/EternalAzure/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt) </br>
-[komentorivi.txt](https://github.com/EternalAzure/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+# Varastonhallintasovellus
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/kuvat/Login%20screen.PNG" width="400"> 
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/kuvat/Hub%20screen.PNG" width="600">
 
+Projekti kulkee nimellä Orderly, vaikka kävi ilmi että nimi on jo viety. </br>
+Itse työpöytäsovellus on tarkoitettu varaston hallintaan ja tukee kolmea eri </br>
+käyttäjä profiilia: Esimies, varastonhoitaja ja keräilijä. </br>
+Perustoimillallisuuksia ovat varastohuoneiden lisääminen ja poistaminen. </br>
+Tuotteiden katalogiin lisääminen ja sieltä poistaminen. </br>
+Sekä kaikenlainen saldon pyörittely.
 
-_Tässä kiva_
-[README](https://github.com/EternalAzure/RTS-Demo-1.0)
+Sovelluksessa on kirjautumisikkuna, joka vertaa annettua nimeä ja salasanaa </br>
+osoitteessa locahost:3306 olevaan MySQL tietokantaan nimeltä login. </br>
+Järjestelmän ylläpitäjä lisää käyttäjiä sovellukseen eikä sovellus itse tarjoa </br>
+mahdollisuutta rekisteröityä. </br>
 </br>
-Paikallinen lisäys
-Luodaan nyt epäsynkrooni
+Pääasiassa toiminta tapahtuu Hub-ikkunassa, jonka vasen puoli on sininen valikko, </br>
+josta valitaan oikealla valkoisella pohjalla olevaan työtilaan ilmestyvä toiminnallisuus. </br>
 
-**Viikko2** </br>
-[Arkkitehtuuri](/laskarit/viikko2/dokumentaatio/arkkitehtuuri.md)</br>
-[tuntikirjanpito](/laskarit/viikko2/dokumentaatio/tuntikirjanpito.md)</br>
-[vaatimusmääritelmä](/laskarit/viikko2/dokumentaatio/vaatimusmaarittely.md)</br>
+### Arkkitehtuuri
+<img src=
