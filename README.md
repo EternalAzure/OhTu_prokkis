@@ -20,4 +20,4 @@ Pääasiassa toiminta tapahtuu Hub-ikkunassa, jonka vasen puoli on sininen valik
 josta valitaan oikealla valkoisella pohjalla olevaan työtilaan ilmestyvä toiminnallisuus. </br>
 
 ### Arkkitehtuuri
-<img src=
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/kuvat/T%C3%A4ydennetty%20arkkitehtuuri.png width="600" ">
