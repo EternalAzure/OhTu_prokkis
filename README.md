@@ -28,6 +28,6 @@ nimettyjen metodien kautta Pane-olioina. Hub ja Workspaces käyttävät saman </
 kontrollerin palveluita. Hubissa hyödynnetään tietokantaa warehouse. </br>
 
 ### Dokumentaatio
-[Arkkitehtuuri](dokumentaati/arkkitehtuuri.md) </br>
+[Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md) </br>
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md) </br>
 [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md) </br>
