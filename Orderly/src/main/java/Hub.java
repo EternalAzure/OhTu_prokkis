@@ -9,7 +9,10 @@ import javafx.stage.StageStyle;
 public class Hub  extends Application {
 
     public static Stage hub;
+    public static final String database = "warehouse";
     private AnchorPane rightPane;
+
+    WorkSpaces workSpaces = new WorkSpaces();
 
     @Override
     public void start(Stage window){
@@ -33,13 +36,13 @@ public class Hub  extends Application {
         HBox.setHgrow(logout, Priority.NEVER);
         HBox.setHgrow(exit, Priority.NEVER);
 
-        Menu colours = new Menu("Colours");
-        colours.getItems().addAll(
+        Menu settings = new Menu("settings");
+        settings.getItems().addAll(
                 new MenuItem("red"),
                 new MenuItem("white"),
                 new MenuItem("blue")
         );
-        Menu numbers = new Menu("Numbers");
+        Menu numbers = new Menu("database");
         numbers.getItems().addAll(
                 new MenuItem("one"),
                 new MenuItem("two"),
@@ -67,7 +70,7 @@ public class Hub  extends Application {
         Hyperlink collect = new Hyperlink("Collect (Beta)");
         //endregion
         //region Set children
-        menuBar.getMenus().addAll(colours, numbers);
+        menuBar.getMenus().addAll(settings, numbers);
         leftVBox.getChildren().addAll(
                 addRoom,
                 addProduct,
@@ -83,8 +86,8 @@ public class Hub  extends Application {
         logout.setOnAction(event -> HubController.logout(window));
         exit.setOnAction(event -> HubController.exit());
 
-        addRoom.setOnAction(event -> setWorkSpace(WorkSpaces.addRoom()));
-        addProduct.setOnAction(event -> setWorkSpace(WorkSpaces.addProduct()));
+        addRoom.setOnAction(event -> setWorkSpace(workSpaces.addRoom()));
+        addProduct.setOnAction(event -> setWorkSpace(workSpaces.addProduct()));
         removeRoom.setOnAction(event -> setWorkSpace(WorkSpaces.removeRoom()));
         removeProduct.setOnAction(event -> setWorkSpace(WorkSpaces.removeProduct()));
         changeBalance.setOnAction(event -> setWorkSpace(WorkSpaces.changeBalance()));
@@ -103,7 +106,7 @@ public class Hub  extends Application {
         leftVBox.setMinWidth(hub.getWidth()/3);
         rightPane.setMinWidth(hub.getWidth()/3*2);
 
-        ServerConnection.defaultConnection();
+        ServerConnection.defaultConnection(database);
     }
     private void setWorkSpace(Pane workSpaceLayout){
         rightPane.getChildren().clear();

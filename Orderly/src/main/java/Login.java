@@ -33,6 +33,7 @@ public class Login extends Application {
         rightPane.setMinSize(300,400);
         rightPane.setMaxSize(33,400);
         //endregion
+
         //region Initialize UI elements
         ImageView forkliftView = new ImageView();
         ImageView logoView = new ImageView();
@@ -45,17 +46,19 @@ public class Login extends Application {
         Button login = new Button("Login");
         Hyperlink credit = new Hyperlink("Image source");
         //endregion
+
         //region Set children
         leftPane.getChildren().addAll(logoView);
         rightPane.getChildren().addAll(exit, username, password, login, credit, forkliftView);
         //endregion
+
         //region Set UI positions
         forkliftView.setLayoutX(125);
         forkliftView.setLayoutY(50);
         logoView.setLayoutX(-50);
         logoView.setLayoutY(60);
 
-        login.setLayoutX(115);
+        login.setLayoutX(120);
         login.setLayoutY(270);
 
         credit.setLayoutX(107);
@@ -85,14 +88,16 @@ public class Login extends Application {
         exit.setId("exit");
 
         //Actions
-        LoginController logInCont = new LoginController();
-        login.setOnAction(event -> logInCont.login());
-        exit.setOnAction(event -> logInCont.exit());
-        credit.setOnAction(event -> logInCont.link());
+        LoginController loginCont = new LoginController();
+        login.setOnAction(event -> loginCont.passwordlessLogin()); //login(sc, username.getText(), password.getText()));
+        exit.setOnAction(event -> loginCont.exit());
+        credit.setOnAction(event -> loginCont.link());
 
         Scene scene = new Scene(layout, 600, 400);
         scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
         window.setScene(scene);
         window.show();
+
+        ServerConnection.defaultConnection("login");
     }
 }

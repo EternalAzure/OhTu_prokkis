@@ -1,38 +1,37 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ServerConnection {
 
-    public static void defaultConnection(){
+    public static Statement defaultConnection(String database){
 
-        // JDBC driver name and database URL
+        // JDBC driver & database URL
         final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-        final String DB_URL = "jdbc:mysql://root@localhost:3306";
-        //  Database credentials
-        final String USER = "root";
-        final String PASS = "<password>";
+        final String DB_URL = "jdbc:mysql://visitor@localhost:3306";
+
+        final String USER = "visitor";
+        final String PASS = "y";
 
         try {
-            //Register jdbc driver
-            Class.forName(JDBC_DRIVER);
-
             //Connect to server
             System.out.println("Connecting to server...");
-            Connection database = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement statement = database.createStatement();
+            Connection server = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement statement = server.createStatement();
             System.out.println("Connected to "+ DB_URL+"...");
+
             //Select right database
-            statement.execute("USE warehouse");
-            System.out.println("Database 'warehouse' selected successfully.");
+            statement.execute("USE "+database);
+            System.out.println("Database '"+database+"' selected successfully.");
+
+            return statement;
 
         }catch (SQLException exception){
             AlertWindow.display("Could not establish connection\n" +
                     "to SQL database.");
             exception.printStackTrace();
         }catch (Exception e){
+            AlertWindow.display("Unknown problem");
             e.printStackTrace();
         }
+        return null;
     }
 }

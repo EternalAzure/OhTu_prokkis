@@ -4,29 +4,43 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import java.sql.Statement;
+
 public class WorkSpaces {
 
-    public static VBox addRoom(){
+    HubController hubController = new HubController();
+    String database = "warehouse";
+
+    public VBox addRoom(){
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         TextField roomName = new TextField();
         TextField temperature = new TextField();
-        temperature.setPromptText("Temperature(Optinal)");
+        temperature.setPromptText("Temperature(optional)");
         roomName.setPromptText("Name of the room");
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(roomName, temperature, apply);
+        Statement statement = ServerConnection.defaultConnection(database);
+        apply.setOnAction(event -> hubController.addRoom(roomName, temperature, statement));
         return vBox;
     }
-    public static VBox addProduct(){
+    public VBox addProduct(){
         VBox vBox = new VBox();
-        TextField roomName = new TextField();
+        TextField product = new TextField();
+        TextField code = new TextField();
         TextField temperature = new TextField();
-        temperature.setPromptText("Temperature(Optional)");
-        roomName.setPromptText("Name");
+        TextField unit = new TextField();
+        product.setPromptText("Product name");
+        code.setPromptText("Product code");
+        temperature.setPromptText("Temperature(optional)");
+        unit.setPromptText("unit of measure");
         Button apply = new Button("Apply");
 
-        vBox.getChildren().addAll(roomName, apply);
+        vBox.getChildren().addAll(product, code, temperature, unit, apply);
+
+        Statement statement = ServerConnection.defaultConnection(database);
+        apply.setOnAction(event -> hubController.addProduct(product, code, temperature, unit, statement));
         return vBox;
     }
 
