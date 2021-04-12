@@ -2,13 +2,13 @@ import java.sql.*;
 
 public class ServerConnection {
 
-    public static Statement defaultConnection(String database){
+    public static Statement createConnection(String database){
 
         // JDBC driver & database URL
         final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         final String DB_URL = "jdbc:mysql://visitor@localhost:3306";
 
-        final String USER = "visitor";
+        final String USER = "visitor"; //CREDENTIALS
         final String PASS = "y";
 
         try {
@@ -28,9 +28,6 @@ public class ServerConnection {
             AlertWindow.display("Could not establish connection\n" +
                     "to SQL database.");
             exception.printStackTrace();
-        }catch (Exception e){
-            AlertWindow.display("Unknown problem");
-            e.printStackTrace();
         }
         return null;
     }

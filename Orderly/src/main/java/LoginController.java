@@ -11,7 +11,7 @@ public class LoginController {
         if(username.isEmpty()||password.isEmpty()) return;
         try {
             String sql = "SELECT name, password, role FROM user WHERE name LIKE '"+ username+"';";
-            Statement statement = ServerConnection.defaultConnection("login");
+            Statement statement = ServerConnection.createConnection("login");
             ResultSet queryResult = statement.executeQuery(sql);
             while (queryResult.next()){
                 String name = queryResult.getString("name");

@@ -98,6 +98,6 @@ public class Login extends Application {
         window.setScene(scene);
         window.show();
 
-        ServerConnection.defaultConnection("login");
+        ServerConnection.createConnection("login");
     }
 }

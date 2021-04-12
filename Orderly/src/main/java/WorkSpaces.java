@@ -21,7 +21,7 @@ public class WorkSpaces {
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(roomName, temperature, apply);
-        Statement statement = ServerConnection.defaultConnection(database);
+        Statement statement = ServerConnection.createConnection(database);
         apply.setOnAction(event -> hubController.addRoom(roomName, temperature, statement));
         return vBox;
     }
@@ -39,7 +39,7 @@ public class WorkSpaces {
 
         vBox.getChildren().addAll(product, code, temperature, unit, apply);
 
-        Statement statement = ServerConnection.defaultConnection(database);
+        Statement statement = ServerConnection.createConnection(database);
         apply.setOnAction(event -> hubController.addProduct(product, code, temperature, unit, statement));
         return vBox;
     }

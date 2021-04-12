@@ -5,20 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90079b93-ab41-4c6d-b2f6-42c8647bac37" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/de_saxsys_jfx_testrunner_1_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_apache_commons_commons_math3_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_apache_maven_plugins_maven_surefire_plugin_3_0_0_M5.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/HubContTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_mysql_connector_java_8_0_23.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_testfx_openjfx_monocle_jdk_12_0_1_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_23.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_apache_commons_commons_math3_3_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_apache_maven_plugins_maven_surefire_plugin_3_0_0_M5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/junit_junit_4_13_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Hub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Hub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/HubController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/HubController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Login.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ServerConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/WorkSpaces.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/WorkSpaces.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/HubContTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HubContTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,9 +63,9 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Full stack/osa1/part1/src/index.js" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.30054054" />
     <property name="settings.editor.selected.configurable" value="preferences.JavaFX" />
   </component>
   <component name="RecentsManager">
@@ -121,8 +121,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.HubContTest" />
-        <item itemvalue="JUnit.All in Orderly" />
         <item itemvalue="JUnit.HubContTest.amountOfRooms" />
+        <item itemvalue="JUnit.All in Orderly" />
         <item itemvalue="JUnit.HubContTest.addRoom" />
         <item itemvalue="Application.Hub" />
       </list>
@@ -161,7 +161,13 @@
       <option name="presentableId" value="LOCAL−00004" />
       <updated>1617279713588</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL−00005" summary="Komentoriviltä ei saa ajettua testejä, vaikka minkä kirjaston lataa. Normaali tapa ajaa testit toimii JfxRunnerilla.&#10;mvn test ongelma on JavaFX GUI elementtien initialisointi.&#10;Sovelluksen voi ajaa kuitenkin komentoriviltä, vaikka yhteys tietokantaan ei toimi sitä kautta">
+      <created>1617583717908</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1617583717908</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -170,7 +176,8 @@
     <MESSAGE value="Kirjautumisikkuna ja Työikkuna tehty. Suunnitelmaa muutettu. Ei erillisiä ikkunoita joka työlle." />
     <MESSAGE value="Toiminnallisuudet listattu ja työtilat valmistettu.&#10;Työtiloissa ei vielä voi tehdä mitään." />
     <MESSAGE value="Lisätty MySQL tietokanta ja luotu luokka joka muodostaa yhteyden." />
-    <option name="LAST_COMMIT_MESSAGE" value="Lisätty MySQL tietokanta ja luotu luokka joka muodostaa yhteyden." />
+    <MESSAGE value="Komentoriviltä ei saa ajettua testejä, vaikka minkä kirjaston lataa. Normaali tapa ajaa testit toimii JfxRunnerilla.&#10;mvn test ongelma on JavaFX GUI elementtien initialisointi.&#10;Sovelluksen voi ajaa kuitenkin komentoriviltä, vaikka yhteys tietokantaan ei toimi sitä kautta" />
+    <option name="LAST_COMMIT_MESSAGE" value="Komentoriviltä ei saa ajettua testejä, vaikka minkä kirjaston lataa. Normaali tapa ajaa testit toimii JfxRunnerilla.&#10;mvn test ongelma on JavaFX GUI elementtien initialisointi.&#10;Sovelluksen voi ajaa kuitenkin komentoriviltä, vaikka yhteys tietokantaan ei toimi sitä kautta" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

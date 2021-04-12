@@ -106,7 +106,7 @@ public class Hub  extends Application {
         leftVBox.setMinWidth(hub.getWidth()/3);
         rightPane.setMinWidth(hub.getWidth()/3*2);
 
-        ServerConnection.defaultConnection(database);
+        ServerConnection.createConnection(database);
     }
     private void setWorkSpace(Pane workSpaceLayout){
         rightPane.getChildren().clear();
