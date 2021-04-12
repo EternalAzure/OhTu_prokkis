@@ -11,4 +11,4 @@ Ajat eivät sisällä laskareita.
 | 2.4         | 2           |mm. README ja dokumentin päivittäminen|
 | 3.4         | 0           |                                   |
 |...          | ...         |            ...                    |
-| 12.4        | x           |             x                     |
+| 12.4        | 5           |Selvitin sopivan testauskirjaston  |
