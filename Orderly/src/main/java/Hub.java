@@ -88,12 +88,12 @@ public class Hub  extends Application {
 
         addRoom.setOnAction(event -> setWorkSpace(workSpaces.addRoom()));
         addProduct.setOnAction(event -> setWorkSpace(workSpaces.addProduct()));
-        removeRoom.setOnAction(event -> setWorkSpace(WorkSpaces.removeRoom()));
-        removeProduct.setOnAction(event -> setWorkSpace(WorkSpaces.removeProduct()));
-        changeBalance.setOnAction(event -> setWorkSpace(WorkSpaces.changeBalance()));
-        transfer.setOnAction(event -> setWorkSpace(WorkSpaces.transfer()));
-        receive.setOnAction(event -> setWorkSpace(WorkSpaces.receive()));
-        collect.setOnAction(event -> setWorkSpace(WorkSpaces.collect()));
+        removeRoom.setOnAction(event -> setWorkSpace(workSpaces.removeRoom()));
+        removeProduct.setOnAction(event -> setWorkSpace(workSpaces.removeProduct()));
+        changeBalance.setOnAction(event -> setWorkSpace(workSpaces.changeBalance()));
+        transfer.setOnAction(event -> setWorkSpace(workSpaces.transfer()));
+        receive.setOnAction(event -> setWorkSpace(workSpaces.receive()));
+        collect.setOnAction(event -> setWorkSpace(workSpaces.collect()));
 
         Scene scene = new Scene(borderPane, 800, 600);
         scene.getStylesheets().add("hub.css");

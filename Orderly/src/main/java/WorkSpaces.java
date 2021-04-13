@@ -4,12 +4,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import java.sql.Statement;
-
 public class WorkSpaces {
 
-    HubController hubController = new HubController();
-    String database = "warehouse";
+    HubController hubController = new HubController("warehouse");
 
     public VBox addRoom(){
         VBox vBox = new VBox();
@@ -21,12 +18,12 @@ public class WorkSpaces {
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(roomName, temperature, apply);
-        Statement statement = ServerConnection.createConnection(database);
-        apply.setOnAction(event -> hubController.addRoom(roomName, temperature, statement));
+        apply.setOnAction(event -> hubController.addRoom(roomName, temperature));
         return vBox;
     }
     public VBox addProduct(){
         VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
         TextField product = new TextField();
         TextField code = new TextField();
         TextField temperature = new TextField();
@@ -38,47 +35,54 @@ public class WorkSpaces {
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(product, code, temperature, unit, apply);
-
-        Statement statement = ServerConnection.createConnection(database);
-        apply.setOnAction(event -> hubController.addProduct(product, code, temperature, unit, statement));
+        apply.setOnAction(event -> hubController.addProduct(product, code, temperature, unit));
         return vBox;
     }
 
-    public static VBox removeRoom(){
+    public VBox removeRoom(){
         VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
         TextField roomName = new TextField();
-        roomName.setPromptText("Name of the room");
+        roomName.setPromptText("Room");
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(roomName, apply);
+
+        apply.setOnAction(event -> hubController.removeRoom(roomName));
         return vBox;
     }
 
-    public static VBox removeProduct(){
+    public VBox removeProduct(){
         VBox vBox = new VBox();
-        TextField roomName = new TextField();
-        roomName.setPromptText("Name of the product");
+        vBox.setAlignment(Pos.CENTER);
+        TextField product = new TextField();
+        product.setPromptText("Name of the product");
         Button apply = new Button("Apply");
 
-        vBox.getChildren().addAll(roomName, apply);
+        vBox.getChildren().addAll(product, apply);
+        apply.setOnAction(event -> hubController.removeProduct(product));
         return vBox;
     }
 
-    public static VBox changeBalance(){
+    public VBox changeBalance(){
         VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
         TextField roomName = new TextField();
-        TextField newBalance = new TextField();
+        TextField product = new TextField();
         TextField batch = new TextField();
-        newBalance.setPromptText("new balance");
-        roomName.setPromptText("Product");
+        TextField newBalance = new TextField();
+        roomName.setPromptText("Room");
+        product.setPromptText("Product");
         batch.setPromptText("Batch number(Not implemented)");
+        newBalance.setPromptText("new balance");
         Button apply = new Button("Apply");
 
-        vBox.getChildren().addAll(roomName, apply);
+        vBox.getChildren().addAll(roomName, product, batch, newBalance, apply);
+        apply.setOnAction(event -> hubController.changeBalance(roomName, product, batch, newBalance));
         return vBox;
     }
 
-    public static VBox transfer(){
+    public VBox transfer(){
         VBox vBox = new VBox();
         TextField from = new TextField();
         TextField to = new TextField();
@@ -96,7 +100,7 @@ public class WorkSpaces {
         return vBox;
     }
 
-    public static VBox receive(){
+    public VBox receive(){
         VBox vBox = new VBox();
         TextArea text = new TextArea("Something similar to changing balance\n" +
                 "but for many products at once");
@@ -106,7 +110,7 @@ public class WorkSpaces {
         return vBox;
     }
 
-    public static VBox collect(){
+    public VBox collect(){
         VBox vBox = new VBox();
         TextField roomName = new TextField();
         roomName.setPromptText("Yet to be implemented");
@@ -115,8 +119,4 @@ public class WorkSpaces {
         vBox.getChildren().addAll(roomName, apply);
         return vBox;
     }
-
-
-
-
 }
