@@ -73,14 +73,14 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 @RunWith(JfxRunner.class)
 ```
-__Testien ajaminen terminaalista__ </br>
+__Ajaminen terminaalista__ </br>
+```
+mvn compile exec:java -Dexec.mainClass=Login
+```
 ```
 mvn test
 ```
 ja jos käyttää jacocoa
 ```
 mvn test jacoco:report
-```
-```
-mvn compile exec:java -Dexec.mainClass=Login
 ```
