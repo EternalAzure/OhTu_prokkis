@@ -18,6 +18,7 @@ public class HubContTest {
         assert statement != null;
         statement.execute("TRUNCATE TABLE products;");
         statement.execute("TRUNCATE TABLE rooms;");
+        //Muutos jotta voidaan kokeilla .gitignore
     }
 
     @Test
