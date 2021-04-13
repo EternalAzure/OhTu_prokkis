@@ -61,8 +61,8 @@ Tarkista, että pom.xml tiedostosta löytyy seuraavat
   <version>8.0.23</version>
 </dependency>
 ```
-Lisää kaikki osat Mavenin kautta projektiin. Ajurin lisääminen </br>
-Ajurin lisääminen omalta koneelta aiheuttaa ongelmia terminaalin kanssa.
+Lisää kaikki osat Mavenin kautta projektiin. Ajurin </br>
+lisääminen omalta koneelta aiheuttaa ongelmia terminaalin kanssa.
 </br>
 Tarkista, että importit ovat oikein ja ajat testit JfxRunnerilla.
 ```
