@@ -10,5 +10,6 @@ Ajat eivät sisällä laskareita.
 | 1.4.3       | 8           |MySQL asentaminen & implementointi|
 | 2.4         | 2           |mm. README ja dokumentin päivittäminen|
 | 3.4         | 0           |                                   |
-|...          | ...         |            ...                    |
+| ...         | ...         |            ...                    |
 | 12.4        | 5           |Selvitin sopivan testauskirjaston  |
+| 13.4        | 0.3         |README päivitys                    |
