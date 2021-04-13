@@ -81,3 +81,6 @@ ja jos käyttää jacocoa
 ```
 mvn test jacoco:report
 ```
+```
+mvn compile exec:java -Dexec.mainClass=Login
+```
