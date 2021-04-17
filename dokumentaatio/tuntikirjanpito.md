@@ -13,5 +13,6 @@ Ajat eivät sisällä laskareita.
 | ...         | ...         |            ...                    |
 | 12.4        | 5           |Selvitin sopivan testauskirjaston  |
 | 13.4        | 0.3         |README päivitys                    |
-| 13.4        | 3       |Netbeans on syvältä. Onneksi on Intellij|
+| 13.4        | 3           |Netbeans on syvältä. </br>Onneksi on Intellij|
 | 17.4        | 0.5         |Kokeilin turhaan ohjeen </br>mukaisia testikirjastoja|
+ 17.4         | 0.3         |Vaatimusmäärittelyn päivitys </br>ja laajentaminen|
