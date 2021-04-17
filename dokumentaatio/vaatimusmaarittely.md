@@ -3,8 +3,12 @@
 
 ## Sovelluksen tarkoitus
 ----
-<p>Sovellus pitää kirjaa varaston tuotteista ja mahdollistaa varaston hallinnoinnin. </br>
-Päätoiminnallisuus on lisätä ja poistaa tuotteita varastosta.</p>
+<p>
+Mahdollisuuden mukaan tarkoitus on erikoistua elintarviketuotantolaitoksen </br>
+kokonaisvaltaiseksi hallinnointijärjestelmäksi. Valmis ohjelma hallinnoi varastoa, </br>
+luo tilastoja lopputuotteiden keräilyn tehokkuudesta, tilastoja toteutuneista </br>
+raaka-aineen muutoksista lopputuotteiksi sekä hävikkitilastoja. 
+</p>
 
 ---
 ## Käyttäjät
@@ -13,18 +17,13 @@ _varastonhoitajien_ ja _keräilijöiden_ välillä. Sekä yleinen _esimies_ ,jok
 lisätä ja poistaa käyttäjiä.
 
 ----
-## Käyttöliittymäluonnos
-----
-Sovellus koostuu kirjautumis-, tehtävänvalinta- ja tehtävänäkymistä. Viimeistä on useaa mallia. </br>
-Kirjautuminen <-> Tehtävän valinta <-> Tehtävä. </br>
-<img src="./kuvat/käyttöliittymä.jpg" width="600">
-
-----
 ## Perusversio
 ----
-Perusversio sallii varastohuoneiden lisäämisen ja poistamisen, tuotteiden lisäämisen ja </br> 
-poistamisen katalogista, tuotteiden määrän muuttamisen varastohuoneessa sekä tuotteiden </br> 
-siirtämisen varastohuoneiden välillä.
+<p>
+Perusversio tukee varastonhallintaa ja keräilytoimintaa. </br>
+Seuraava askel on tilastoida keräilyä. </br>
+Viimeinen askel on tilastoida raaka-aineita ja hävikkiä.
+</p>
 
 ----
 ## Jatkokehitys
@@ -32,3 +31,4 @@ siirtämisen varastohuoneiden välillä.
 Eräpäivä seuranta </br>
 Uudet käyttäjäprofiilit </br>
 Tapahtumalogi </br>
+Myynnin ja hankinnan työkalut
