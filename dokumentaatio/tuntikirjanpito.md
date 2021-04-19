@@ -20,3 +20,4 @@ Ajat eivät sisällä laskareita.
 | 19.4        | 1           |HubControllerin säätöä|
 | 19.4        | 2           |CSS ja GUI hienosäätöä, GUI refaktorointia| 
 | 19.4        | 3           |HubController puolittaminen Utils luokkaan </br>ja testien vastaava jakaminen </br> Toimitusten vastaanoton kehittäminen|
+| 19.4        | 1           |addProduct() debuggausta. Parametrit oli syötetty</br> väärinpäin mutta automaattiset testit meni läpi|
