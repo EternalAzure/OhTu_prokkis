@@ -1,7 +1,7 @@
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 public class WorkSpaces {
@@ -16,9 +16,17 @@ public class WorkSpaces {
         temperature.setPromptText("Temperature(optional)");
         roomName.setPromptText("Name of the room");
         Button apply = new Button("Apply");
+        Label message = new Label();
+        message.setId("error");
 
-        vBox.getChildren().addAll(roomName, temperature, apply);
-        apply.setOnAction(event -> hubController.addRoom(roomName, temperature));
+        vBox.getChildren().addAll(roomName, temperature, apply, message);
+        apply.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                message.setText(hubController.addRoom(roomName.getText(), temperature.getText()));
+                roomName.clear(); temperature.clear();
+            }
+        });
         return vBox;
     }
     public VBox addProduct(){
@@ -33,9 +41,17 @@ public class WorkSpaces {
         temperature.setPromptText("Temperature(optional)");
         unit.setPromptText("unit of measure");
         Button apply = new Button("Apply");
+        Label message = new Label();
 
-        vBox.getChildren().addAll(product, code, temperature, unit, apply);
-        apply.setOnAction(event -> hubController.addProduct(product, code, temperature, unit));
+        vBox.getChildren().addAll(product, code, temperature, unit, apply, message);
+        apply.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                message.setText(hubController.addProduct(product.getText(), code.getText(), temperature.getText(), unit.getText()));
+                product.clear(); code.clear(); temperature.clear(); unit.clear();
+
+            }
+        });
         return vBox;
     }
 
@@ -48,7 +64,13 @@ public class WorkSpaces {
 
         vBox.getChildren().addAll(roomName, apply);
 
-        apply.setOnAction(event -> hubController.removeRoom(roomName));
+        apply.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                hubController.removeRoom(roomName.getText());
+                roomName.clear();
+            }
+        });
         return vBox;
     }
 
@@ -60,7 +82,13 @@ public class WorkSpaces {
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(product, apply);
-        apply.setOnAction(event -> hubController.removeProduct(product));
+        apply.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                hubController.removeProduct(product.getText());
+                product.clear();
+            }
+        });
         return vBox;
     }
 
@@ -76,9 +104,16 @@ public class WorkSpaces {
         batch.setPromptText("Batch number(Not implemented)");
         newBalance.setPromptText("new balance");
         Button apply = new Button("Apply");
+        Label message = new Label();
 
-        vBox.getChildren().addAll(roomName, product, batch, newBalance, apply);
-        apply.setOnAction(event -> hubController.changeBalance(roomName, product, batch, newBalance));
+        vBox.getChildren().addAll(roomName, product, batch, newBalance, apply, message);
+        apply.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                message.setText(hubController.changeBalance(roomName.getText(), product.getText(), batch.getText(), Double.parseDouble(newBalance.getText())));
+                roomName.clear(); product.clear(); batch.clear(); newBalance.clear();
+            }
+        });
         return vBox;
     }
 
@@ -97,6 +132,7 @@ public class WorkSpaces {
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(from, to, amount, product, batch, apply);
+        apply.setOnAction(event -> hubController.tranfer());
         return vBox;
     }
 
@@ -107,6 +143,7 @@ public class WorkSpaces {
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(text, apply);
+        apply.setOnAction(event -> hubController.receive());
         return vBox;
     }
 
@@ -117,6 +154,7 @@ public class WorkSpaces {
         Button apply = new Button("Apply");
 
         vBox.getChildren().addAll(roomName, apply);
+        apply.setOnAction(event -> hubController.collect());
         return vBox;
     }
 }

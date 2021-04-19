@@ -25,3 +25,6 @@
     -fx-margin: 5 5 5 5;
     -fx-background-color: Red;
 }
+#error{
+    -fx-text-fill: Red;
+}

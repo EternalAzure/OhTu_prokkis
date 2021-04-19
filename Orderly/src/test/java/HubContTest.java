@@ -1,11 +1,8 @@
 import java.sql.*;
-import de.saxsys.javafx.test.JfxRunner;
-import javafx.scene.control.TextField;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
-@RunWith(JfxRunner.class)
+
 
 public class HubContTest {
 
@@ -16,205 +13,182 @@ public class HubContTest {
     @Before
     public void setUp() throws SQLException{
         assert statement != null;
-        statement.execute("TRUNCATE TABLE products;");
-        statement.execute("TRUNCATE TABLE rooms;");
+        statement.execute("TRUNCATE TABLE products");
+        statement.execute("TRUNCATE TABLE rooms");
+        statement.execute("TRUNCATE TABLE balance");
+
     }
 
     @Test
     public void amountOfRooms() throws SQLException{
-        String firstSQL = "INSERT INTO rooms (room, temperature) VALUES ('Hedelmät', 14)";
-        String secondSQL = "INSERT INTO rooms (room, temperature) VALUES ('Marjat', 14)";
-        String thirdSQL = "DELETE FROM rooms WHERE room='Marjat'";
-
+        String insert1 = "INSERT INTO rooms (room, temperature) VALUES ('Hedelmät', 14)";
+        String insert2 = "INSERT INTO rooms (room, temperature) VALUES ('Marjat', 14)";
+        String delete = "DELETE FROM rooms WHERE room='Marjat'";
 
         assertEquals(0, hubController.amountOfRooms());
 
-        statement.execute(firstSQL);
+        statement.execute(insert1);
         assertEquals(1, hubController.amountOfRooms());
 
-        statement.execute(secondSQL);
+        statement.execute(insert2);
         assertEquals(2, hubController.amountOfRooms());
 
-        statement.execute(thirdSQL);
+        statement.execute(delete);
         assertEquals(1, hubController.amountOfRooms());
     }
 
     @Test
-    public void addRoom()throws SQLException{
-        TextField name = new TextField();
-        TextField temperature = new TextField();
+    public void amountOfProducts()throws SQLException{
+        String insert1 = "INSERT INTO products (product, code, unit) VALUES ('Banaani', '0001', 'KG')";
+        String insert2 = "INSERT INTO products (product, code, unit, temperature) VALUES ('Kurpitsa', '0002', 'KG', 12.0)";
+        String delete = "DELETE FROM products WHERE product='Kurpitsa'";
 
+        assertEquals(0, hubController.amountOfProducts());
+
+        statement.execute(insert1);
+        assertEquals(1, hubController.amountOfProducts());
+
+        statement.execute(insert2);
+        assertEquals(2, hubController.amountOfProducts());
+
+        statement.execute(delete);
+        assertEquals(1, hubController.amountOfProducts());
+    }
+
+    @Test
+    public void addRoom()throws SQLException{
         //When both name and temperature is given
-        name.setText("Hedelmät");
-        temperature.setText("14");
-        hubController.addRoom(name, temperature);
+        hubController.addRoom("Hedelmät", "14");
+        assertEquals(1, hubController.amountOfRooms());
+
+        //Duplicate room
+        hubController.addRoom("Hedelmät", "14");
         assertEquals(1, hubController.amountOfRooms());
 
         //When only name is given
-        name.setText("Marjat");
-        temperature.setText("");
-        hubController.addRoom(name, temperature);
+        hubController.addRoom("Marjat", "");
         assertEquals(2, hubController.amountOfRooms());
 
         //When only temperature is given
-        name.setText("");
-        temperature.setText("7");
-        hubController.addRoom(name, temperature);
+        hubController.addRoom("", "7");
         assertEquals(2, hubController.amountOfRooms());
 
         //Non numeric temperature
-        name.setText("Kalat");
-        temperature.setText("17a");
-        hubController.addRoom(name, temperature);
+        hubController.addRoom("Kalat", "17a");
         assertEquals(2, hubController.amountOfRooms());
 
         //decimal temperature
-        name.setText("Kalat");
-        temperature.setText("2.0");
-        hubController.addRoom(name, temperature);
+        hubController.addRoom("Kalat", "2.0");
         assertEquals(3, hubController.amountOfRooms());
     }
 
     @Test
     public void addProduct() throws SQLException{
-        TextField product = new TextField();
-        TextField code = new TextField();
-        TextField unit = new TextField();
-        TextField temperature = new TextField();
-
         //When all is given and valid
-        product.setText("Porkkana");
-        code.setText("0011");
-        unit.setText("KG");
-        temperature.setText("4");
-        hubController.addProduct(product, code, unit, temperature);
-       assertEquals(1, hubController.amountOfProducts());
+        hubController.addProduct("Porkkana", "0011", "KG", "4");
+        assertEquals(1, hubController.amountOfProducts());
+
+        //Duplicate product
+        hubController.addProduct("Porkkana", "0011", "KG", "4");
+        assertEquals(1, hubController.amountOfProducts());
 
         //Temperature not given
-        product.setText("Etiketti");
-        code.setText("1");
-        unit.setText("KPL");
-        temperature.setText("");
-        hubController.addProduct(product, code, unit, temperature);
+        hubController.addProduct("Etiketti", "1", "KPL", "");
         assertEquals(2, hubController.amountOfProducts());
 
         //Name not given
-        product.setText("");
-        code.setText("12");
-        unit.setText("KPL");
-        temperature.setText("");
-        hubController.addProduct(product, code, unit, temperature);
+        hubController.addProduct("", "12", "KPL", "");
         assertEquals(2, hubController.amountOfProducts());
 
         //Code not given
-        product.setText("Etiketti");
-        code.setText("");
-        unit.setText("KPL");
-        temperature.setText("");
-        hubController.addProduct(product, code, unit, temperature);
+        hubController.addProduct("Etiketti", "", "KPL", "");
         assertEquals(2, hubController.amountOfProducts());
 
         //Unit not given
-        product.setText("Etiketti");
-        code.setText("0033");
-        unit.setText("");
-        temperature.setText("");
-        hubController.addProduct(product, code, unit, temperature);
+        hubController.addProduct("Etiketti", "0033", "", "");
         assertEquals(2, hubController.amountOfProducts());
 
         //Non numeric code given
-        product.setText("Etiketti");
-        code.setText("abc");
-        unit.setText("KPL");
-        temperature.setText("");
-        hubController.addProduct(product, code, unit, temperature);
+        hubController.addProduct("Etiketti", "abc", "KPL", "");
         assertEquals(2, hubController.amountOfProducts());
 
         //Non numeric temperature
-        product.setText("Etiketti");
-        code.setText("0022");
-        unit.setText("KPL");
-        temperature.setText("20A");
-        hubController.addProduct(product, code, unit, temperature);
+        hubController.addProduct("Etiketti", "0022", "KPL", "20A");
         assertEquals(2, hubController.amountOfProducts());
 
         //Same name given twice
-        product.setText("Etiketti");
-        code.setText("0022");
-        unit.setText("KPL");
-        temperature.setText("");
-        hubController.addProduct(product, code, unit, temperature);
+        hubController.addProduct("Etiketti", "0022", "KPL", "");
         assertEquals(2, hubController.amountOfProducts());
     }
 
     @Test
     public void removeRoom() throws SQLException{
-        TextField room = new TextField("Hedelmät");
-        TextField temperature = new TextField("14");
-        hubController.addRoom(room, temperature);
+        hubController.addRoom("Hedelmät", "14");
         assertEquals(1, hubController.amountOfRooms());
 
-        hubController.removeRoom(room); //room text is empty cuz addRoom()
+        hubController.removeRoom("");
         assertEquals(1, hubController.amountOfRooms());
 
-        room.setText("Hedelmät");
-        hubController.removeRoom(room);
+        hubController.removeRoom("Hedelmät");
         assertEquals(0, hubController.amountOfRooms());
     }
 
     @Test
     public void removeProduct() throws SQLException{
-        TextField product = new TextField("Herne");
-        TextField code = new TextField("0992");
-        TextField unit = new TextField("PKT");
-        TextField temperature = new TextField("7");
-        hubController.addProduct(product, code, unit, temperature);
+        hubController.addProduct("Herne", "92", "PKT", "7");
         assertEquals(1, hubController.amountOfProducts());
 
-        hubController.removeProduct(product);
+        hubController.removeProduct("");
         assertEquals(1, hubController.amountOfProducts());
 
-        product.setText("Herne");
-        hubController.removeProduct(product);
+        hubController.removeProduct("Herne");
         assertEquals(0, hubController.amountOfProducts());
     }
 
     @Test
-    public void changeBalance() throws SQLException{
-        TextField room = new TextField("Kalat");
-        TextField temperature = new TextField();
-        TextField product = new TextField("Kuha");
-        TextField batch = new TextField("9921");
-        TextField unit = new TextField("KG");
-        TextField code = new TextField("0132");
+    public void balance() throws SQLException{
+        hubController.addRoom("Kalat", "2");
+        hubController.addProduct("Kuha", "9920", "KG", "2");
+        hubController.addProduct("Lohi", "9030", "KG", "2");
+        String query = "SELECT amount FROM balance WHERE room_id=1 AND product_id=1 AND batch='0001'";
+        String insert = "INSERT INTO balance (room_id, product_id, batch, amount) VALUES ('1', '1', '0001', 300.0)";
+        double amount;
 
-        hubController.addRoom(room, temperature);
-        hubController.addProduct(product, code, unit, temperature);
+        statement.execute(insert);
+        amount = getResult(query, "amount");
+        assertEquals(300.0, amount, 0);
 
-        String insert = "INSERT INTO balance (room, product, batch, amount) VALUES ()";
+        //Test getBalance
+        assertEquals(300.0, hubController.getBalance("Kalat", "Kuha", "0001"), 0);
 
+        //Updates existing row
+        hubController.changeBalance("Kalat", "9920", "0001", 50.0);
+        String query2 = "SELECT amount FROM balance WHERE room_id=1 AND product_id=1 AND batch='0001'";
+        amount = getResult(query2, "amount");
+        assertEquals(50, amount, 0);
 
-        String sql = "UPDATE balance SET amount=60 WHERE id=1";
-        statement.executeUpdate(sql);
-        String query = "SELECT amount FROM balance WHERE id=1";
-        ResultSet result = statement.executeQuery(query);
-        while(result.next()) {
-            String amount = result.getString("amount");
-            System.out.println("amount: " + amount);
-        }
+        //Creates new row to table balance
+        hubController.changeBalance("Kalat", "9930", "0002", 60.0);
+        String query3 = "SELECT amount FROM balance WHERE room_id=1 AND batch='0002'";
+        amount = getResult(query3, "amount");
+        assertEquals(60, amount, 0);
 
-        room.setText("Kalat"); product.setText("Kuha");
-        assertEquals("60", hubController.getBalance(room, product, batch));
+        //TODO
+        //Without batch
     }
 
     @Test
     public void tranfer(){
+        hubController.addRoom("Room 1", "");
+        hubController.addRoom("Room 2", "");
+        String setBalance = "";
+        //TODO
 
     }
 
     @Test
     public void receive(){
-
+        //TODO
     }
 
     @Test
@@ -224,58 +198,34 @@ public class HubContTest {
 
     @Test
     public void isNumeric(){
-        TextField product = new TextField();
-        TextField code = new TextField();
-        TextField unit = new TextField();
-        TextField temperature = new TextField();
-        TextField[] input = new TextField[] {product, code, unit, temperature};
+        //Normal numbers
+        assertTrue(hubController.isNumeric(new String[]{"1","22","3.3","33.3"}));
 
-        product.setText("1");
-        code.setText("22");
-        unit.setText("3.3");
-        //temperature.setText("4,4");
-        assertTrue(hubController.isNumeric(input));
+        //Still numeric
+        assertTrue(hubController.isNumeric(new String[]{"0001","002.2",""}));
 
-        product.setText("0001");
-        code.setText("0002.2");
-        //unit.setText("0003,3");
-        temperature.setText("");
-        assertTrue(hubController.isNumeric(input));
-
-        product.setText("A1");
-        code.setText("");
-        unit.setText("");
-        temperature.setText("");
-        assertFalse(hubController.isNumeric(input));
-
-        product.setText("A.1");
-        assertFalse(hubController.isNumeric(input));
-
-        product.setText("ABC");
-        assertFalse(hubController.isNumeric(input));
+        //Not numeric
+        assertFalse(hubController.isNumeric(new String[]{"A1"}));
+        assertFalse(hubController.isNumeric(new String[]{"A.1"}));
+        assertFalse(hubController.isNumeric(new String[]{"ABC"}));
+        assertFalse(hubController.isNumeric(new String[]{"123","ABC"}));
     }
 
     @Test
     public void isEmpty(){
-        TextField product = new TextField();
-        TextField code = new TextField();
-        TextField[] input = new TextField[] {product, code};
+        //Empty
+        assertTrue(hubController.isEmpty(new String[]{"",""}));
+        assertTrue(hubController.isEmpty(new String[]{"", "ABC"}));
+        //Not empty
+        assertFalse(hubController.isEmpty(new String[]{"ABC", "123"}));
+    }
 
-        product.setText("");
-        code.setText("");
-        assertTrue(hubController.isEmpty(input));
-
-        product.setText(null);
-        code.setText(null);
-        assertTrue(hubController.isEmpty(input));
-
-        product.setText("");
-        code.setText("ABC");
-        assertTrue(hubController.isEmpty(input));
-
-        product.setText("ABC");
-        code.setText("123");
-        assertFalse(hubController.isEmpty(input));
+    public double getResult(String query, String column) throws SQLException{
+        ResultSet result = statement.executeQuery(query);
+        while (result.next()){
+            return result.getDouble(column);
+        }
+        return -1;
     }
 
 }
