@@ -16,4 +16,6 @@ Ajat eivät sisällä laskareita.
 | 13.4        | 3           |Netbeans on syvältä. Onneksi on Intellij|
 | 17.4        | 0.5         |Kokeilin turhaan ohjeen mukaisia testikirjastoja|
 | 17.4        | 0.3         |Vaatimusmäärittelyn päivitys ja laajentaminen|
-| 19.4        | 3           |Vaihdoin JDK ja päivitin ohjeen mukaiset</br>dependencyt, poistin JavaFX testikirjastosta ja loin</br> virheviestit käyttäjälle
+| 19.4        | 3           |Vaihdoin JDK ja päivitin ohjeen mukaiset</br>dependencyt, poistin JavaFX testikirjastosta ja loin</br> virheviestit käyttäjälle|
+| 19.4        | 1           |HubControllerin säätöä|
+| 19.4        | 2           |CSS ja GUI hienosäätöä, GUI refaktorointia| 
