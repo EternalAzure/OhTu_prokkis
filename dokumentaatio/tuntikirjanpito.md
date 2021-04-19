@@ -19,3 +19,4 @@ Ajat eivät sisällä laskareita.
 | 19.4        | 3           |Vaihdoin JDK ja päivitin ohjeen mukaiset</br>dependencyt, poistin JavaFX testikirjastosta ja loin</br> virheviestit käyttäjälle|
 | 19.4        | 1           |HubControllerin säätöä|
 | 19.4        | 2           |CSS ja GUI hienosäätöä, GUI refaktorointia| 
+| 19.4        | 3           |HubController puolittaminen Utils luokkaan </br>ja testien vastaava jakaminen </br> Toimitusten vastaanoton kehittäminen|
