@@ -1,19 +1,22 @@
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.regex.Pattern;
 
 public class HubController {
 
     final private Statement statement;
-    public HubController(String database){
-        this.statement = ServerConnection.createConnection(database);
+    final private Utils utils;
+    //Vital injection for connecting to test database
+    public HubController(Statement statement){
+        this.statement = statement;
+        this.utils = new Utils(statement);
     }
 
-    final private String numeric = "Check your numbers";
+    final private String numeric = "Numeric input needed";
     final private String empty = "Non allowed empty value";
+    final private String decimal = "Decimal number needed";
+    final private String integer = "Integer needed";
 
     //Functionality
     public static void logout(Stage currentWindow){
@@ -28,14 +31,13 @@ public class HubController {
         Platform.exit();
     }
     public String addRoom(String name, String temperature){
-        if (name.isEmpty()) return "Name cannot be empty";
-        if (!isNumeric(new String[] {temperature})) return empty;
+        if (name.isEmpty()) return empty;
+        if (!Utils.isDouble(temperature) && !temperature.isEmpty()) return decimal;
 
         String sql = "INSERT INTO rooms (room, temperature) VALUES ('"+name+"', NULLIF('"+temperature+"', ''));";
         try {
             statement.execute(sql);
         }catch (SQLException e){
-            System.out.println("Bad SQL in HubController.addRoom()");
             if (e.getErrorCode() == 1062){
                 return "'"+name+"' already exists";
             }
@@ -43,71 +45,69 @@ public class HubController {
         return "";
     }
     public String addProduct(String product, String code, String unit, String temperature){
-        if (isEmpty(new String[] {product, code, unit})) return empty;
-        if (!isNumeric(new String[]{code, temperature})) return numeric;
+        if (Utils.isEmpty(new String[] {product, code, unit})) return empty;
+        if (!Utils.isNumeric(new String[]{code})) return numeric;
+        if (!Utils.isDouble(temperature) && !temperature.isEmpty()) return decimal;
+
         String sql = "INSERT INTO products (product, code, unit, temperature) VALUES (" +
-                "'" + product + "'," +
-                "'" + code + "'," +
-                "'" + unit + "'," +
-                "NULLIF('"+temperature+"', '')" +
-                ");";
+                "'" + product + "', " +
+                "'" + code + "', " +
+                "'" + unit + "', " +
+                "NULLIF('"+temperature+"', ''));";
         try {
             statement.execute(sql);
         }catch (SQLException e){
-            System.out.println("Bad SQL in HubController.addProduct()");
             if (e.getErrorCode() == 1062){
                 return "'"+product+"' already exists";
             }
         }
-
         return "";
     }
     public String removeRoom(String room){
         if (room.isEmpty()) return empty;
+
         String sql = "DELETE FROM rooms WHERE room='"+room+"';";
         try {
             statement.execute(sql);
         }catch (SQLException e){
             System.out.println("Bad SQL in HubController.removeRoom()");
-            return "SQL error"; //TODO
+            return "SQL error";
         }
         return "";
     }
     public String removeProduct(String product){
         if (product.isEmpty()) return empty;
+
         String sql = "DELETE FROM products WHERE product='"+product+"';";
         try {
             statement.execute(sql);
         }catch (SQLException e){
             System.out.println("Bad SQL in HubController.removeProduct()");
-            return "SQL error"; //TODO
+            return "SQL error";
         }
         return "";
     }
-    public String changeBalance(String room, String code, String batch, Double newBalance){
-        if (isEmpty(new String[] {room, code})) return empty;
-        if (!isNumeric(new String[]{ code, batch})) return numeric;
+    public String changeBalance(String room, String code, String batch, String newBalance){
+        if (Utils.isEmpty(new String[] {room, code, batch, newBalance})) return empty;
+        if (!Utils.isNumeric(new String[]{code, batch})) return numeric;
+        if (!Utils.isDouble(newBalance)) return decimal;
+        if (Double.parseDouble(newBalance) <= 0) return "Only positive numbers are allowed";
 
-        String room_id = "";
-        String product_id = "";
         String room_idQuery = "SELECT id FROM rooms WHERE room='"+room+"'";
         String product_idQuery = "SELECT id FROM products WHERE code='"+code+"'";
-        try{
-            room_id = getResultString(room_idQuery, "id");
-            product_id = getResultString(product_idQuery, "id");
-        }catch (SQLException e){
-            System.out.println("ERROR in id query");
-            e.printStackTrace();
-        }
+        String room_id = utils.getResultString(room_idQuery, "id");
+        String product_id = utils.getResultString(product_idQuery, "id");
+
+        if(!utils.hasItem(room, "rooms", "room"))  return "Room does not exist";
+        if(!utils.hasItem(code, "products", "code"))  return "Product does not exist";
 
         String countQuery = "SELECT COUNT(*) FROM balance WHERE product_id='"+product_id+"' AND room_id='"+room_id+"' AND batch='"+batch+"'";
         String insert = "INSERT INTO balance (room_id, product_id, batch, amount) " +
                 "VALUES ('"+room_id+"', "+product_id+", '"+batch+"', '"+newBalance+"')";
         String change = "UPDATE balance SET amount="+newBalance+" WHERE product_id='"+product_id+"' AND room_id='"+room_id+"' AND batch='"+batch+"'";
         try {
-            if (getResultInt(countQuery, "COUNT(*)") == 0){
+            if (utils.getResultInt(countQuery, "COUNT(*)") == 0){
                 statement.execute(insert);
-                System.out.println("Did insert row into table balance");
             }else{
                 statement.executeUpdate(change);
             }
@@ -115,87 +115,63 @@ public class HubController {
             e.printStackTrace();
             return "SQL error";
         }
-
-
-        String sql = "UPDATE balance SET amount="+newBalance+" WHERE product='"+code+"';";
-        try {
-            statement.executeUpdate(sql);
-        }catch (SQLException e){
-            System.out.println("Bad SQL in HubController.changeBalance()");
-            return "SQL error"; //TODO
-        }
         return "";
     }
-    public void tranfer(){
+    public String transfer(String from, String to, String code, String batch, String amount){
+        if (Utils.isEmpty(new String[]{from, to, code, batch})) return empty;
+        if (!Utils.isNumeric(new String[]{code, batch})) return numeric;
+        if (Double.parseDouble(amount) <= 0) return "Only positive numbers are allowed";
 
-    }
-    public void receive(){
+        double oldBalance = utils.getBalance(from, code, batch);
+        double newBalance = oldBalance - Double.parseDouble(amount);
+        if (newBalance < 0) return "Would result in negative balance";
+        if (!utils.hasRoom(to)) return "Destination does not exist";
+        if (!utils.hasRoom(from)) return "Origin does not exist";
 
+        double targetOriginal = utils.getBalance(to, code, batch);
+        double targetNewBalance = targetOriginal + Double.parseDouble(amount);
+        changeBalance(from, code, batch, String.valueOf(newBalance));
+        changeBalance(to, code, batch, String.valueOf(targetNewBalance));
+
+        return "";
     }
+    //receive Will put input to database
     public void collect(){
 
     }
 
-    //Auxiliary
-    public int amountOfRooms() throws SQLException{
-        String sql = "SELECT COUNT(*) FROM rooms";
-        return getResultInt(sql, "COUNT(*)");
-    }
-    public int amountOfProducts() throws SQLException{
-        String sql = "SELECT COUNT(*) FROM products";
-        return getResultInt(sql, "COUNT(*)");
-    }
-    public boolean isEmpty(String[] input){
-        for (String string: input) {
-            if(string == null || string.isEmpty())
-                return true;
-        }
-        return false;
-    }
-    public boolean isNumeric(String[] textFields) {
-        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-        int count = 0;
-        for (String string: textFields) {
+    //Testing
+    public void createTestShipment(){
+        addRoom("Room", "4");
+        addProduct("Kaali", "1000", "KG", "4");
+        addProduct("Porkkana", "2000", "KG", "4");
+        addProduct("Peruna", "3000", "KG", "4");
+        addProduct("Kurpitsa", "4000", "KG", "4");
+        addProduct("Sipuli", "5000", "KG", "4");
 
-            if(pattern.matcher(string).matches()) count++;
-            if(string.isEmpty()) count++;
-        }
+        String insert1 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 1, 1)";
+        String insert2 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 2, 1)";
+        String insert3 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 3, 1)";
+        String insert4 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 4, 1)";
+        String insert5 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 5, 1)";
 
-        if (count == textFields.length)
-        return true;
-        return false;
+        try{
+            statement.execute(insert1);
+            statement.execute(insert2);
+            statement.execute(insert3);
+            statement.execute(insert4);
+            statement.execute(insert5);
+        }catch (SQLException e){e.printStackTrace();}
     }
-    public Double getBalance(String room, String code, String batch)throws SQLException {
-        String room_idQuery = "SELECT id FROM rooms WHERE room='"+room+"'";
-        String product_idQuery = "SELECT id FROM products WHERE code='"+code+"'";
-        String room_id = getResultString(room_idQuery, "id");
-        String product_id = getResultString(room_idQuery, "id");
-        String sql = "SELECT amount FROM balance WHERE " +
-                "room_id='"+room_id+"' AND " +
-                "product_id='"+product_id+"' AND " +
-                "batch='"+batch+"'";
-        return getResultDouble(sql, "amount");
+
+    public void deleteTestShipment(){
+        String sql = "TRUNCATE TABLE shipments";
+        String sql2 = "TRUNCATE TABLE products";
+        try{
+            statement.execute(sql);
+            statement.execute(sql2);
+        }catch (SQLException e){}
     }
-    public String getResultString(String query, String column) throws SQLException{
-        ResultSet result = statement.executeQuery(query);
-        while (result.next()){
-            return result.getString(column);
-        }
-        return "-9999999";
-    }
-    public int getResultInt(String query, String column) throws SQLException{
-        ResultSet result = statement.executeQuery(query);
-        while (result.next()){
-            return result.getInt(column);
-        }
-        return -9999999;
-    }
-    public double getResultDouble(String query, String column) throws SQLException{
-        ResultSet result = statement.executeQuery(query);
-        while (result.next()){
-            return result.getDouble(column);
-        }
-        return -9999999;
-    }
+
 
 }

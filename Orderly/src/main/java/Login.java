@@ -35,9 +35,9 @@ public class Login extends Application {
         //endregion
 
         //region Initialize UI elements
-        ImageView forkliftView = new ImageView();
+        ImageView userIconView = new ImageView();
         ImageView logoView = new ImageView();
-        Image forklift = new Image("user icon.png");
+        Image userIcon = new Image("user icon.png");
         Image logo = new Image("ORDERLY_Logo_fix.png");
 
         Button exit = new Button("X");
@@ -49,12 +49,12 @@ public class Login extends Application {
 
         //region Set children
         leftPane.getChildren().addAll(logoView);
-        rightPane.getChildren().addAll(exit, username, password, login, credit, forkliftView);
+        rightPane.getChildren().addAll(exit, username, password, login, credit, userIconView);
         //endregion
 
         //region Set UI positions
-        forkliftView.setLayoutX(125);
-        forkliftView.setLayoutY(50);
+        userIconView.setLayoutX(125);
+        userIconView.setLayoutY(50);
         logoView.setLayoutX(-50);
         logoView.setLayoutY(60);
 
@@ -75,9 +75,9 @@ public class Login extends Application {
         //endregion
 
         leftPane.setId("blue-pane");
-        forkliftView.setImage(forklift);
-        forkliftView.setPreserveRatio(true);
-        forkliftView.setFitHeight(50);
+        userIconView.setImage(userIcon);
+        userIconView.setPreserveRatio(true);
+        userIconView.setFitHeight(50);
 
         logoView.setImage(logo);
         logoView.setPreserveRatio(true);

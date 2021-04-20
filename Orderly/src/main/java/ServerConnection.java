@@ -2,6 +2,8 @@ import java.sql.*;
 
 public class ServerConnection {
 
+    public static final String database = "warehouse";
+    public static final String testDatabase = "warehousetest";
     public static Statement createConnection(String database){
 
         // JDBC driver & database URL
@@ -13,15 +15,13 @@ public class ServerConnection {
 
         try {
             //Connect to server
-            System.out.println("Connecting to server...");
             Connection server = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement statement = server.createStatement();
-            System.out.println("Connected to "+ DB_URL+"...");
+            //System.out.println("Connected to "+ DB_URL+"...");
 
             //Select right database
             statement.execute("USE "+database);
-            System.out.println("Database '"+database+"' selected successfully.");
-
+            System.out.println("Selected: "+database);
             return statement;
 
         }catch (SQLException exception){

@@ -5,14 +5,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import java.sql.Statement;
 
 public class Hub  extends Application {
 
     public static Stage hub;
-    public static final String database = "warehouse";
-    private AnchorPane rightPane;
-
-    WorkSpaces workSpaces = new WorkSpaces();
+    final private Statement statement = ServerConnection.createConnection(ServerConnection.database);
+    WorkSpaces workSpaces = new WorkSpaces(statement);
+    HubController hubController = new HubController(statement);
+    BorderPane workspaceParent = new BorderPane();
 
     @Override
     public void start(Stage window){
@@ -22,56 +23,48 @@ public class Hub  extends Application {
         hub.setMinWidth(600);
         hub.setTitle("Orderly - Hub");
         BorderPane borderPane = new BorderPane();
+        VBox leftMenu = new VBox();
 
-        VBox leftVBox = new VBox();
-        rightPane = new AnchorPane();
-
-        //region Menubar
+        //region Initialize and set UI elements
         MenuBar menuBar = new MenuBar();
         Button logout = new Button("Logout");
         logout.setMinWidth(30);
+        logout.setMaxHeight(menuBar.getHeight());
         Button exit = new Button("Exit");
+        exit.setMaxHeight(menuBar.getHeight());
         HBox hBox = new HBox(menuBar, logout, exit);
         HBox.setHgrow(menuBar, Priority.ALWAYS);
         HBox.setHgrow(logout, Priority.NEVER);
         HBox.setHgrow(exit, Priority.NEVER);
 
-        Menu settings = new Menu("settings");
-        settings.getItems().addAll(
-                new MenuItem("red"),
-                new MenuItem("white"),
-                new MenuItem("blue")
+        Menu shipment = new Menu("shipment");
+        MenuItem create = new MenuItem("Create");
+        MenuItem delete = new MenuItem("Delete");
+        shipment.getItems().addAll(
+                create, delete
         );
-        Menu numbers = new Menu("database");
-        numbers.getItems().addAll(
-                new MenuItem("one"),
-                new MenuItem("two"),
-                new MenuItem("three")
-        );
-        //endregion
+        create.setOnAction(event -> hubController.createTestShipment());
+        delete.setOnAction(event -> hubController.deleteTestShipment());
 
-        borderPane.setLeft(leftVBox);
+        borderPane.setLeft(leftMenu);
         borderPane.setTop(hBox);
-        borderPane.setRight(rightPane);
+        borderPane.setRight(workspaceParent);
 
-        leftVBox.setId("blue-Vbox");
-        leftVBox.setSpacing(10);
-        leftVBox.setPadding(new Insets(10,10,10,10));
+        leftMenu.setId("blue-menu");
+        leftMenu.setSpacing(10);
+        leftMenu.setPadding(new Insets(10,10,10,10));
 
-        rightPane.setId("workspace");
-        //region Initialize UI elements
-        Hyperlink addRoom = new Hyperlink("Add a new room");
-        Hyperlink addProduct = new Hyperlink("Add a new product");
-        Hyperlink removeRoom = new Hyperlink("Remove a room");
-        Hyperlink removeProduct = new Hyperlink("Remove a product");
-        Hyperlink changeBalance = new Hyperlink("Change a balance");
+        Hyperlink addRoom = new Hyperlink("Add new room");
+        Hyperlink addProduct = new Hyperlink("Add new product");
+        Hyperlink removeRoom = new Hyperlink("Remove room");
+        Hyperlink removeProduct = new Hyperlink("Remove product");
+        Hyperlink changeBalance = new Hyperlink("Change balance");
         Hyperlink transfer = new Hyperlink("Transfer");
-        Hyperlink receive = new Hyperlink("Receive cargo");
-        Hyperlink collect = new Hyperlink("Collect (Beta)");
-        //endregion
-        //region Set children
-        menuBar.getMenus().addAll(settings, numbers);
-        leftVBox.getChildren().addAll(
+        Hyperlink receive = new Hyperlink("Receive shipment");
+        Hyperlink collect = new Hyperlink("Collect");
+
+        menuBar.getMenus().addAll(shipment);
+        leftMenu.getChildren().addAll(
                 addRoom,
                 addProduct,
                 removeRoom,
@@ -85,14 +78,13 @@ public class Hub  extends Application {
 
         logout.setOnAction(event -> HubController.logout(window));
         exit.setOnAction(event -> HubController.exit());
-
         addRoom.setOnAction(event -> setWorkSpace(workSpaces.addRoom()));
         addProduct.setOnAction(event -> setWorkSpace(workSpaces.addProduct()));
         removeRoom.setOnAction(event -> setWorkSpace(workSpaces.removeRoom()));
         removeProduct.setOnAction(event -> setWorkSpace(workSpaces.removeProduct()));
         changeBalance.setOnAction(event -> setWorkSpace(workSpaces.changeBalance()));
         transfer.setOnAction(event -> setWorkSpace(workSpaces.transfer()));
-        receive.setOnAction(event -> setWorkSpace(workSpaces.receive()));
+        receive.setOnAction(event -> setWorkSpace(workSpaces.receive(this)));
         collect.setOnAction(event -> setWorkSpace(workSpaces.collect()));
 
         Scene scene = new Scene(borderPane, 800, 600);
@@ -102,16 +94,14 @@ public class Hub  extends Application {
 
         double menuBarWidth = hub.getWidth() - logout.getWidth() - exit.getWidth();
         menuBar.setMaxWidth(menuBarWidth);
-
-        leftVBox.setMinWidth(hub.getWidth()/3);
-        rightPane.setMinWidth(hub.getWidth()/3*2);
-
-        ServerConnection.createConnection(database);
+        leftMenu.setMinWidth(hub.getWidth()/3);
+        workspaceParent.setMinWidth(hub.getWidth()/3*2);
+        workspaceParent.setStyle("-fx-background-color: White");
     }
-    private void setWorkSpace(Pane workSpaceLayout){
-        rightPane.getChildren().clear();
-        rightPane.getChildren().add(workSpaceLayout);
-        workSpaceLayout.setLayoutX((rightPane.getWidth()/3));
-        workSpaceLayout.setLayoutY((rightPane.getHeight()/3));
+
+
+    public void setWorkSpace(VBox workSpaceLayout){
+        workspaceParent.getChildren().clear();
+        workspaceParent.setCenter(workSpaceLayout);
     }
 }
