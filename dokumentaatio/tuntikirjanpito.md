@@ -21,3 +21,6 @@ Ajat eivät sisällä laskareita.
 | 19.4        | 2           |CSS ja GUI hienosäätöä, GUI refaktorointia| 
 | 19.4        | 3           |HubController puolittaminen Utils luokkaan </br>ja testien vastaava jakaminen </br> Toimitusten vastaanoton kehittäminen|
 | 19.4        | 1           |addProduct() debuggausta. Parametrit oli syötetty</br> väärinpäin mutta automaattiset testit meni läpi|
+| 19.4        | 2           |Lähetykset taulu lisätty. Datan hakeminen</br>taulusta ja sen esittäminen ruudulla|
+| 20.4        | 2           |Yritys saada saapuva lähetys järkevästi</br>ruudulle. Luokkien tehtävien selkeytys|
+| 20.4        | 0.5         |Arkkitehtuurin uudelleen miettiminen</br> Tarvitsen datamodel luokan </br>tietokannan ja GUI väliin|
