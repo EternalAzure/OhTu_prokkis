@@ -10,20 +10,30 @@ Pyrkimys on myöhemmin toteuttaa moninaista tilastointia ja useita käyttäjä p
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Login%20screen.PNG" width="400"> 
 
+<p>
 Sovelluksessa on kirjautumisikkuna, joka vertaa annettua nimeä ja salasanaa </br>
 osoitteessa locahost:3306 olevaan MySQL tietokantaan nimeltä login. </br>
 Toistaiseksi järjestelmän ylläpitäjä lisää käyttäjiä sovellukseen eikä sovellus </br> 
-itse tarjoa mahdollisuutta rekisteröityä. </br>
-</br>
+itse tarjoa mahdollisuutta rekisteröityä.
+</p>
 
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Hub%20screen.PNG" width="600">
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Hub.PNG" width="400">
 
+<p>
 Pääasiassa toiminta tapahtuu Hub-ikkunassa, joka jakautuu kolmeen perusosaan:  </br>
 Valikkopalkkiin ylhäällä, siniseen valikkoon vasemmalla ja valkoiseen työtilaan </br>
 oikealla. Vasen valikko määrää mitä työtilassa näkyy. Selkolukuisuuden vuoksi </br>
 työtilan UI on eriytetty Workspaces luokkaan joka tarjoaa UI:n työtehtäviä vastaavasti </br>
-nimettyjen metodien kautta Pane-olioina. Hub ja Workspaces käyttävät saman </br>
-kontrollerin palveluita. Hubissa hyödynnetään tietokantaa warehouse. </br>
+nimettyjen metodien kautta VBox-olioina. Hub ja Workspaces käyttävät saman </br>
+kontrollerin palveluita. Hubissa hyödynnetään tietokantaa warehouse.
+</p>
+
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Data.PNG" width="400">
+
+<p>
+Lisäksi sovellus pystyy esittämään tietokannasta hakemansa datan graafisesti.</br>
+Kuvassa otetaan vastaan saapuvaa lähetystä.
+</p>
 
 ### Dokumentaatio
 [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md) </br>
