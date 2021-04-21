@@ -7,88 +7,96 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
-    private Statement statement;
-    public Utils(Statement statement){
+    final private Statement statement;
+    public Utils(Statement statement) {
         this.statement = statement;
     }
 
-    public int amountOfRooms(){
+    public int amountOfRooms() {
         String sql = "SELECT COUNT(*) FROM rooms";
         return getResultInt(sql, "COUNT(*)");
     }
-    public int amountOfProducts(){
+    public int amountOfProducts() {
         String sql = "SELECT COUNT(*) FROM products";
         return getResultInt(sql, "COUNT(*)");
     }
 
     public Double getBalance(String room, String code, String batch) {
-        String room_idQuery = "SELECT id FROM rooms WHERE room='"+room+"'";
-        String product_idQuery = "SELECT id FROM products WHERE code='"+code+"'";
-        String room_id = getResultString(room_idQuery, "id");
-        String product_id = getResultString(product_idQuery, "id");
+        String roomIdQuery = "SELECT id FROM rooms WHERE room='" + room + "'";
+        String productIdQuery = "SELECT id FROM products WHERE code='" + code + "'";
+        String roomId = getResultString(roomIdQuery, "id");
+        String productId = getResultString(productIdQuery, "id");
         String sql = "SELECT amount FROM balance WHERE " +
-                "room_id='"+room_id+"' AND " +
-                "product_id='"+product_id+"' AND " +
-                "batch='"+batch+"'";
+                "room_id='" + roomId + "' AND " +
+                "product_id='" + productId + "' AND " +
+                "batch='" + batch + "'";
         return getResultDouble(sql, "amount");
     }
-    public String getResultString(String query, String column){
-        try{
+    public String getResultString(String query, String column) {
+        try {
             ResultSet result = statement.executeQuery(query);
-            while (result.next()){
-                //Local variable is NOT redundant
-                String res = result.getString(column);
-                return res;
+            while (result.next()) {
+                return result.getString(column);
             }
-        }catch (SQLException e){e.printStackTrace();}
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return "0";
     }
-    public int getResultInt(String query, String column){
-        try{
+    public int getResultInt(String query, String column) {
+        try {
             ResultSet result = statement.executeQuery(query);
-            while (result.next()){
+            while (result.next()) {
                 return result.getInt(column);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
     }
-    public double getResultDouble(String query, String column){
-        try{
+    public double getResultDouble(String query, String column) {
+        try {
             ResultSet result = statement.executeQuery(query);
-            while (result.next()){
+            while (result.next()) {
                 return result.getDouble(column);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0.0;
     }
 
-    public static boolean isEmpty(String[] input){
+    public static boolean isEmpty(String[] input) {
         for (String string: input) {
-            if(string == null || string.isEmpty())
+            if (string == null || string.isEmpty()) {
                 return true;
+            }
         }
         return false;
     }
 
-    public static boolean isInt(String input){
-        if (input.isEmpty()) return false;
+    public static boolean isInt(String input) {
+        if (input.isEmpty()) {
+            return false;
+        }
         try {
             int integer = Integer.parseInt(input);
             return true;
-        }catch (NumberFormatException e){ }
+        } catch (NumberFormatException e) {
+
+        }
         return false;
     }
-    public static boolean isDouble(String input){
-        if (input.isEmpty()) return false;
+    public static boolean isDouble(String input) {
+        if (input.isEmpty()) {
+            return false;
+        }
         try {
             double d = Double.parseDouble(input);
             return true;
-        }catch (NumberFormatException e){ }
+        } catch (NumberFormatException e) {
+
+        }
         return false;
     }
 
@@ -97,32 +105,39 @@ public class Utils {
         int count = 0;
         for (String string: textFields) {
 
-            if(pattern.matcher(string).matches()) count++;
-            if(string.isEmpty()) count++;
+            if (pattern.matcher(string).matches()) {
+                count++;
+            }
+            if (string.isEmpty()) {
+                count++;
+            }
         }
 
-        if (count == textFields.length)
+        if (count == textFields.length) {
             return true;
+        }
         return false;
     }
 
-    public boolean hasItem(String value, String table, String column){
-        String query = "SELECT COUNT("+column+") FROM "+table+" WHERE "+column+"='"+value+"'";
-        if (getResultInt(query, "COUNT("+column+")") > 0) return true;
+    public boolean hasItem(String value, String table, String column) {
+        String query = "SELECT COUNT(" + column + ") FROM " + table + " WHERE " + column + "='" + value + "'";
+        if (getResultInt(query, "COUNT(" + column + ")") > 0) {
+            return true;
+        }
         return false;
     }
 
-    public boolean hasRoom(String room){
-        String query = "SELECT COUNT(room) FROM rooms WHERE room='"+room+"'";
+    public boolean hasRoom(String room) {
+        String query = "SELECT COUNT(room) FROM rooms WHERE room='" + room + "'";
         try {
             ResultSet result = statement.executeQuery(query);
-            while(result.next()){
-                if (result.getInt("COUNT(room)") > 0){
+            while (result.next()) {
+                if (result.getInt("COUNT(room)") > 0) {
                     return true;
                 }
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

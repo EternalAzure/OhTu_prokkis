@@ -14,11 +14,11 @@ import java.sql.Statement;
 public class Hub  extends Application {
 
     public static Stage hub;
-    final private Statement statement = ServerConnection.createConnection(ServerConnection.database);
+    final private Statement statement = ServerConnection.createConnection(ServerConnection.DATABASE);
 
-    WorkSpaces workSpaces = new WorkSpaces(statement);
-    HubController hubController = new HubController(statement);
-    BorderPane workspaceParent = new BorderPane();
+    final private WorkSpaces workSpaces = new WorkSpaces(statement);
+    final private HubController hubController = new HubController(statement);
+    final private BorderPane workspaceParent = new BorderPane();
 
     @Override
     public void start(Stage window){

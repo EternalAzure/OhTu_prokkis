@@ -8,7 +8,7 @@ public class Product {
     public Product(String code,
                    String batch,
                    String amount,
-                   String room){
+                   String room) {
         this.code = code;
         this.batch = batch;
         this.amount = amount;

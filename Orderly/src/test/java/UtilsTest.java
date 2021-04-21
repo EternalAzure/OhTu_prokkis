@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 
 public class UtilsTest {
-    final String database = ServerConnection.testDatabase;
+    final String database = ServerConnection.TEST_DATABASE;
     Statement statement = ServerConnection.createConnection(database);
     Utils utils = new Utils(statement);
     //Be sure to use test database when using methods outside of test class

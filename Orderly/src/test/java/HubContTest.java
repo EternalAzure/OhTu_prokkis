@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class HubContTest {
 
-    final String database = ServerConnection.testDatabase;
+    final String database = ServerConnection.TEST_DATABASE;
     Statement statement = ServerConnection.createConnection(database);
     HubController hubController = new HubController(statement);
     Utils utils = new Utils(statement);

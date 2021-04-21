@@ -97,8 +97,7 @@ public class ShipmentWorkspace {
     private String fillName(String productId){
         //Local variable is NOT redundant
         String sql = "SELECT product FROM products WHERE id="+productId;
-        String name = utils.getResultString(sql, "product");
-        return name;
+        return utils.getResultString(sql, "product");
     }
 
     private String fillUnit(String productId){
@@ -108,14 +107,12 @@ public class ShipmentWorkspace {
 
     private String fillRoom(String productId){
         String sql = "SELECT defaultroom_id FROM products WHERE id="+productId;
-        String room = utils.getResultString(sql, "defaultroom_id");
-        return room;
+        return utils.getResultString(sql, "defaultroom_id");
     }
 
     private String fillCode(String productId){
         String sql = "SELECT code FROM products WHERE id="+productId;
-        String code = utils.getResultString(sql, "code");
-        return code;
+        return utils.getResultString(sql, "code");
     }
 
     public ArrayList<String[]> fetchShipment(String shipmentNumber){

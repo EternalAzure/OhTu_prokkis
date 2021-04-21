@@ -13,7 +13,7 @@ import javafx.stage.StageStyle;
 
 public class AlertWindow {
 
-    public static void display(String message){
+    public static void display(String message) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.initStyle(StageStyle.UNDECORATED);
@@ -24,7 +24,7 @@ public class AlertWindow {
         bp.setCenter(vBox);
 
         Label label = new Label(message);
-        label.setPadding(new Insets(20,20,20,20));
+        label.setPadding(new Insets(20, 20, 20, 20));
         Button exit = new Button("exit");
 
         vBox.getChildren().addAll(label, exit);
