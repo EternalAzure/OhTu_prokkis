@@ -1,14 +1,12 @@
 ## Ohjelmistotekniikka, harjoitustyö
 ----
 # Varastonhallintasovellus
-
-Projekti kulkee nimellä Orderly, vaikka kävi ilmi että nimi on jo viety. </br>
-Itse työpöytäsovellus on tarkoitettu varaston hallintaan ja tukee kolmea eri </br>
-käyttäjä profiilia: Esimies, varastonhoitaja ja keräilijä. </br>
-Perustoimillallisuuksia ovat varastohuoneiden lisääminen ja poistaminen. </br>
-Tuotteiden katalogiin lisääminen ja sieltä poistaminen. </br>
-Sekä kaikenlainen saldon pyörittely. </br>
-</br>
+<p>
+Ohjelma mahdollistaa saldon pyörittelyn ja jatkossa tähtää erikoistumaan </br> 
+elintarviketuotannon resurssien hallintaan. Tällaisia toiminnallisuuksia ovat </br>
+eräpäiväseuranta sekä raaka-aineiden muuttaminen lopputuotteeksi reseptin mukaan. </br>
+Pyrkimys on myöhemmin toteuttaa moninaista tilastointia ja useita käyttäjä profiileita.
+</p>
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Login%20screen.PNG" width="400"> 
 
@@ -32,55 +30,13 @@ kontrollerin palveluita. Hubissa hyödynnetään tietokantaa warehouse. </br>
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md) </br>
 [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md) </br>
 
-### Testiohjeet
-__Vaaditaan kolme osaa:__ </br>
-  1. Testiympäristö on _junit_ 
-  2. Testit ajetaan _JfxRunnerilla_
-  3. db ajuri on _mysql-connector-java_
-  
-Tarkista, että pom.xml tiedostosta löytyy seuraavat
-```
-<dependency>
-  <groupId>de.saxsys</groupId>
-  <artifactId>jfx-testrunner</artifactId>
-</dependency>
-```
-```
-<dependency>
-  <groupId>junit</groupId>
-  <artifactId>junit</artifactId>
-  <version>4.13.2</version>
-  <scope>test</scope>
-  <version>1.2</version>
-</dependency>
-```
-```
-<dependency>
-  <groupId>mysql</groupId>
-  <artifactId>mysql-connector-java</artifactId>
-  <version>8.0.23</version>
-</dependency>
-```
-Lisää kaikki osat Mavenin kautta projektiin. Ajurin </br>
-lisääminen omalta koneelta aiheuttaa ongelmia terminaalin kanssa.
-</br>
-Tarkista, että importit ovat oikein ja ajat testit JfxRunnerilla.
-```
-import de.saxsys.javafx.test.JfxRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
-@RunWith(JfxRunner.class)
-```
 __Ajaminen terminaalista__ </br>
 ```
-mvn compile exec:java -Dexec.mainClass=Login
+mvn compile exec:java -Dexec.mainClass=ui.Login
 ```
 ```
 mvn test
 ```
-ja jos käyttää jacocoa
 ```
 mvn test jacoco:report
 ```
