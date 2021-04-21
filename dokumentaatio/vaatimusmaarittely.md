@@ -25,6 +25,18 @@ Seuraava askel on tilastoida keräilyä. </br>
 Viimeinen askel on tilastoida raaka-aineita ja hävikkiä.
 </p>
 
+- [x] Lisää huone tietokantaan
+- [x] Lisää tuote tietokantaan
+- [x] Poista huone tietokannasta
+- [x] Poista tuote tietokannasta
+- [x] Muuta tuotteen määrää huoneen ja erän mukaan
+- [x] Siirrä tuotetta huoneesta toiseen erän mukaan
+- [x] Vastaanota saapuva lähetys
+- [ ] Kerää lähtevä lähetys
+- [ ] Lähetä lähetys
+- [ ] Muunna raaka-aineet tuotteeksi reseptin mukaan
+- [ ] Tilastointi
+
 ----
 ## Jatkokehitys
 ----
