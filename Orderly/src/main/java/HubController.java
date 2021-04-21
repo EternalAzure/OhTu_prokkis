@@ -7,7 +7,6 @@ public class HubController {
 
     final private Statement statement;
     final private Utils utils;
-    //Vital injection for connecting to test database
     public HubController(Statement statement){
         this.statement = statement;
         this.utils = new Utils(statement);
@@ -18,7 +17,6 @@ public class HubController {
     final private String decimal = "Decimal number needed";
     final private String integer = "Integer needed";
 
-    //Functionality
     public static void logout(Stage currentWindow){
         try {
             new Login().start(new Stage());
@@ -135,12 +133,16 @@ public class HubController {
 
         return "";
     }
-    //receive Will put input to database
+    public String receiveShipment(){
+
+
+        return "";
+    }
     public void collect(){
 
     }
 
-    //Testing
+    //Strictly for testing purposes
     public void createTestShipment(){
         addRoom("Room", "4");
         addProduct("Kaali", "1000", "KG", "4");
@@ -163,7 +165,6 @@ public class HubController {
             statement.execute(insert5);
         }catch (SQLException e){e.printStackTrace();}
     }
-
     public void deleteTestShipment(){
         String sql = "TRUNCATE TABLE shipments";
         String sql2 = "TRUNCATE TABLE products";

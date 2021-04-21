@@ -1,3 +1,4 @@
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -8,37 +9,60 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+public class ShipmentWorkspace {
 
-public class ShipmentGUI {
-    VBox vBox = new VBox();
-    HBox header = new HBox(new Label("Name"),
+    Statement statement;
+    Utils utils;
+    HubController hubController;
+    ArrayList<Product> products;
+
+    public ShipmentWorkspace(Statement statement){
+        this.statement = statement;
+        utils = new Utils(statement);
+        hubController = new HubController(statement);
+        products = new ArrayList<>();
+    }
+
+    public VBox getShipmentWorkspace(String shipmentNumber){
+        if (!validateInput(shipmentNumber).isEmpty()) return null;
+
+        //1. Add, set and style header
+        VBox vBox = new VBox();
+        HBox header = new HBox(new Label("Name"),
                 new Label("Code"),
                 new Label("Batch"),
                 new Label("Amount"),
                 new Label("Unit"),
                 new Label("Room"));
-
-    Statement statement;
-    Utils utils;
-    public ShipmentGUI(Statement statement){
-        this.statement = statement;
-        utils = new Utils(statement);
-        setGUI();
-    }
-
-    private void setGUI(){
+        for (Node node: header.getChildren()
+        ) {
+            node.setId("small-field");
+        }
         vBox.getChildren().add(header);
         header.setPrefWidth(400);
         header.setId("row1");
 
+        //2. Get data from database
+        ArrayList<String[]> someName = fetchShipment(shipmentNumber);
 
+        //3. build and add rows underneath of header using that data
+        for (String[] qres: someName
+        ) {
+            vBox.getChildren().add(
+                addRow(qres[0], qres[1])
+            );
+        }
+
+        //4. Add button underneath of rows
+        Button apply = new Button("Apply");
+        vBox.getChildren().add(apply);
+
+        //5. Add function to button
+        apply.setOnAction(event -> hubController.receiveShipment());
+        return vBox;
     }
 
-
-    Button apply = new Button("Apply");
-
-    public void addRow(String id, String batch){
-        System.out.println("id:"+id+" batch:"+batch);
+    public HBox addRow(String id, String batch){
         HBox row = new HBox();
         Label productName = new Label();
         Label productCode = new Label();
@@ -46,12 +70,6 @@ public class ShipmentGUI {
         TextField amount = new TextField();
         Label unit = new Label();
         TextField room = new TextField();
-        productName.setId("small-field");
-        productCode.setId("small-field");
-        batchNumber.setId("small-field");
-        amount.setId("small-field");
-        unit.setId("small-field");
-        room.setId("small-field");
 
         productName.setText(fillName(id));
         productCode.setText(fillCode(id));
@@ -61,9 +79,15 @@ public class ShipmentGUI {
         room.setText(fillRoom(id));
 
         row.getChildren().addAll(productName, productCode, batchNumber, amount, unit, room);
-        row.setMaxWidth(400);
+        row.setMaxWidth(500);
         row.setId("row1");
-        vBox.getChildren().add(row);
+
+        for (Node node: row.getChildren()
+             ) {
+            node.setId("small-field");
+        }
+
+        return row;
     }
 
     private String fillName(String productId){
@@ -90,19 +114,7 @@ public class ShipmentGUI {
         return code;
     }
 
-    public VBox display(){
-        vBox.getChildren().add(apply);
-        return vBox;
-    }
-
-    public void receiveShipment(String shipmentNumber){
-        if (shipmentNumber.isEmpty()) return;
-        if (!Utils.isInt(shipmentNumber)) return;
-
-        String query = "SELECT COUNT(*) FROM shipments WHERE shipment_number="+shipmentNumber;
-        int deliverySize = utils.getResultInt(query, "COUNT(*)");
-        if (deliverySize == 0) return;
-
+    public ArrayList<String[]> fetchShipment(String shipmentNumber){
         ArrayList<String[]> queryResults = new ArrayList<>();
         String queryShipment = "SELECT product_id, batch, id FROM shipments WHERE shipment_number="+shipmentNumber;
         try(ResultSet resultSet = statement.executeQuery(queryShipment)){
@@ -110,18 +122,17 @@ public class ShipmentGUI {
                 String product_id = resultSet.getString("product_id");
                 String batch = resultSet.getString("batch");
                 queryResults.add(new String[] {product_id, batch});
-                System.out.println("round");
             }
-
         }catch (SQLException e){e.printStackTrace();}
+        return queryResults;
+    }
 
+    public String validateInput(String input){
+        if (input.isEmpty() || !Utils.isInt(input)) return "Input needs to be integer";
+        String query = "SELECT COUNT(*) FROM shipments WHERE shipment_number="+input;
+        int deliverySize = utils.getResultInt(query, "COUNT(*)");
+        if (deliverySize == 0) return "No shipments found";
 
-        for (String[] qres: queryResults
-             ) {
-
-            addRow(qres[0], qres[1]);
-        }
-        System.out.println("The end");
-
+        return "";
     }
 }

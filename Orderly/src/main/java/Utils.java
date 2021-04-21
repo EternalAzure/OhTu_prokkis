@@ -34,7 +34,9 @@ public class Utils {
         try{
             ResultSet result = statement.executeQuery(query);
             while (result.next()){
-                return result.getString(column);
+                //Local variable is NOT redundant
+                String res = result.getString(column);
+                return res;
             }
         }catch (SQLException e){e.printStackTrace();}
 

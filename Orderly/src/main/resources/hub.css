@@ -6,14 +6,11 @@
 }
 #workspace{
     -fx-background-color: White;
-    -fx-margin-top: 50px;
+    -fx-alignment: center;
 }
 .hyperlink{
     -fx-text-fill: White;
     -fx-font-size: 15px;
-}
-.label{
-    -fx-text-fill: Black;
 }
 .text-field{
     -fx-max-width: 400px;
@@ -25,13 +22,42 @@
     -fx-pref-height: 40px;
 }
 #small-field{
-    -fx-max-width: 100px;
     -fx-max-height: 20px;
-    -fx-pref-width: 50px;
+    -fx-min-width: 83px;
     -fx-font-size: 13px;
+    -fx-background-color: Azure;
 }
 #row1{
     -fx-background-color: Azure;
-    -fx-max-width: 400px;
+    -fx-max-width: 500px;
+    -fx-alignment: center;
+}
+#menu-bar-exit{
+    -fx-alignment: center;
+    -fx-background-color: #D3D3D3;
+    -fx-min-width: 50px;
+    -fx-min-height: 25px;
+    -fx-margin-left: 20px;
+    -fx-background-insets: 0 0 -4 0, 0, 4, 8;
+}
+#menu-bar-exit:hover{
+    -fx-background-color: Red;
+    -fx-text-fill: White;
+}
+#menu-bar-logout{
+    -fx-alignment: center;
+    -fx-background-color: #D3D3D3;
+    -fx-min-width: 50px;
+    -fx-min-height: 25px;
+    -fx-margin-left: 20px;
+    -fx-background-insets: 0 0 -4 0, 0, 4, 8;
+}
+#menu-bar-logout:hover{
+    -fx-background-color: SteelBlue;
+    -fx-text-fill: White;
+}
+.menu-bar{
+    -fx-background-color: #D3D3D3;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
 }
 

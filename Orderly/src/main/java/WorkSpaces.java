@@ -1,24 +1,22 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import java.sql.Statement;
 
 public class WorkSpaces {
 
-    private double parentWidth;
-
-    final private Statement statement;
+    ShipmentWorkspace shipmentWorkspace;
     HubController hubController;
+
     public WorkSpaces(Statement statement){
-        this.statement = statement;
         this.hubController = new HubController(statement);
+         shipmentWorkspace = new ShipmentWorkspace(statement);
     }
 
-    public VBox addRoom(){
+    public VBox addRoomWorkspace(){
         VBox vBox = new VBox();
-
+        vBox.setId("workspace");
         TextField roomName = new TextField();
         TextField temperature = new TextField();
         temperature.setPromptText("Temperature(optional)");
@@ -35,13 +33,12 @@ public class WorkSpaces {
                 roomName.clear(); temperature.clear();
             }
         });
-        styleSimple(vBox);
+
         return vBox;
     }
-    public VBox addProduct(){
+    public VBox addProductWorkspace(){
         VBox vBox = new VBox();
-        styleSimple(vBox);
-
+        vBox.setId("workspace");
         TextField product = new TextField();
         TextField code = new TextField();
         TextField temperature = new TextField();
@@ -63,11 +60,13 @@ public class WorkSpaces {
 
             }
         });
+
         return vBox;
     }
 
-    public VBox removeRoom(){
+    public VBox removeRoomWorkspace(){
         VBox vBox = new VBox();
+        vBox.setId("workspace");
         TextField roomName = new TextField();
         roomName.setPromptText("Room");
         Button apply = new Button("Apply");
@@ -82,12 +81,13 @@ public class WorkSpaces {
                 roomName.clear();
             }
         });
-        styleSimple(vBox);
+
         return vBox;
     }
 
-    public VBox removeProduct(){
+    public VBox removeProductWorkspace(){
         VBox vBox = new VBox();
+        vBox.setId("workspace");
         TextField product = new TextField();
         product.setPromptText("Name of the product");
         Button apply = new Button("Apply");
@@ -102,12 +102,13 @@ public class WorkSpaces {
                 product.clear();
             }
         });
-        styleSimple(vBox);
+
         return vBox;
     }
 
-    public VBox changeBalance(){
+    public VBox changeBalanceWorkspace(){
         VBox vBox = new VBox();
+        vBox.setId("workspace");
         TextField roomName = new TextField();
         TextField product = new TextField();
         TextField batch = new TextField();
@@ -128,12 +129,13 @@ public class WorkSpaces {
                 roomName.clear(); product.clear(); batch.clear(); newBalance.clear();
             }
         });
-        styleSimple(vBox);
+
         return vBox;
     }
 
-    public VBox transfer(){
+    public VBox transferWorkspace(){
         VBox vBox = new VBox();
+        vBox.setId("workspace");
         TextField from = new TextField();
         TextField to = new TextField();
         TextField amount = new TextField();
@@ -156,12 +158,13 @@ public class WorkSpaces {
                 from.clear(); to.clear(); code.clear(); batch.clear(); amount.clear();
             }
         });
-        styleSimple(vBox);
+
         return vBox;
     }
 
-    public VBox receive(Hub hub){
+    public VBox selectShipmentWorkspace(Hub hub){
         VBox vBox = new VBox();
+        vBox.setId("workspace");
         TextField shipmentNumber = new TextField();
         shipmentNumber.setPromptText("Shipment number");
         Button apply = new Button("Apply");
@@ -172,25 +175,23 @@ public class WorkSpaces {
         apply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (shipmentNumber.getText().isEmpty()) {
-                    message.setText("Non allowed empty value");
+                String validationMessage = shipmentWorkspace.validateInput(shipmentNumber.getText());
+                if(!validationMessage.isEmpty()){
+                    message.setText(validationMessage);
                     return;
                 }
-                if (!Utils.isNumeric(new String[]{shipmentNumber.getText()})){
-                    message.setText("Numeric input needed");
-                    return;
-                }
-                ShipmentGUI shipmentGUI = new ShipmentGUI(statement);
-                shipmentGUI.receiveShipment(shipmentNumber.getText());
-                hub.setWorkSpace(shipmentGUI.display());
+                VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText());
+                SWSLayout.setId("workspace");
+                hub.setWorkSpace(SWSLayout);
             }
         });
-        styleSimple(vBox);
+
         return vBox;
     }
 
-    public VBox collect(){
+    public VBox collectDeliveryWorkspace(){
         VBox vBox = new VBox();
+        vBox.setId("workspace");
         TextField roomName = new TextField();
         roomName.setPromptText("");
         Button apply = new Button("Apply");
@@ -201,7 +202,7 @@ public class WorkSpaces {
     }
 
     private void styleSimple(VBox layout){
-        layout.setAlignment(Pos.CENTER);
+        //layout.setAlignment(Pos.CENTER);
         layout.setId("workspace");
     }
 }

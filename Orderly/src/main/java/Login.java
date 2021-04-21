@@ -67,10 +67,10 @@ public class Login extends Application {
         exit.setLayoutX(260);
         exit.setLayoutY(10);
 
-        username.setLayoutX(50);
+        username.setLayoutX(70);
         username.setLayoutY(130);
 
-        password.setLayoutX(50);
+        password.setLayoutX(70);
         password.setLayoutY(200);
         //endregion
 

@@ -41,7 +41,7 @@ public class LoginController {
     public void link(){
         try {
             Desktop desk = Desktop.getDesktop();
-            desk.browse(new URI("https://www.onlinewebfonts.com/icon/406280"));
+            desk.browse(new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
         }catch (Exception e){
             AlertWindow.display("Deprecated URL. Link could not be opened");
         }
