@@ -26,4 +26,6 @@ Ajat eivät sisällä laskareita.
 | 20.4        | 0.5         |Arkkitehtuurin uudelleen miettiminen</br> Tarvitsen datamodel luokan </br>tietokannan ja GUI väliin|
 | 20.4        | 0.5         |Vaatimusmäärittelyn ja README:n ajantasaistus|
 | 21.4        | 6           |Refaktorointia siellä täällä|
-| yht.        | 56.1        |
+| 22.4        | 2           |Refaktorointia ja tehotonta ihmettelyä|
+| 22.4        | 1           |Kaavioiden piirtelyä ja arkkitehtuuridokumentin päivitys|
+| yht.        | 59.1        |
