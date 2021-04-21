@@ -1,3 +1,9 @@
+package logic;
+
+import ui.Hub;
+import ui.Login;
+import logic.AlertWindow;
+import logic.ServerConnection;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.awt.*;
@@ -6,6 +12,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class LoginController {
+
+    private Hub hub;
+    public LoginController(Hub hub){
+        this.hub = hub;
+    }
 
     public void login( String username, String password){
         if(username.isEmpty()||password.isEmpty()) return;
@@ -19,7 +30,7 @@ public class LoginController {
                 String role = queryResult.getString("role"); //waits to be used
                 if (name.isEmpty()) AlertWindow.display("Incorrect name");
                 if (pw.equals(password)){
-                    new Hub().start(new Stage());
+                    hub.start(new Stage());
                     Login.window.close();
                 }else{ AlertWindow.display("Incorrect password");}
             }

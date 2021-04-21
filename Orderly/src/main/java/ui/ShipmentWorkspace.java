@@ -1,9 +1,13 @@
+package ui;
+
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import logic.HubController;
+import logic.Utils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,13 +18,13 @@ public class ShipmentWorkspace {
     Statement statement;
     Utils utils;
     HubController hubController;
-    ArrayList<Product> products;
+    //ArrayList<Product> products;
 
     public ShipmentWorkspace(Statement statement){
         this.statement = statement;
         utils = new Utils(statement);
         hubController = new HubController(statement);
-        products = new ArrayList<>();
+        //products = new ArrayList<>();
     }
 
     public VBox getShipmentWorkspace(String shipmentNumber){

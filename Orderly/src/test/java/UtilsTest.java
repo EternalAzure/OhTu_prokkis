@@ -1,6 +1,10 @@
 import java.sql.*;
+
+import logic.Utils;
 import org.junit.Before;
 import org.junit.Test;
+import logic.ServerConnection;
+
 import static org.junit.Assert.*;
 
 

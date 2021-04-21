@@ -1,3 +1,5 @@
+package logic;
+
 import java.sql.*;
 
 public class ServerConnection {

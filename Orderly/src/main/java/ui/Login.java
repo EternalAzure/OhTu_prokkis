@@ -1,3 +1,5 @@
+package ui;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -7,10 +9,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import logic.LoginController;
 
 public class Login extends Application {
 
     public static Stage window;
+    final private LoginController loginCont = new LoginController(new Hub());
 
     public static void main(String[] args){ launch(args);}
 
@@ -43,7 +47,7 @@ public class Login extends Application {
         Button exit = new Button("X");
         TextField username = new TextField();
         PasswordField password = new PasswordField();
-        Button login = new Button("Login");
+        Button login = new Button("login");
         Hyperlink credit = new Hyperlink("Image source");
         //endregion
 
@@ -88,16 +92,13 @@ public class Login extends Application {
         exit.setId("exit");
 
         //Actions
-        LoginController loginCont = new LoginController();
         login.setOnAction(event -> loginCont.passwordlessLogin()); //login(sc, username.getText(), password.getText()));
         exit.setOnAction(event -> loginCont.exit());
         credit.setOnAction(event -> loginCont.link());
 
         Scene scene = new Scene(layout, 600, 400);
-        scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+        scene.getStylesheets().add("login.css");
         window.setScene(scene);
         window.show();
-
-        ServerConnection.createConnection("login");
     }
 }

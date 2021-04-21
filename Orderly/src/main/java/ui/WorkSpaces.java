@@ -1,7 +1,11 @@
+package ui;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import logic.HubController;
+
 import java.sql.Statement;
 
 public class WorkSpaces {

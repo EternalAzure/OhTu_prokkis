@@ -1,3 +1,7 @@
+package logic;
+
+import logic.Utils;
+import ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.sql.SQLException;
@@ -68,7 +72,7 @@ public class HubController {
         try {
             statement.execute(sql);
         }catch (SQLException e){
-            System.out.println("Bad SQL in HubController.removeRoom()");
+            System.out.println("Bad SQL in logic.HubController.removeRoom()");
             return "SQL error";
         }
         return "";
@@ -80,7 +84,7 @@ public class HubController {
         try {
             statement.execute(sql);
         }catch (SQLException e){
-            System.out.println("Bad SQL in HubController.removeProduct()");
+            System.out.println("Bad SQL in logic.HubController.removeProduct()");
             return "SQL error";
         }
         return "";

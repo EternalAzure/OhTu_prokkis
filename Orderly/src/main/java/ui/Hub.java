@@ -1,3 +1,4 @@
+package ui;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -5,6 +6,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import logic.HubController;
+import logic.ServerConnection;
+
 import java.sql.Statement;
 
 public class Hub  extends Application {
@@ -22,7 +26,7 @@ public class Hub  extends Application {
         hub.initStyle(StageStyle.UNDECORATED);
         hub.setMinHeight(400);
         hub.setMinWidth(600);
-        hub.setTitle("Orderly - Hub");
+        hub.setTitle("Orderly - ui.Hub");
         BorderPane borderPane = new BorderPane();
         VBox leftMenu = new VBox();
 

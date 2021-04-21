@@ -42,7 +42,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-
+                        <exclude>ui/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
