@@ -24,3 +24,4 @@ Ajat eivät sisällä laskareita.
 | 19.4        | 2           |Lähetykset taulu lisätty. Datan hakeminen</br>taulusta ja sen esittäminen ruudulla|
 | 20.4        | 2           |Yritys saada saapuva lähetys järkevästi</br>ruudulle. Luokkien tehtävien selkeytys|
 | 20.4        | 0.5         |Arkkitehtuurin uudelleen miettiminen</br> Tarvitsen datamodel luokan </br>tietokannan ja GUI väliin|
+| yht.        | 49.6        |
