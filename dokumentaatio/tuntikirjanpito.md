@@ -25,4 +25,5 @@ Ajat eivät sisällä laskareita.
 | 20.4        | 2           |Yritys saada saapuva lähetys järkevästi</br>ruudulle. Luokkien tehtävien selkeytys|
 | 20.4        | 0.5         |Arkkitehtuurin uudelleen miettiminen</br> Tarvitsen datamodel luokan </br>tietokannan ja GUI väliin|
 | 20.4        | 0.5         |Vaatimusmäärittelyn ja README:n ajantasaistus|
-| yht.        | 50.1        |
+| 21.4        | 6           |Refaktorointia siellä täällä|
+| yht.        | 56.1        |
