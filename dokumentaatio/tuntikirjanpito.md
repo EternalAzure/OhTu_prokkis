@@ -28,4 +28,5 @@ Ajat eivät sisällä laskareita.
 | 21.4        | 6           |Refaktorointia siellä täällä|
 | 22.4        | 2           |Refaktorointia ja tehotonta ihmettelyä|
 | 22.4        | 1           |Kaavioiden piirtelyä ja arkkitehtuuridokumentin päivitys|
-| yht.        | 59.1        |
+| 22.4        | 5           |Mietin ja kokeilin tapoja hakea ja esittää</br> dataa tietokannasta|
+| yht.        | 64.1        |
