@@ -8,11 +8,7 @@ public class ServerConnection {
     public static final String TEST_DATABASE = "warehousetest";
 
     public static Statement createConnection(String database) {
-
-        // JDBC driver & database URL
-        //final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         final String dbUrl = "jdbc:mysql://visitor@localhost:3306";
-
         final String user = "visitor"; //CREDENTIALS
         final String pass = "y";
 
@@ -23,7 +19,6 @@ public class ServerConnection {
 
             //Select right database
             statement.execute("USE " + database);
-            System.out.println("Selected: " + database);
             return statement;
 
         } catch (SQLException exception) {

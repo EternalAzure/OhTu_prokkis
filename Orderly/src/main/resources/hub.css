@@ -32,6 +32,12 @@
     -fx-max-width: 500px;
     -fx-alignment: center;
 }
+#header{
+    -fx-background-color: Azure;
+    -fx-max-width: 500px;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+}
 #menu-bar-exit{
     -fx-alignment: center;
     -fx-background-color: #D3D3D3;

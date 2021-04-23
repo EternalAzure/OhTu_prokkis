@@ -26,7 +26,7 @@ public class Login extends Application {
         window.setTitle("Orderly");
         window.initStyle(StageStyle.UNDECORATED);
 
-        //region Pane set up
+        //region UI
         BorderPane layout = new BorderPane();
         AnchorPane leftPane = new AnchorPane();
         AnchorPane rightPane = new AnchorPane();
@@ -36,9 +36,7 @@ public class Login extends Application {
         leftPane.setMinSize(300,400);
         rightPane.setMinSize(300,400);
         rightPane.setMaxSize(33,400);
-        //endregion
 
-        //region Initialize UI elements
         ImageView userIconView = new ImageView();
         ImageView logoView = new ImageView();
         Image userIcon = new Image("user icon.png");
@@ -49,14 +47,10 @@ public class Login extends Application {
         PasswordField password = new PasswordField();
         Button login = new Button("login");
         Hyperlink credit = new Hyperlink("Image source");
-        //endregion
 
-        //region Set children
         leftPane.getChildren().addAll(logoView);
         rightPane.getChildren().addAll(exit, username, password, login, credit, userIconView);
-        //endregion
 
-        //region Set UI positions
         userIconView.setLayoutX(125);
         userIconView.setLayoutY(50);
         logoView.setLayoutX(-50);
@@ -76,7 +70,6 @@ public class Login extends Application {
 
         password.setLayoutX(70);
         password.setLayoutY(200);
-        //endregion
 
         leftPane.setId("blue-pane");
         userIconView.setImage(userIcon);
@@ -90,6 +83,7 @@ public class Login extends Application {
         username.setPromptText("Username");
         password.setPromptText("Password");
         exit.setId("exit");
+        //endregion
 
         //Actions
         login.setOnAction(event -> loginCont.passwordlessLogin()); //login(sc, username.getText(), password.getText()));

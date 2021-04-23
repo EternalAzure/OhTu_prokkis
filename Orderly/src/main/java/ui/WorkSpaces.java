@@ -47,21 +47,22 @@ public class WorkSpaces {
         TextField code = new TextField();
         TextField temperature = new TextField();
         TextField unit = new TextField();
+        TextField storage = new TextField();
         product.setPromptText("Product name");
         code.setPromptText("Product code");
         temperature.setPromptText("Temperature(optional)");
-        unit.setPromptText("unit of measure");
+        unit.setPromptText("unit of measurement");
+        storage.setPromptText("Default storage room");
         Button apply = new Button("Apply");
         Label message = new Label();
         message.setId("error");
 
-        vBox.getChildren().addAll(product, code, temperature, unit, apply, message);
+        vBox.getChildren().addAll(product, code, temperature, unit, storage, apply, message);
         apply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                message.setText(hubController.addProduct(product.getText(), code.getText(), unit.getText(), temperature.getText()));
-                product.clear(); code.clear(); temperature.clear(); unit.clear();
-
+                message.setText(hubController.addProduct(product.getText(), code.getText(), unit.getText(), temperature.getText(), storage.getText()));
+                product.clear(); code.clear(); temperature.clear(); unit.clear(); storage.clear();
             }
         });
 

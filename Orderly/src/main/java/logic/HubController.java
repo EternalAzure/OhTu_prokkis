@@ -1,5 +1,6 @@
 package logic;
 
+import dao.Shipment;
 import ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -21,11 +22,7 @@ public class HubController {
     final private String integer = "Integer needed";
 
     public static void logout(Stage currentWindow) {
-        try {
-            new Login().start(new Stage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new Login().start(new Stage());
         currentWindow.close();
     }
     public static void exit() {
@@ -35,20 +32,25 @@ public class HubController {
         if (!validateAddRoomInput(name, temperature).isEmpty()) {
             return validateAddRoomInput(name, temperature);
         }
-        String sql = "INSERT INTO rooms (room, temperature) VALUES ('" + name + "', NULLIF('" + temperature + "', ''));";
+        String sql = "INSERT INTO rooms (room, temperature) VALUES ('" + name + "', NULLIF('" + temperature + "', ''))";
         return executeSQL(sql, "'" + name + "' already exists");
     }
-    public String addProduct(String product, String code, String unit, String temperature) {
-        if (!validateAddProductInput(product, code, unit, temperature).isEmpty()) {
-            return validateAddProductInput(product, code, unit, temperature);
+
+    public String addProduct(String product, String code, String unit, String temperature, String storage) {
+        if (!validateAddProductInput(product, code, unit, temperature, storage).isEmpty()) {
+            return validateAddProductInput(product, code, unit, temperature, storage);
         }
-        String sql = "INSERT INTO products (product, code, unit, temperature) VALUES (" +
+
+        String query = "SELECT id FROM rooms WHERE room='" + storage + "'";
+        String sql = "INSERT INTO products (product, code, unit, temperature, defaultroom_id) VALUES (" +
                 "'" + product + "', " +
                 "'" + code + "', " +
                 "'" + unit + "', " +
-                "NULLIF('" + temperature + "', ''));";
+                "NULLIF('" + temperature + "', ''), " +
+                "" + utils.getResultInt(query, "id") + ")";
         return executeSQL(sql, "'" + product + "' already exists");
     }
+
     public String removeRoom(String room) {
         if (room.isEmpty()) {
             return empty;
@@ -56,6 +58,7 @@ public class HubController {
         String sql = "DELETE FROM rooms WHERE room='" + room + "';";
         return executeSQL(sql, "unknown SQL error");
     }
+
     public String removeProduct(String product) {
         if (product.isEmpty()) {
             return empty;
@@ -63,6 +66,7 @@ public class HubController {
         String sql = "DELETE FROM products WHERE product='" + product + "';";
         return executeSQL(sql, "unknown SQL error");
     }
+
     public String changeBalance(String room, String code, String batch, String newBalance) {
         if (!validateChangeBalanceInput(room, code, batch, newBalance).isEmpty()) {
             return validateChangeBalanceInput(room, code, batch, newBalance);
@@ -84,6 +88,7 @@ public class HubController {
 
         return executeChangeBalance(countQuery, insert, change);
     }
+
     public String transfer(String from, String to, String code, String batch, String amount) {
         if (!validateTransferInput(from, to, code, batch, amount).isEmpty()) {
             return validateTransferInput(from, to, code, batch, amount);
@@ -101,15 +106,24 @@ public class HubController {
         changeBalance(to, code, batch, String.valueOf(targetNewBalance));
         return "";
     }
-    public String receiveShipment() {
 
+    public String receiveShipment(Shipment shipment) {
 
+        for (int i = 0; i < shipment.getLength(); i++) {
+            String room = shipment.getDataPackage(i).getStorageRoom();
+            String code = shipment.getDataPackage(i).getCode();
+            String batch = shipment.getDataPackage(i).getBatch();
+            String amount = shipment.getDataPackage(i).getAmount();
+            changeBalance(room, code, batch, amount);
+        }
         return "";
     }
+
     public void collect() {
 
     }
 
+    //region Validation methods
     private String validateAddRoomInput(String name, String temperature) {
         if (name.isEmpty()) {
             return empty;
@@ -119,8 +133,9 @@ public class HubController {
         }
         return "";
     }
-    private String validateAddProductInput(String product, String code, String unit, String temperature) {
-        if (Utils.isEmpty(new String[] { product, code, unit })) {
+
+    private String validateAddProductInput(String product, String code, String unit, String temperature, String storage) {
+        if (Utils.isEmpty(new String[] { product, code, unit, storage })) {
             return empty;
         }
         if (!Utils.isNumeric(new String[] { code })) {
@@ -129,8 +144,13 @@ public class HubController {
         if (!Utils.isDouble(temperature) && !temperature.isEmpty()) {
             return decimal;
         }
+        if (!utils.hasRoom(storage)) {
+            return "No such room";
+        }
+
         return "";
     }
+
     private String validateChangeBalanceInput(String room, String code, String batch, String newBalance) {
         if (Utils.isEmpty(new String[] { room, code, batch, newBalance })) {
             return empty;
@@ -146,6 +166,7 @@ public class HubController {
         }
         return "";
     }
+
     private String validateTransferInput(String from, String to, String code, String batch, String amount) {
         if (Utils.isEmpty(new String[] { from, to, code, batch })) {
             return empty;
@@ -168,6 +189,7 @@ public class HubController {
         }
         return "";
     }
+
     private String validateTransferAction(double newBalance, String to, String from) {
         if (newBalance < 0) {
             return "Would result in negative balance";
@@ -180,6 +202,8 @@ public class HubController {
         }
         return "";
     }
+
+    //endregion
 
     private String executeSQL(String sql, String errorMessage) {
         try {
@@ -207,18 +231,19 @@ public class HubController {
 
     //Strictly for testing purposes
     public void createTestShipment() {
-        addRoom("Room", "4");
-        addProduct("Kaali", "1000", "KG", "4");
-        addProduct("Porkkana", "2000", "KG", "4");
-        addProduct("Peruna", "3000", "KG", "4");
-        addProduct("Kurpitsa", "4000", "KG", "4");
-        addProduct("Sipuli", "5000", "KG", "4");
+        addRoom("Room 1", "4");
+        addRoom("Room 2", "");
+        addProduct("Kaali", "1000", "KG", "4", "Room 1");
+        addProduct("Porkkana", "2000", "KG", "4", "Room 1");
+        addProduct("Peruna", "3000", "KG", "4", "Room 1");
+        addProduct("Kurpitsa", "4000", "KG", "4", "Room 2");
+        addProduct("Sipuli", "5000", "KG", "4", "Room 2");
 
-        String insert1 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 1, 1)";
-        String insert2 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 2, 1)";
-        String insert3 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 3, 1)";
-        String insert4 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 4, 1)";
-        String insert5 = "INSERT INTO shipments (shipment_number, product_id, batch) VALUES (1, 5, 1)";
+        String insert1 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 1, 1, 10)";
+        String insert2 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 2, 1, 40)";
+        String insert3 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 3, 1, 160)";
+        String insert4 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 4, 1, 640)";
+        String insert5 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 5, 1, 2560)";
         String[] commandList = new String[] {insert1, insert2, insert3, insert4, insert5};
 
         for (int i = 0; i < commandList.length; i++) {

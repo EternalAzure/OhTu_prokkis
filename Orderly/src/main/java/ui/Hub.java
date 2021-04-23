@@ -15,10 +15,10 @@ public class Hub  extends Application {
 
     public static Stage hub;
     final private Statement statement = ServerConnection.createConnection(ServerConnection.DATABASE);
+    final private BorderPane workspaceParent = new BorderPane();
 
     final private WorkSpaces workSpaces = new WorkSpaces(statement);
     final private HubController hubController = new HubController(statement);
-    final private BorderPane workspaceParent = new BorderPane();
 
     @Override
     public void start(Stage window){
@@ -41,7 +41,7 @@ public class Hub  extends Application {
         HBox.setHgrow(logout, Priority.NEVER);
         HBox.setHgrow(exit, Priority.NEVER);
 
-        Menu shipment = new Menu("shipment");
+        Menu shipment = new Menu("Shipment(test)");
         MenuItem create = new MenuItem("Create");
         MenuItem delete = new MenuItem("Delete");
         shipment.getItems().addAll(
