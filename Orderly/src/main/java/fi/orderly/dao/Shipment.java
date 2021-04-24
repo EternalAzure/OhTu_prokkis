@@ -8,10 +8,10 @@ import java.sql.Statement;
 
 public class Shipment {
 
-    private Statement statement;
-    private Utils utils;
+    final private Statement statement;
+    final private Utils utils;
     private DataPackage[] list;
-    private String shipmentNumber;
+    final private String shipmentNumber;
 
     public Shipment(String shipmentNumber, Statement statement) {
         this.statement = statement;
@@ -49,7 +49,7 @@ public class Shipment {
             }
 
         } catch (SQLException e) {
-
+            System.out.println("SQL fail at Shipment.fetchData()");
         }
     }
 
@@ -66,7 +66,7 @@ public class Shipment {
         fetchData(shipmentNumber);
     }
 
-    public class DataPackage {
+    public static class DataPackage {
 
         String name;
         String code;

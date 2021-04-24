@@ -11,7 +11,7 @@ import java.sql.Statement;
 
 public class LoginController {
 
-    private Hub hub;
+    final private Hub hub;
     Utils utils;
     Statement statement = ServerConnection.createConnection("login");
     public LoginController(Hub hub) {

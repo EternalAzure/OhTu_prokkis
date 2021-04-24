@@ -29,7 +29,7 @@ public class HubControllerTest {
     }
 
     @Test
-    public void addRoom()throws SQLException{
+    public void addRoom(){
         //-- SHOULD PASS --//
         //When both name and temperature is given
         hubController.addRoom("Hedelmät", "14");
@@ -60,7 +60,7 @@ public class HubControllerTest {
     }
 
     @Test
-    public void addProduct() throws SQLException{
+    public void addProduct(){
         //-- SHOULD PASS --//
         hubController.addRoom("Room", "10");
         //When all is given and valid
@@ -110,7 +110,7 @@ public class HubControllerTest {
     }
 
     @Test
-    public void removeRoom() throws SQLException{
+    public void removeRoom(){
         hubController.addRoom("Hedelmät", "14");
         assertEquals(1, utils.amountOfRooms());
 
@@ -122,7 +122,7 @@ public class HubControllerTest {
     }
 
     @Test
-    public void removeProduct() throws SQLException{
+    public void removeProduct(){
         hubController.addRoom("Room", "");
         hubController.addProduct("Herne", "92", "PKT", "7", "Room");
         assertEquals(1, utils.amountOfProducts());

@@ -1,7 +1,4 @@
 package fi.orderly.ui;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import fi.orderly.logic.HubController;
@@ -13,12 +10,12 @@ public class WorkSpaces {
     ShipmentWorkspace shipmentWorkspace;
     HubController hubController;
 
-    public WorkSpaces(Statement statement){
+    public WorkSpaces(Statement statement) {
         this.hubController = new HubController(statement);
          shipmentWorkspace = new ShipmentWorkspace(statement);
     }
 
-    public VBox addRoomWorkspace(){
+    public VBox addRoomWorkspace() {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField roomName = new TextField();
@@ -30,18 +27,14 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(roomName, temperature, apply, message);
-        apply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                message.setText(hubController.addRoom(roomName.getText(), temperature.getText()));
-                roomName.clear(); temperature.clear();
-            }
+        apply.setOnAction(event -> {
+            message.setText(hubController.addRoom(roomName.getText(), temperature.getText()));
+            roomName.clear(); temperature.clear();
         });
-
         return vBox;
     }
 
-    public VBox addProductWorkspace(){
+    public VBox addProductWorkspace() {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField product = new TextField();
@@ -59,18 +52,15 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(product, code, temperature, unit, storage, apply, message);
-        apply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                message.setText(hubController.addProduct(product.getText(), code.getText(), unit.getText(), temperature.getText(), storage.getText()));
-                product.clear(); code.clear(); temperature.clear(); unit.clear(); storage.clear();
-            }
+        apply.setOnAction(event -> {
+            message.setText(hubController.addProduct(product.getText(), code.getText(), unit.getText(), temperature.getText(), storage.getText()));
+            product.clear(); code.clear(); temperature.clear(); unit.clear(); storage.clear();
         });
 
         return vBox;
     }
 
-    public VBox removeRoomWorkspace(){
+    public VBox removeRoomWorkspace() {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField roomName = new TextField();
@@ -80,18 +70,15 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(roomName, apply, message);
-        apply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                message.setText(hubController.removeRoom(roomName.getText()));
-                roomName.clear();
-            }
+        apply.setOnAction(event -> {
+            message.setText(hubController.removeRoom(roomName.getText()));
+            roomName.clear();
         });
 
         return vBox;
     }
 
-    public VBox removeProductWorkspace(){
+    public VBox removeProductWorkspace() {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField product = new TextField();
@@ -101,18 +88,15 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(product, apply, message);
-        apply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                message.setText(hubController.removeProduct(product.getText()));
-                product.clear();
-            }
+        apply.setOnAction(event -> {
+            message.setText(hubController.removeProduct(product.getText()));
+            product.clear();
         });
 
         return vBox;
     }
 
-    public VBox changeBalanceWorkspace(){
+    public VBox changeBalanceWorkspace() {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField roomName = new TextField();
@@ -128,18 +112,15 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(roomName, product, batch, newBalance, apply, message);
-        apply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                message.setText(hubController.changeBalance(roomName.getText(), product.getText(), batch.getText(), newBalance.getText()));
-                roomName.clear(); product.clear(); batch.clear(); newBalance.clear();
-            }
+        apply.setOnAction(event -> {
+            message.setText(hubController.changeBalance(roomName.getText(), product.getText(), batch.getText(), newBalance.getText()));
+            roomName.clear(); product.clear(); batch.clear(); newBalance.clear();
         });
 
         return vBox;
     }
 
-    public VBox transferWorkspace(){
+    public VBox transferWorkspace() {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField from = new TextField();
@@ -157,18 +138,15 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(from, to, amount, code, batch, apply, message);
-        apply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                message.setText(hubController.transfer(from.getText(), to.getText(), code.getText(), batch.getText(),amount.getText()));
-                from.clear(); to.clear(); code.clear(); batch.clear(); amount.clear();
-            }
+        apply.setOnAction(event -> {
+            message.setText(hubController.transfer(from.getText(), to.getText(), code.getText(), batch.getText(),amount.getText()));
+            from.clear(); to.clear(); code.clear(); batch.clear(); amount.clear();
         });
 
         return vBox;
     }
 
-    public VBox receiveWorkspace(Hub hub){
+    public VBox receiveWorkspace(Hub hub) {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField shipmentNumber = new TextField();
@@ -178,31 +156,23 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(shipmentNumber, apply, message);
-        apply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String validationMessage = shipmentWorkspace.validateInput(shipmentNumber.getText());
-                if(!validationMessage.isEmpty()){
-                    message.setText(validationMessage);
-                    return;
-                }
-                Button otherApply = new Button("Apply");
-                otherApply.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        hubController.receiveShipment(shipmentWorkspace.getShipment());
-                    }
-                });
-                VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
-                SWSLayout.setId("workspace");
-                hub.setWorkSpace(SWSLayout);
+        apply.setOnAction(event -> {
+            String validationMessage = shipmentWorkspace.validateInput(shipmentNumber.getText());
+            if (!validationMessage.isEmpty()) {
+                message.setText(validationMessage);
+                return;
             }
+            Button otherApply = new Button("Apply");
+            VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
+            otherApply.setOnAction(event1 -> shipmentWorkspace.setErrorMessage(hubController.receiveShipment(shipmentWorkspace.getShipment())));
+            SWSLayout.setId("workspace");
+            hub.setWorkSpace(SWSLayout);
         });
 
         return vBox;
     }
 
-    public VBox collectWorkspace(Hub hub){
+    public VBox collectWorkspace(Hub hub) {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField shipmentNumber = new TextField();
@@ -212,25 +182,17 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(shipmentNumber, apply, message);
-        apply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String validationMessage = shipmentWorkspace.validateInput(shipmentNumber.getText());
-                if(!validationMessage.isEmpty()){
-                    message.setText(validationMessage);
-                    return;
-                }
-                Button otherApply = new Button("Apply");
-                otherApply.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        hubController.sendShipment(shipmentWorkspace.getShipment());
-                    }
-                });
-                VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
-                SWSLayout.setId("workspace");
-                hub.setWorkSpace(SWSLayout);
+        apply.setOnAction(event -> {
+            String validationMessage = shipmentWorkspace.validateInput(shipmentNumber.getText());
+            if (!validationMessage.isEmpty()) {
+                message.setText(validationMessage);
+                return;
             }
+            Button otherApply = new Button("Apply");
+            otherApply.setOnAction(event1 -> hubController.sendShipment(shipmentWorkspace.getShipment()));
+            VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
+            SWSLayout.setId("workspace");
+            hub.setWorkSpace(SWSLayout);
         });
         return vBox;
     }

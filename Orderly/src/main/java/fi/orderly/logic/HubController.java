@@ -108,7 +108,6 @@ public class HubController {
     }
 
     public String receiveShipment(Shipment shipment) {
-        System.out.println("receiveShipment()");
         for (int i = 0; i < shipment.getLength(); i++) {
             String room = shipment.getDataPackage(i).getStorageRoom();
             String code = shipment.getDataPackage(i).getCode();
@@ -117,8 +116,7 @@ public class HubController {
             changeBalance(room, code, batch, amount);
         }
         String sql = "DELETE FROM shipments WHERE shipment_number='" + shipment.getShipmentNumber() + "'";
-        executeSQL(sql, "Shipment was not removed as should");
-        return "";
+        return executeSQL(sql, "Shipment was not removed as should");
     }
 
     public void sendShipment(Shipment shipment) {
@@ -253,8 +251,8 @@ public class HubController {
         String insert5 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 5, 1, 2560)";
         String[] commandList = new String[] {insert1, insert2, insert3, insert4, insert5};
 
-        for (int i = 0; i < commandList.length; i++) {
-            executeSQL(commandList[i], "");
+        for (String s : commandList) {
+            executeSQL(s, "");
         }
     }
     public void deleteTestShipment() {
@@ -264,7 +262,7 @@ public class HubController {
             statement.execute(sql);
             statement.execute(sql2);
         } catch (SQLException e) {
-
+            System.out.println("Could not truncate tables");
         }
     }
 }

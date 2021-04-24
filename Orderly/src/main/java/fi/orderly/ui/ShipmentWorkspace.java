@@ -16,16 +16,16 @@ public class ShipmentWorkspace {
     Statement statement;
     Utils utils;
     HubController hubController;
-    Shipment shipment;
+    private Shipment shipment;
+    final private Label errorMessage = new Label();
     // Has dependency
     // Shipment in getShipmentWorkspace()
-
-
 
     public ShipmentWorkspace(Statement statement){
         this.statement = statement;
         utils = new Utils(statement);
         hubController = new HubController(statement);
+        errorMessage.setId("error");
     }
 
     public VBox getShipmentWorkspace(String shipmentNumber, Button applyButton){
@@ -56,7 +56,7 @@ public class ShipmentWorkspace {
         }
 
         //4. Add button underneath the rows
-        vBox.getChildren().add(applyButton);
+        vBox.getChildren().addAll(applyButton, errorMessage);
         return vBox;
     }
 
@@ -93,6 +93,8 @@ public class ShipmentWorkspace {
         return "";
     }
 
-
+    public void setErrorMessage(String message) {
+        errorMessage.setText(message);
+    }
 
 }

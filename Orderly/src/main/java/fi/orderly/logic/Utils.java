@@ -32,38 +32,38 @@ public class Utils {
                 "batch='" + batch + "'";
         return getResultDouble(sql, "amount");
     }
+
     public String getResultString(String query, String column) {
         try {
             ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
-                return result.getString(column);
-            }
+            result.next();
+            return result.getString(column);
         } catch (SQLException e) {
-            e.printStackTrace();
+            return "0";
         }
-        return "0";
     }
+
     public int getResultInt(String query, String column) {
         try {
             ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
-                return result.getInt(column);
-            }
+            result.next();
+            return result.getInt(column);
         } catch (SQLException e) {
+            System.out.println("Faulty SQL was run in Utils.getResultInt()");
             e.printStackTrace();
+            return 0;
         }
-        return 0;
     }
+
     public double getResultDouble(String query, String column) {
         try {
             ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
-                return result.getDouble(column);
-            }
+            result.next();
+            return result.getDouble(column);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Faulty SQL was run in Utils.getResultDouble()");
+            return 0.0;
         }
-        return 0.0;
     }
 
     public static boolean isEmpty(String[] input) {
@@ -80,24 +80,23 @@ public class Utils {
             return false;
         }
         try {
-            int integer = Integer.parseInt(input);
+            Integer.parseInt(input); //int integer =
             return true;
         } catch (NumberFormatException e) {
-
+            return false;
         }
-        return false;
     }
+
     public static boolean isDouble(String input) {
         if (input.isEmpty()) {
             return false;
         }
         try {
-            double d = Double.parseDouble(input);
+            Double.parseDouble(input); //double d =
             return true;
         } catch (NumberFormatException e) {
-
+            return false;
         }
-        return false;
     }
 
     public static boolean isNumeric(String[] textFields) {
@@ -112,34 +111,23 @@ public class Utils {
                 count++;
             }
         }
-
-        if (count == textFields.length) {
-            return true;
-        }
-        return false;
+        return count == textFields.length;
     }
 
     public boolean hasItem(String value, String table, String column) {
         String query = "SELECT COUNT(" + column + ") FROM " + table + " WHERE " + column + "='" + value + "'";
-        if (getResultInt(query, "COUNT(" + column + ")") > 0) {
-            return true;
-        }
-        return false;
+        return getResultInt(query, "COUNT(" + column + ")") > 0;
     }
 
     public boolean hasRoom(String room) {
         String query = "SELECT COUNT(room) FROM rooms WHERE room='" + room + "'";
         try {
             ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
-                if (result.getInt("COUNT(room)") > 0) {
-                    return true;
-                }
-            }
-
+            result.next();
+            return result.getInt("COUNT(room)") > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Faulty SQL was run in Utils.hasRoom()");
+            return false;
         }
-        return false;
     }
 }
