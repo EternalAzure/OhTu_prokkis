@@ -50,3 +50,17 @@ mvn test
 ```
 mvn test jacoco:report
 ```
+### Ohjeet .jar ajamiseen
+Lataa viimeisimmän julkaisun jar-tiedosto koneellesi.</br>
+Windowsilla tiedoston voi ajaa suoraan. Ohjelma herjaa tietokannan</br>
+puuttumisesta, mutta älä anna sen häiritä.</br>
+</br>
+Linuxilla saatat joutua merkitsemään tiedoston ajettavaksi</br>
+Korvaa ```Orderly-1.0-SNAPSHOT.jar``` käyttämälläsi julkaisulla.
+```
+chmod +x Orderly-1.0-SNAPSHOT.jar
+```
+Sen jälkeen voit kokeilla ajaa tiedoston komennolla
+```
+java -jar {tiedoston nimi}
+```
