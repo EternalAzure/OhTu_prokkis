@@ -62,5 +62,5 @@ chmod +x Orderly-1.0-SNAPSHOT.jar
 ```
 Sen jälkeen voit kokeilla ajaa tiedoston komennolla
 ```
-java -jar {tiedoston nimi}
+java -jar Orderly-1.0-SNAPSHOT.jar
 ```
