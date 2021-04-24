@@ -1,9 +1,9 @@
 import java.sql.*;
 
-import logic.Utils;
+import fi.orderly.logic.Utils;
 import org.junit.Before;
 import org.junit.Test;
-import logic.ServerConnection;
+import fi.orderly.logic.ServerConnection;
 
 import static org.junit.Assert.*;
 
@@ -42,8 +42,8 @@ public class UtilsTest {
 
     @Test
     public void amountOfProducts()throws SQLException{
-        String insert1 = "INSERT INTO products (product, code, unit) VALUES ('Banaani', '0001', 'KG')";
-        String insert2 = "INSERT INTO products (product, code, unit, temperature) VALUES ('Kurpitsa', '0002', 'KG', 12.0)";
+        String insert1 = "INSERT INTO products (product, code, unit, defaultroom_id) VALUES ('Banaani', '0001', 'KG', 1)";
+        String insert2 = "INSERT INTO products (product, code, unit, temperature, defaultroom_id) VALUES ('Kurpitsa', '0002', 'KG', 12.0, 1)";
         String delete = "DELETE FROM products WHERE product='Kurpitsa'";
 
         assertEquals(0, utils.amountOfProducts());

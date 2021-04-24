@@ -1,14 +1,14 @@
-package ui;
+package fi.orderly.ui;
 
-import dao.Shipment;
+import fi.orderly.dao.Shipment;
+import fi.orderly.logic.HubController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import logic.HubController;
-import logic.Utils;
+import fi.orderly.logic.Utils;
 import java.sql.Statement;
 
 public class ShipmentWorkspace {
@@ -28,7 +28,7 @@ public class ShipmentWorkspace {
         hubController = new HubController(statement);
     }
 
-    public VBox getShipmentWorkspace(String shipmentNumber){
+    public VBox getShipmentWorkspace(String shipmentNumber, Button applyButton){
         if (!validateInput(shipmentNumber).isEmpty()) return null;
 
         //1. Add, set and style header
@@ -56,11 +56,7 @@ public class ShipmentWorkspace {
         }
 
         //4. Add button underneath the rows
-        Button apply = new Button("Apply");
-        vBox.getChildren().add(apply);
-
-        //5. Add function to button
-        apply.setOnAction(event -> hubController.receiveShipment(shipment));
+        vBox.getChildren().add(applyButton);
         return vBox;
     }
 
@@ -82,6 +78,10 @@ public class ShipmentWorkspace {
         }
 
         return row;
+    }
+
+    public Shipment getShipment() {
+        return shipment;
     }
 
     public String validateInput(String input){

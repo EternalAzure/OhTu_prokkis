@@ -1,6 +1,6 @@
-package dao;
+package fi.orderly.dao;
 
-import logic.Utils;
+import fi.orderly.logic.Utils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,22 +11,25 @@ public class Shipment {
     private Statement statement;
     private Utils utils;
     private DataPackage[] list;
+    private String shipmentNumber;
 
     public Shipment(String shipmentNumber, Statement statement) {
         this.statement = statement;
         utils = new Utils(statement);
+        this.shipmentNumber = shipmentNumber;
         fetchData(shipmentNumber);
     }
 
     public DataPackage getDataPackage(int index) {
-        if (index < 0 || index > list.length) return null;
-
+        if (index < 0 || index > list.length) {
+            return null;
+        }
         return list[index];
     }
 
     private void fetchData(String shipmentNumber) {
         String query = "SELECT products.product, products.code, shipments.batch, shipments.amount, products.unit, rooms.room FROM shipments, products, rooms " +
-                "WHERE shipment_number='"+shipmentNumber+"' AND products.id=shipments.product_id AND rooms.id=products.defaultroom_id";
+                "WHERE shipment_number='" + shipmentNumber + "' AND products.id=shipments.product_id AND rooms.id=products.defaultroom_id";
 
         String sizeQuery = "SELECT COUNT(*) FROM shipments, products, rooms WHERE shipment_number='" + shipmentNumber + "' AND products.id=shipments.product_id AND rooms.id=products.defaultroom_id";
         list = new DataPackage[utils.getResultInt(sizeQuery, "COUNT(*)")];
@@ -54,7 +57,17 @@ public class Shipment {
         return list.length;
     }
 
+    public String getShipmentNumber() {
+        return shipmentNumber;
+    }
+
+    public void forTestingOnly(String shipmentNumber) {
+        //Use only to gain access from test class
+        fetchData(shipmentNumber);
+    }
+
     public class DataPackage {
+
         String name;
         String code;
         String batch;

@@ -1,5 +1,6 @@
-package ui;
+package fi.orderly.ui;
 
+import fi.orderly.logic.LoginController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -9,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import logic.LoginController;
 
 public class Login extends Application {
 
@@ -86,7 +86,7 @@ public class Login extends Application {
         //endregion
 
         //Actions
-        login.setOnAction(event -> loginCont.passwordlessLogin()); //login(sc, username.getText(), password.getText()));
+        login.setOnAction(event -> loginCont.passwordlessLogin()); //username.getText(), password.getText()
         exit.setOnAction(event -> loginCont.exit());
         credit.setOnAction(event -> loginCont.link());
 

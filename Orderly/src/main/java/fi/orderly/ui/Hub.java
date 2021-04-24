@@ -1,4 +1,6 @@
-package ui;
+package fi.orderly.ui;
+import fi.orderly.logic.HubController;
+import fi.orderly.logic.ServerConnection;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -6,8 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import logic.HubController;
-import logic.ServerConnection;
 
 import java.sql.Statement;
 
@@ -26,7 +26,7 @@ public class Hub  extends Application {
         hub.initStyle(StageStyle.UNDECORATED);
         hub.setMinHeight(400);
         hub.setMinWidth(600);
-        hub.setTitle("Orderly - ui.Hub");
+        hub.setTitle("Orderly - fi.orderly.dao.ui.Hub");
         BorderPane borderPane = new BorderPane();
         VBox leftMenu = new VBox();
 
@@ -41,12 +41,27 @@ public class Hub  extends Application {
         HBox.setHgrow(logout, Priority.NEVER);
         HBox.setHgrow(exit, Priority.NEVER);
 
-        Menu shipment = new Menu("Shipment(test)");
-        MenuItem create = new MenuItem("Create");
-        MenuItem delete = new MenuItem("Delete");
-        shipment.getItems().addAll(
+        Menu testing = new Menu("Testing");
+        Menu receivingTerminal = new Menu("Receiving terminal");
+        MenuItem create = new MenuItem("Create shipment");
+        MenuItem delete = new MenuItem("Delete shipment");
+        receivingTerminal.getItems().addAll(
                 create, delete
         );
+        Menu departureTerminal = new Menu("Departure terminal");
+        MenuItem create2 = new MenuItem("Create shipment");
+        MenuItem delete2 = new MenuItem("Delete shipment");
+        departureTerminal.getItems().addAll(
+                create2, delete2
+        );
+        testing.getItems().addAll(receivingTerminal, departureTerminal);
+
+        Menu dataBase = new Menu("Database");
+        MenuItem truncateRooms = new MenuItem("Truncate 'rooms'");
+        MenuItem truncateProducts = new MenuItem("Truncate 'products'");
+        MenuItem truncateBalance = new MenuItem("Truncate 'balance'");
+        MenuItem truncateShipments = new MenuItem("Truncate 'shipments'");
+        dataBase.getItems().addAll(truncateRooms, truncateProducts, truncateBalance, truncateShipments);
 
         borderPane.setLeft(leftMenu);
         borderPane.setTop(hBox);
@@ -63,9 +78,9 @@ public class Hub  extends Application {
         Hyperlink changeBalance = new Hyperlink("Change balance");
         Hyperlink transfer = new Hyperlink("Transfer");
         Hyperlink receive = new Hyperlink("Receive shipment");
-        Hyperlink collect = new Hyperlink("Collect");
+        Hyperlink collect = new Hyperlink("Send shipment");
 
-        menuBar.getMenus().addAll(shipment);
+        menuBar.getMenus().addAll(testing, dataBase); //MENUBAR
         leftMenu.getChildren().addAll(
                 addRoom,
                 addProduct,
@@ -78,8 +93,10 @@ public class Hub  extends Application {
         );
         //endregion
 
-        create.setOnAction(event -> hubController.createTestShipment());
-        delete.setOnAction(event -> hubController.deleteTestShipment());
+        create.setOnAction(event -> hubController.createTestShipment()); //SAME AS...
+        delete.setOnAction(event -> hubController.deleteTestShipment()); //THIS TOO...
+        create2.setOnAction(event -> hubController.createTestShipment()); //...HERE, FOR NOW
+        delete2.setOnAction(event -> hubController.deleteTestShipment()); //...IS SAME, FOR NOW
         logout.setOnMouseClicked(event -> HubController.logout(window));
         exit.setOnMouseClicked(event -> HubController.exit());
 
@@ -89,8 +106,8 @@ public class Hub  extends Application {
         removeProduct.setOnAction(event -> setWorkSpace(workSpaces.removeProductWorkspace()));
         changeBalance.setOnAction(event -> setWorkSpace(workSpaces.changeBalanceWorkspace()));
         transfer.setOnAction(event -> setWorkSpace(workSpaces.transferWorkspace()));
-        receive.setOnAction(event -> setWorkSpace(workSpaces.selectShipmentWorkspace(this)));
-        collect.setOnAction(event -> setWorkSpace(workSpaces.collectDeliveryWorkspace()));
+        receive.setOnAction(event -> setWorkSpace(workSpaces.receiveWorkspace(this)));
+        collect.setOnAction(event -> setWorkSpace(workSpaces.collectWorkspace(this)));
 
         Scene scene = new Scene(borderPane, 800, 600);
         scene.getStylesheets().add("hub.css");

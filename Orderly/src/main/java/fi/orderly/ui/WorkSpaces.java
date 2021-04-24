@@ -1,10 +1,10 @@
-package ui;
+package fi.orderly.ui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import logic.HubController;
+import fi.orderly.logic.HubController;
 
 import java.sql.Statement;
 
@@ -40,6 +40,7 @@ public class WorkSpaces {
 
         return vBox;
     }
+
     public VBox addProductWorkspace(){
         VBox vBox = new VBox();
         vBox.setId("workspace");
@@ -73,7 +74,7 @@ public class WorkSpaces {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField roomName = new TextField();
-        roomName.setPromptText("Room");
+        roomName.setPromptText("Room name");
         Button apply = new Button("Apply");
         Label message = new Label();
         message.setId("error");
@@ -94,7 +95,7 @@ public class WorkSpaces {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField product = new TextField();
-        product.setPromptText("Name of the product");
+        product.setPromptText("Product name");
         Button apply = new Button("Apply");
         Label message = new Label();
         message.setId("error");
@@ -118,8 +119,8 @@ public class WorkSpaces {
         TextField product = new TextField();
         TextField batch = new TextField();
         TextField newBalance = new TextField();
-        roomName.setPromptText("Room");
-        product.setPromptText("Product");
+        roomName.setPromptText("Room name");
+        product.setPromptText("Product code");
         batch.setPromptText("Batch number");
         newBalance.setPromptText("new balance");
         Button apply = new Button("Apply");
@@ -167,7 +168,7 @@ public class WorkSpaces {
         return vBox;
     }
 
-    public VBox selectShipmentWorkspace(Hub hub){
+    public VBox receiveWorkspace(Hub hub){
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField shipmentNumber = new TextField();
@@ -185,7 +186,14 @@ public class WorkSpaces {
                     message.setText(validationMessage);
                     return;
                 }
-                VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText());
+                Button otherApply = new Button("Apply");
+                otherApply.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        hubController.receiveShipment(shipmentWorkspace.getShipment());
+                    }
+                });
+                VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
                 SWSLayout.setId("workspace");
                 hub.setWorkSpace(SWSLayout);
             }
@@ -194,20 +202,36 @@ public class WorkSpaces {
         return vBox;
     }
 
-    public VBox collectDeliveryWorkspace(){
+    public VBox collectWorkspace(Hub hub){
         VBox vBox = new VBox();
         vBox.setId("workspace");
-        TextField roomName = new TextField();
-        roomName.setPromptText("");
+        TextField shipmentNumber = new TextField();
+        shipmentNumber.setPromptText("Shipment number");
         Button apply = new Button("Apply");
+        Label message = new Label();
+        message.setId("error");
 
-        vBox.getChildren().addAll(roomName, apply);
-        apply.setOnAction(event -> hubController.collect());
+        vBox.getChildren().addAll(shipmentNumber, apply, message);
+        apply.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String validationMessage = shipmentWorkspace.validateInput(shipmentNumber.getText());
+                if(!validationMessage.isEmpty()){
+                    message.setText(validationMessage);
+                    return;
+                }
+                Button otherApply = new Button("Apply");
+                otherApply.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        hubController.sendShipment(shipmentWorkspace.getShipment());
+                    }
+                });
+                VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
+                SWSLayout.setId("workspace");
+                hub.setWorkSpace(SWSLayout);
+            }
+        });
         return vBox;
-    }
-
-    private void styleSimple(VBox layout){
-        //layout.setAlignment(Pos.CENTER);
-        layout.setId("workspace");
     }
 }

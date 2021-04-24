@@ -1,4 +1,4 @@
-package logic;
+package fi.orderly.logic;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

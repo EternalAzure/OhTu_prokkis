@@ -42,7 +42,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>ui/*</exclude>
+                        <exclude>fi.orderly.dao.ui/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -67,7 +67,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ui.Main</mainClass>
+                                    <mainClass>fi.orderly.ui.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

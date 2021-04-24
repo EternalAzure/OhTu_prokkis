@@ -1,16 +1,16 @@
-import java.sql.*;
 
-import dao.Shipment;
-import logic.HubController;
-import logic.Utils;
+import fi.orderly.logic.ServerConnection;
+import fi.orderly.dao.Shipment;
+import fi.orderly.logic.HubController;
+import fi.orderly.logic.Utils;
+
 import org.junit.Before;
 import org.junit.Test;
-import logic.ServerConnection;
-
 import static org.junit.Assert.*;
 
+import java.sql.*;
 
-public class HubContTest {
+public class HubControllerTest {
 
     final String database = ServerConnection.TEST_DATABASE;
     Statement statement = ServerConnection.createConnection(database);
@@ -30,33 +30,38 @@ public class HubContTest {
 
     @Test
     public void addRoom()throws SQLException{
+        //-- SHOULD PASS --//
         //When both name and temperature is given
         hubController.addRoom("Hedelmät", "14");
         assertEquals(1, utils.amountOfRooms());
 
-        //Duplicate room
-        hubController.addRoom("Hedelmät", "14");
-        assertEquals(1, utils.amountOfRooms());
+        //decimal temperature
+        hubController.addRoom("Kalat", "2.0");
+        assertEquals(2, utils.amountOfRooms());
 
         //When only name is given
         hubController.addRoom("Marjat", "");
-        assertEquals(2, utils.amountOfRooms());
+        assertEquals(3, utils.amountOfRooms());
+
+        //-- SHOULD NOT PASS --//
+        //Duplicate room
+        hubController.addRoom("Hedelmät", "14");
+        assertEquals(3, utils.amountOfRooms());
 
         //When only temperature is given
         hubController.addRoom("", "7");
-        assertEquals(2, utils.amountOfRooms());
+        assertEquals(3, utils.amountOfRooms());
 
         //Non numeric temperature
         hubController.addRoom("Kalat", "17a");
-        assertEquals(2, utils.amountOfRooms());
-
-        //decimal temperature
-        hubController.addRoom("Kalat", "2.0");
         assertEquals(3, utils.amountOfRooms());
+
+
     }
 
     @Test
     public void addProduct() throws SQLException{
+        //-- SHOULD PASS --//
         hubController.addRoom("Room", "10");
         //When all is given and valid
         hubController.addProduct("Porkkana", "1111", "KG", "4", "Room");
@@ -64,51 +69,41 @@ public class HubContTest {
         //Again
         hubController.addProduct("Fenkoli", "0000", "KG", "4", "Room");
         assertEquals(2, utils.amountOfProducts());
-
-        //Duplicate product
-        hubController.addProduct("Porkkana", "1111", "KG", "4", "Room");
-        assertEquals(2, utils.amountOfProducts());
-
-        //Duplicate name
-        hubController.addProduct("Porkkana", "1010", "KG", "4", "Room");
-        assertEquals(2, utils.amountOfProducts());
-
-        //Duplicate code
-        hubController.addProduct("Sipuli", "1111", "KG", "4", "Room");
-        assertEquals(2, utils.amountOfProducts());
-
         //Temperature not given
         hubController.addProduct("Etiketti", "2222", "KPL", "", "Room");
         assertEquals(3, utils.amountOfProducts());
 
+        //-- SHOULD NOT PASS --//
+        //Duplicate product
+        hubController.addProduct("Porkkana", "1111", "KG", "4", "Room");
+        assertEquals(3, utils.amountOfProducts());
+        //Duplicate name
+        hubController.addProduct("Porkkana", "1010", "KG", "4", "Room");
+        assertEquals(3, utils.amountOfProducts());
+        //Duplicate code
+        hubController.addProduct("Sipuli", "1111", "KG", "4", "Room");
+        assertEquals(3, utils.amountOfProducts());
         //Name not given
         hubController.addProduct("", "3333", "KPL", "3", "Room");
         assertEquals(3, utils.amountOfProducts());
-
         //Name and temp not given
         hubController.addProduct("", "4444", "KPL", "", "Room");
         assertEquals(3, utils.amountOfProducts());
-
         //Code not given
         hubController.addProduct("Palsternakka", "", "KPL", "", "Room");
         assertEquals(3, utils.amountOfProducts());
-
         //Unit not given
         hubController.addProduct("Lehtikaali", "5555", "", "", "Room");
         assertEquals(3, utils.amountOfProducts());
-
         //Non numeric code given
         hubController.addProduct("Keräkaali", "abc", "KPL", "", "Room");
         assertEquals(3, utils.amountOfProducts());
-
         //Non numeric temperature
         hubController.addProduct("Ananas", "6666", "KPL", "20A", "Room");
         assertEquals(3, utils.amountOfProducts());
-
         //Storage not given
         hubController.addProduct("Kurpitsa", "7777", "KPL", "20A", "");
         assertEquals(3, utils.amountOfProducts());
-
         //Faulty storage given
         hubController.addProduct("Minttu", "9999", "KPL", "20A", "Falty");
         assertEquals(3, utils.amountOfProducts());
@@ -147,16 +142,19 @@ public class HubContTest {
         hubController.addProduct("NoBatch", "0000", "KPL", "", "Room");
         String query = "SELECT amount FROM balance WHERE room_id=1 AND product_id=1 AND batch='0001'";
         String insert = "INSERT INTO balance (room_id, product_id, batch, amount) VALUES ('1', '1', '0001', 300.0)";
-        double amount;
-
         statement.execute(insert);
+        String shipment = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 2, '0002', 10)";
+        statement.execute(shipment);
+
+        double amount;
         amount = utils.getResultDouble(query, "amount");
         assertEquals(300.0, amount, 0);
-        //Test getBalance
+        //Test getBalance()
         assertEquals(300.0, utils.getBalance("Room", "1000", "0001"), 0);
         //Non existing room
-        assertEquals(0, utils.getBalance("Marjat", "2233", "0003"), 0);
+        assertEquals(0, utils.getBalance("Marjat", "1000", "0001"), 0);
 
+        //-- SHOULD PASS --//
         //Updates existing row
         hubController.changeBalance("Room", "1000", "0001", "10.0");
         String query2 = "SELECT amount FROM balance WHERE room_id=1 AND product_id=1 AND batch='0001'";
@@ -170,15 +168,23 @@ public class HubContTest {
         hubController.changeBalance("Room", "1000", "", "30.0");
         assertEquals(20, utils.getBalance("Room", "1000", "0001"), 0);
         assertEquals(0, utils.getBalance("Room", "1000", ""), 0);
-
-        //Creates new row
+        //When all is valid but balance has not been set previously
         hubController.changeBalance("Room", "2000", "0002", "60.0");
         String query3 = "SELECT amount FROM balance WHERE room_id=1 AND batch='0002'";
         amount = utils.getResultDouble(query3, "amount");
         assertEquals(60, amount, 0);
         assertEquals(60, utils.getBalance("Room", "2000", "0002"), 0);
+
+        //-- SHOULD NOT PASS --//
         //Negative number
         hubController.changeBalance("Room", "2000", "0002", "-60.0");
+        assertEquals(60, utils.getBalance("Room", "2000", "0002"), 0);
+        //Non numeric amount
+        hubController.changeBalance("Room", "2000", "0002", "ABC");
+        assertEquals(60, utils.getBalance("Room", "2000", "0002"), 0);
+        //Non existing batch
+        hubController.changeBalance("Room", "2000", "9090", "500");
+        assertEquals(0, utils.getBalance("Room", "2000", "9090"), 0);
         assertEquals(60, utils.getBalance("Room", "2000", "0002"), 0);
 
     }
@@ -188,13 +194,19 @@ public class HubContTest {
         hubController.addRoom("Room 1", "");
         hubController.addRoom("Room 2", "");
         hubController.addProduct("Kuha", "9920", "KG", "2", "Room 1");
+        String shipment = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 1, 1, 10)";
+        statement.execute(shipment);
+
         hubController.changeBalance("Room 1", "9920", "1", "45.0");
         assertEquals(45, utils.getBalance("Room 1", "9920", "1"), 0);
 
+        //-- SHOULD PASS --//
         //Valid input
         hubController.transfer("Room 1", "Room 2", "9920", "1", "25.0");
         assertEquals(25, utils.getBalance("Room 2", "9920", "1"), 0);
         assertEquals(20, utils.getBalance("Room 1", "9920", "1"), 0);
+
+        //-- SHOULD NOT PASS --//
         //Would result in negative balance
         hubController.transfer("Room 1", "Room 2", "9920", "1", "25.0");
         assertEquals(25, utils.getBalance("Room 2", "9920", "1"), 0);
@@ -211,9 +223,7 @@ public class HubContTest {
         //Negative amount
         hubController.transfer("Room 2", "Room 1", "9920", "1", "-25.0");
         assertEquals(25, utils.getBalance("Room 2", "9920", "1"), 0);
-        //Transfer successfully product that has NO batch assigned
 
-        //TODO
     }
 
     @Test
@@ -226,6 +236,8 @@ public class HubContTest {
         assertEquals(160, utils.getBalance("Room 1", "3000", "1"), 0);
         assertEquals(640, utils.getBalance("Room 2", "4000", "1"), 0);
         assertEquals(2560, utils.getBalance("Room 2", "5000", "1"), 0);
+        //Receiving shipment destroys it, thus stopping it being received again
+        assertFalse(utils.hasItem("1", "shipments", "shipment_number"));
     }
 
     @Test

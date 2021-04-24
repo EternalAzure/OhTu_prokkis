@@ -1,7 +1,8 @@
-package logic;
+package fi.orderly.logic;
 
-import ui.Hub;
-import ui.Login;
+import fi.orderly.ui.AlertWindow;
+import fi.orderly.ui.Hub;
+import fi.orderly.ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.awt.*;

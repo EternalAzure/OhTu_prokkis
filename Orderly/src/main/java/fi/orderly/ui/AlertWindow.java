@@ -1,4 +1,4 @@
-package logic;
+package fi.orderly.ui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

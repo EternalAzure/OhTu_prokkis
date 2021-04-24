@@ -1,7 +1,7 @@
-package logic;
+package fi.orderly.logic;
 
-import dao.Shipment;
-import ui.Login;
+import fi.orderly.dao.Shipment;
+import fi.orderly.ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.sql.SQLException;
@@ -77,8 +77,8 @@ public class HubController {
         String roomId = utils.getResultString(roomIdQuery, "id");
         String productId = utils.getResultString(productIdQuery, "id");
 
-        if (!validateChangeBalanceAction(room, code).isEmpty()) {
-            return validateChangeBalanceAction(room, code);
+        if (!validateChangeBalanceAction(room, code, batch).isEmpty()) {
+            return validateChangeBalanceAction(room, code, batch);
         }
 
         String countQuery = "SELECT COUNT(*) FROM balance WHERE product_id='" + productId + "' AND room_id='" + roomId + "' AND batch='" + batch + "'";
@@ -108,7 +108,7 @@ public class HubController {
     }
 
     public String receiveShipment(Shipment shipment) {
-
+        System.out.println("receiveShipment()");
         for (int i = 0; i < shipment.getLength(); i++) {
             String room = shipment.getDataPackage(i).getStorageRoom();
             String code = shipment.getDataPackage(i).getCode();
@@ -116,11 +116,13 @@ public class HubController {
             String amount = shipment.getDataPackage(i).getAmount();
             changeBalance(room, code, batch, amount);
         }
+        String sql = "DELETE FROM shipments WHERE shipment_number='" + shipment.getShipmentNumber() + "'";
+        executeSQL(sql, "Shipment was not removed as should");
         return "";
     }
 
-    public void collect() {
-
+    public void sendShipment(Shipment shipment) {
+        System.out.println("sendShipment()");
     }
 
     //region Validation methods
@@ -180,12 +182,17 @@ public class HubController {
         return "";
     }
 
-    private String validateChangeBalanceAction(String room, String code) {
+    private String validateChangeBalanceAction(String room, String code, String batch) {
         if (!utils.hasItem(room, "rooms", "room")) {
             return "Room does not exist";
         }
         if (!utils.hasItem(code, "products", "code")) {
             return "Product does not exist";
+        }
+        boolean notInShipments = !utils.hasItem(batch, "shipments", "batch");
+        boolean notInBalance = !utils.hasItem(batch, "balance", "batch");
+        if (notInShipments && notInBalance) {
+            return "Batch does not exist. \nBatches are created along side shipments";
         }
         return "";
     }

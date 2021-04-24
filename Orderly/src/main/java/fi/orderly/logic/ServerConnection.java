@@ -1,4 +1,6 @@
-package logic;
+package fi.orderly.logic;
+
+import fi.orderly.ui.AlertWindow;
 
 import java.sql.*;
 
