@@ -30,4 +30,5 @@ Ajat eivät sisällä laskareita.
 | 22.4        | 1           |Kaavioiden piirtelyä ja arkkitehtuuridokumentin päivitys|
 | 22.4        | 5           |Mietin ja kokeilin tapoja hakea ja esittää</br> dataa tietokannasta|
 | 23.4        | 3           |Sain sen simpuran lähetyksen vastaanoton </br> toimimaan. SQL kertaus kannatti|
-| yht.        | 67.1        |
+| 24.4        | 2           |Testien tarkistus, manuaalinen testaus,</br> Shipment testien luominen.|
+| yht.        | 69.1        |
