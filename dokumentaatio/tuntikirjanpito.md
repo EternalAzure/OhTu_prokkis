@@ -31,5 +31,6 @@ Ajat eivät sisällä laskareita.
 | 23.4        | 3           |Sain sen simpuran lähetyksen vastaanoton </br> toimimaan. SQL kertaus kannatti|
 | 24.4        | 2           |Testien tarkistus, manuaalinen testaus,</br> Shipment testien luominen.|
 | 24.4        | 3           |Kokeilin Zulu jdk11 joka sisältää javafx.</br>Jotain säädin ja laitoin</br>linux realese githubiin|
-| 25.5        | 3           |Refaktorointia, sekvenssikaavioita, </br>dokumentointia ja miettimistä|
-| yht.        | 75.1        |
+| 25.4        | 3           |Refaktorointia, sekvenssikaavioita, </br>dokumentointia ja miettimistä|
+| 25.4        | 3.5         |Tutustuin ja aloitin Azuren käytön. </br>Yhdistin ohjelman pilveen. </br> Yritin konfia terminaalia|
+| yht.        | 78.6        |
