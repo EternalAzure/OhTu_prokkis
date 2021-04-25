@@ -3,17 +3,60 @@
 <p>
 Klikkaamalla vasemmalla olevaa sinistä valikkoa saa oikealle valkoiselle pohjalle näkyviin valitun työtilan.
 </p>
-</br>
+
+##### Sisältö
+
+[Grafiikan hakeminen ja esittäminen](#grafiikan-hakeminen-ja-esittäminen) </br>
+[Tietokanta osaksi näkymää](#tietokanta-osaksi-näkymää) </br>
+[Toiminnallisuus ja logiikka](#toiminnallisuus-ja-logiikka) </br>
+[Sekvenssikaavioita grafiikasta](#sekvenssikaavioita-grafiikasta) </br>
+
+## Grafiikan hakeminen ja esittäminen
+
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/GettingLayout.PNG" width="500">
 </br>
 
-Linkin _addRoom_ tapahtumankäsittelijä kutsuu metodia _setWorkspace(VBox)_ , joka ottaa parametrikseen luokan </br> 
-_Workspaces_ metodin _addRoomWorkspace()_ palauttaman VBox olion ja asettaa sen _workspaceParent_ Borderpane olioon. </br>
-Nyt työtila näkyy. Saapuvan lähetyksen tapauksessa ensimmäinen työnäkymä pyytää lähetyksen numeroa. _Apply_ </br>
-napin tapahtumankäsittelijä pyytää luokalta _ShipmentWorkspace_ uutta VBox oliota ja asettaa sen Hub luokan </br>
-_setWorkspace_ metodin parametriksi. _Workspaces_ on käytännössä vain _Hub_ luokan jatke. </br>
+_Hub_-luokka on ainoa luokka joka näyttää käyttäjälle grafiikkaa. Hub sisältää UI elementit harmaaseen</br> 
+yläpalkkiin ja siniseen valikkoon. Päätin eriyttää valkoisen työtilan grafiikan omaksi luokakseen _Workspaces._ </br>
+Luokassa Workspaces on yksi metodia jokaista työtilaa kohti joka on valittavissa valikosta. Jokainen metodi </br>
+palauttaa VBox olion. Tämä VBox olio asetetaan Hubissa olevan _workspaceParent_ nimisen BorderPane olion keskelle, </br>
+jolloin se näkyy käyttäjälle. </br>
+Jokaisella valikon hyperlinkillä on lambda joka asettaa setWorkspace() parametriksi sopivan metodin kuten </br>
+```event -> setWorkSpace(workSpaces.addRoomWorkspace())``` </br>
+
+### Tietokanta osaksi näkymää
+
+Aina näkymälle ei löydy suoraa vastinetta tietokannasta. Näin ollen olen toteuttanut pakkaukseen _dao_ </br>
+luokkia joiden tehtävänä on rakentaa sopiva tietorakenne ja tarjota pääsy tähän tietoon. </br>
+_Shipment_-luokka sisältää metodit tiedon hakemiseen, yhdistämiseen, ja tarjoamiseen. Shipment rakentaa </br>
+_DataPackage_-aliluokan avulla käyttäjälle näkyvään taulukkoon rivejä, jotka se tallettaa listaan. </br>
+Listaan tarjotaan pääsy getDataPackage(int index) kautta, joka mahdollistaa listan helpon iteroimisen. </br>
+DataPackage-aliluokka omaa vain gettereitä. Syy toteuttaa DataPackage aliluokkana taulukon sijaan on </br> 
+inhimmillisten virheiden minimointi. Tulee vähemmän sekaannuksia, kun kutsuu getName() list[i] sijaan. </br>
 </br>
+
+## Toiminnallisuus ja logiikka
+
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Functionality.PNG" width="500">
 </br>
-Joka kerta, kun käyttäjä painamalla Apply nappia työtilassa lisää tai poistaa jotain tietokannasta, kutsutaan </br>
-HubController. HubController vastaa käyttäjän toiveisiin vastaamisesta.
+Poislukien sinisen valikon _HubController_ vastaa käyttäjän toiveisiin vastaavasta toiminnallisuudesta. </br>
+Koodin toisteisuuden vähentämiseksi _Utils_-luokka sisältää käteviä pikku metodeja, joita hyödynnetään </br>
+vähän siellä täällä. Kaikki toiminnallisuus on pyrittä toteuttamaan siten, että palveluntarjoajan ei tarvitse </br>
+tuntea palvelun pyytäjää. Tarvittavat riippuvuudet toteutetaan injektioina. Parhaana esimerkkinä Statement olio, </br>
+joka luodaan ensimmäisen kerran yhdessä paikassa ja siitä eteenpäin annetaan eteenpäin tarvittaessa. </br>
+Tämä helpottaa mm. testaamista, kun käytössä on testitietikanta. </br>
+Vaikeuksia on tuottanut virheilmoitusten saaminen logiikalta käyttöliittymälle. Tästä syystä lähes kaikki </br>
+arvot mukaan lukien boolean käsitellään string muodossa. Vaihtoehtoinen toteutus olisi tehtä lisää luokkia. </br>
+Palautusarvona toimiva luokka sisältäisi esimerkiksi booleanin ja virheilmoituksen. </br>
+Kolmas harkinnassa oleva tapa on injektoida kutsuva luokka ja tarjota pääsy sen sisäiseen tilaan. </br>
+
+## Sekvenssikaavioita grafiikasta
+
+Ensimmäinen kaavio kuvaa kuinka vaihdetaan työtila yksinkertaiseen näkymään joka ei vaadi dataa tietokannasta.</br>
+Seuraavakaavio kuvaa kuinka tietokannasta haettu data liitetään osaksi näkymää, kun lähetysnumero on annettu.
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Receive%20shipment%201.PNG" width="500">
+</br>
+</br>
+__Tässä vielä miltä seuravaa lopputulos näyttää__</br>
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Data.PNG" width="500">
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Receive%20shipment%202.PNG" width="1000">
