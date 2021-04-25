@@ -9,7 +9,6 @@ Ajat eivät sisällä laskareita.
 | 31.3        | 6           |FXML hylkääminen                  |
 | 1.4.3       | 8           |MySQL asentaminen & implementointi|
 | 2.4         | 2           |mm. README ja dokumentin päivittäminen|
-| 3.4         | 0           |                                   |
 | ...         | ...         |            ...                    |
 | 12.4        | 5           |Selvitin sopivan testauskirjaston  |
 | 13.4        | 0.3         |README päivitys                    |
@@ -31,5 +30,6 @@ Ajat eivät sisällä laskareita.
 | 22.4        | 5           |Mietin ja kokeilin tapoja hakea ja esittää</br> dataa tietokannasta|
 | 23.4        | 3           |Sain sen simpuran lähetyksen vastaanoton </br> toimimaan. SQL kertaus kannatti|
 | 24.4        | 2           |Testien tarkistus, manuaalinen testaus,</br> Shipment testien luominen.|
-| 24.4        | 3           |Kokeilin Zulu jdk11 joka sisältää javafx.</br>Jotain säädin ja laitoin</br>linux realese githubiin
-| yht.        | 72.1        |
+| 24.4        | 3           |Kokeilin Zulu jdk11 joka sisältää javafx.</br>Jotain säädin ja laitoin</br>linux realese githubiin|
+| 25.5        | 3           |Refaktorointia, sekvenssikaavioita, </br>dokumentointia ja miettimistä|
+| yht.        | 75.1        |
