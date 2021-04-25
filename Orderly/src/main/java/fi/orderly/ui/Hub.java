@@ -42,19 +42,14 @@ public class Hub  extends Application {
         HBox.setHgrow(exit, Priority.NEVER);
 
         Menu testing = new Menu("Testing");
-        Menu receivingTerminal = new Menu("Receiving terminal");
+        Menu terminal = new Menu("Receiving terminal");
         MenuItem create = new MenuItem("Create shipment");
         MenuItem delete = new MenuItem("Delete shipment");
-        receivingTerminal.getItems().addAll(
+        terminal.getItems().addAll(
                 create, delete
         );
-        Menu departureTerminal = new Menu("Departure terminal");
-        MenuItem create2 = new MenuItem("Create shipment");
-        MenuItem delete2 = new MenuItem("Delete shipment");
-        departureTerminal.getItems().addAll(
-                create2, delete2
-        );
-        testing.getItems().addAll(receivingTerminal, departureTerminal);
+
+        testing.getItems().addAll(terminal);
 
         Menu dataBase = new Menu("Database");
         MenuItem truncateRooms = new MenuItem("Truncate 'rooms'");
@@ -95,8 +90,10 @@ public class Hub  extends Application {
 
         create.setOnAction(event -> hubController.createTestShipment()); //SAME AS...
         delete.setOnAction(event -> hubController.deleteTestShipment()); //THIS TOO...
-        create2.setOnAction(event -> hubController.createTestShipment()); //...HERE, FOR NOW
-        delete2.setOnAction(event -> hubController.deleteTestShipment()); //...IS SAME, FOR NOW
+        truncateRooms.setOnAction(event -> hubController.truncateRooms());
+        truncateProducts.setOnAction(event -> hubController.truncateProducts());
+        truncateBalance.setOnAction(event -> hubController.truncateBalance());
+        truncateShipments.setOnAction(event -> hubController.truncateShipments());
         logout.setOnMouseClicked(event -> HubController.logout(window));
         exit.setOnMouseClicked(event -> HubController.exit());
 

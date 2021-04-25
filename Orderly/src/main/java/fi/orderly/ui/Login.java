@@ -46,7 +46,7 @@ public class Login extends Application {
         TextField username = new TextField();
         PasswordField password = new PasswordField();
         Button login = new Button("login");
-        Hyperlink credit = new Hyperlink("Image source");
+        Hyperlink credit = new Hyperlink("Link for fun");
 
         leftPane.getChildren().addAll(logoView);
         rightPane.getChildren().addAll(exit, username, password, login, credit, userIconView);

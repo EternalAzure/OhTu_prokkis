@@ -1,7 +1,6 @@
 package fi.orderly.dao;
 
 import fi.orderly.logic.Utils;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

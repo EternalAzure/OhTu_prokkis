@@ -47,6 +47,7 @@ public class Utils {
         try {
             ResultSet result = statement.executeQuery(query);
             result.next();
+            System.out.println("getResInt::" + result.getInt(column));
             return result.getInt(column);
         } catch (SQLException e) {
             System.out.println("Faulty SQL was run in Utils.getResultInt()");
@@ -119,15 +120,20 @@ public class Utils {
         return getResultInt(query, "COUNT(" + column + ")") > 0;
     }
 
-    public boolean hasRoom(String room) {
-        String query = "SELECT COUNT(room) FROM rooms WHERE room='" + room + "'";
-        try {
-            ResultSet result = statement.executeQuery(query);
-            result.next();
-            return result.getInt("COUNT(room)") > 0;
-        } catch (SQLException e) {
-            System.out.println("Faulty SQL was run in Utils.hasRoom()");
-            return false;
+    public boolean hasRoom(String[] rooms) {
+
+        for (String room: rooms) {
+            String query = "SELECT COUNT(room) FROM rooms WHERE room='" + room + "'";
+            try {
+                ResultSet result = statement.executeQuery(query);
+                result.next();
+                if (result.getInt("COUNT(room)") == 0) {
+                    return false;
+                }
+            } catch (SQLException e) {
+                System.out.println("Faulty SQL was run in Utils.hasRoom()");
+            }
         }
+        return true;
     }
 }

@@ -55,6 +55,9 @@ public class HubController {
         if (room.isEmpty()) {
             return empty;
         }
+        if (!utils.hasRoom(new String[] { room } )) {
+            return "Room not found";
+        }
         String sql = "DELETE FROM rooms WHERE room='" + room + "';";
         return executeSQL(sql, "unknown SQL error");
     }
@@ -62,6 +65,9 @@ public class HubController {
     public String removeProduct(String product) {
         if (product.isEmpty()) {
             return empty;
+        }
+        if (!utils.hasItem(product, "products", "product")) {
+            return "Product not found";
         }
         String sql = "DELETE FROM products WHERE product='" + product + "';";
         return executeSQL(sql, "unknown SQL error");
@@ -96,8 +102,8 @@ public class HubController {
         double oldBalance = utils.getBalance(from, code, batch);
         double newBalance = oldBalance - Double.parseDouble(amount);
 
-        if (!validateTransferAction(newBalance, to, from).isEmpty()) {
-            return validateTransferAction(newBalance, to, from);
+        if (newBalance < 0) {
+            return "Would result in negative";
         }
 
         double targetOriginal = utils.getBalance(to, code, batch);
@@ -144,7 +150,7 @@ public class HubController {
         if (!Utils.isDouble(temperature) && !temperature.isEmpty()) {
             return decimal;
         }
-        if (!utils.hasRoom(storage)) {
+        if (!utils.hasRoom(new String[] { storage } )) {
             return "No such room";
         }
 
@@ -168,7 +174,7 @@ public class HubController {
     }
 
     private String validateTransferInput(String from, String to, String code, String batch, String amount) {
-        if (Utils.isEmpty(new String[] { from, to, code, batch })) {
+        if (Utils.isEmpty(new String[] { from, to, code, batch, amount })) {
             return empty;
         }
         if (!Utils.isNumeric(new String[] { code, batch })) {
@@ -177,11 +183,17 @@ public class HubController {
         if (Double.parseDouble(amount) <= 0) {
             return "Only positive numbers are allowed";
         }
+        if (!utils.hasRoom(new String[] { from, to } )) {
+            return "Destination or origin does not exist";
+        }
+        if (!utils.hasItem(code, "products", "code")) {
+            return "Product does not exist";
+        }
         return "";
     }
 
     private String validateChangeBalanceAction(String room, String code, String batch) {
-        if (!utils.hasItem(room, "rooms", "room")) {
+        if (!utils.hasRoom(new String[] { room } )) {
             return "Room does not exist";
         }
         if (!utils.hasItem(code, "products", "code")) {
@@ -191,19 +203,6 @@ public class HubController {
         boolean notInBalance = !utils.hasItem(batch, "balance", "batch");
         if (notInShipments && notInBalance) {
             return "Batch does not exist. \nBatches are created along side shipments";
-        }
-        return "";
-    }
-
-    private String validateTransferAction(double newBalance, String to, String from) {
-        if (newBalance < 0) {
-            return "Would result in negative balance";
-        }
-        if (!utils.hasRoom(to)) {
-            return "Destination does not exist";
-        }
-        if (!utils.hasRoom(from)) {
-            return "Origin does not exist";
         }
         return "";
     }
@@ -232,6 +231,21 @@ public class HubController {
             return "SQL error";
         }
         return "";
+    }
+
+    // MENUBAR
+    public void truncateRooms() {
+        executeSQL("TRUNCATE TABLE rooms", "");
+
+    }
+    public void truncateProducts() {
+        executeSQL("TRUNCATE TABLE products", "");
+    }
+    public void truncateBalance() {
+        executeSQL("TRUNCATE TABLE balance", "");
+    }
+    public void truncateShipments() {
+        executeSQL("TRUNCATE TABLE shipments", "");
     }
 
     //Strictly for testing purposes
