@@ -23,11 +23,13 @@ public class LoginController {
         if (username.isEmpty() || password.isEmpty()) {
             return;
         }
-        String sql = "SELECT name, password, role FROM user WHERE name LIKE '" + username + "'";
+        String sql = "SELECT name, password, role FROM users WHERE name LIKE '" + username + "'";
         String name = utils.getResultString(sql, "name");
         String pw = utils.getResultString(sql, "password");
         String role = utils.getResultString(sql, "role"); //waits to be used
 
+        System.out.println(username + "::" + name);
+        System.out.println(password + "::" + pw);
         if (name.isEmpty()) {
             AlertWindow.display("Incorrect name");
         }

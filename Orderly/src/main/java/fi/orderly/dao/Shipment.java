@@ -28,9 +28,9 @@ public class Shipment {
 
     private void fetchData(String shipmentNumber) {
         String query = "SELECT products.product, products.code, shipments.batch, shipments.amount, products.unit, rooms.room FROM shipments, products, rooms " +
-                "WHERE shipment_number='" + shipmentNumber + "' AND products.id=shipments.product_id AND rooms.id=products.defaultroom_id";
+                "WHERE number='" + shipmentNumber + "' AND products.id=shipments.product_id AND rooms.id=products.room_id";
 
-        String sizeQuery = "SELECT COUNT(*) FROM shipments, products, rooms WHERE shipment_number='" + shipmentNumber + "' AND products.id=shipments.product_id AND rooms.id=products.defaultroom_id";
+        String sizeQuery = "SELECT COUNT(*) FROM shipments, products, rooms WHERE number='" + shipmentNumber + "' AND products.id=shipments.product_id AND rooms.id=products.room_id";
         list = new DataPackage[utils.getResultInt(sizeQuery, "COUNT(*)")];
 
         try (ResultSet result = statement.executeQuery(query)) {

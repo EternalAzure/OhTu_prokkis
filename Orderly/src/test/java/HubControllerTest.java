@@ -143,7 +143,7 @@ public class HubControllerTest {
         String query = "SELECT amount FROM balance WHERE room_id=1 AND product_id=1 AND batch='0001'";
         String insert = "INSERT INTO balance (room_id, product_id, batch, amount) VALUES ('1', '1', '0001', 300.0)";
         statement.execute(insert);
-        String shipment = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 2, '0002', 10)";
+        String shipment = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 2, '0002', 10)";
         statement.execute(shipment);
 
         double amount;
@@ -194,7 +194,7 @@ public class HubControllerTest {
         hubController.addRoom("Room 1", "");
         hubController.addRoom("Room 2", "");
         hubController.addProduct("Kuha", "9920", "KG", "2", "Room 1");
-        String shipment = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 1, 1, 10)";
+        String shipment = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 1, 1, 10)";
         statement.execute(shipment);
 
         hubController.changeBalance("Room 1", "9920", "1", "45.0");
@@ -260,11 +260,11 @@ public class HubControllerTest {
         assertEquals(1, utils.getResultInt(ku, "COUNT(*)"));
         assertEquals(1, utils.getResultInt(si, "COUNT(*)"));
 
-        String kaali = "SELECT COUNT(*) FROM shipments WHERE shipment_number=1 AND product_id=1 AND batch=1";
-        String porkkana = "SELECT COUNT(*) FROM shipments WHERE shipment_number=1 AND product_id=2 AND batch=1";
-        String peruna = "SELECT COUNT(*) FROM shipments WHERE shipment_number=1 AND product_id=3 AND batch=1";
-        String kurpitsa = "SELECT COUNT(*) FROM shipments WHERE shipment_number=1 AND product_id=4 AND batch=1";
-        String sipuli = "SELECT COUNT(*) FROM shipments WHERE shipment_number=1 AND product_id=5 AND batch=1";
+        String kaali = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=1 AND batch=1";
+        String porkkana = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=2 AND batch=1";
+        String peruna = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=3 AND batch=1";
+        String kurpitsa = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=4 AND batch=1";
+        String sipuli = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=5 AND batch=1";
         assertEquals(1, utils.getResultInt(kaali, "COUNT(*)"));
         assertEquals(1, utils.getResultInt(porkkana, "COUNT(*)"));
         assertEquals(1, utils.getResultInt(peruna, "COUNT(*)"));

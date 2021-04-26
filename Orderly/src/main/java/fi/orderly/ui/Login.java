@@ -86,7 +86,7 @@ public class Login extends Application {
         //endregion
 
         //Actions
-        login.setOnAction(event -> loginCont.passwordlessLogin()); //username.getText(), password.getText()
+        login.setOnAction(event -> loginCont.passwordlessLogin()); //login(username.getText(), password.getText())
         exit.setOnAction(event -> loginCont.exit());
         credit.setOnAction(event -> loginCont.link());
 

@@ -1,9 +1,12 @@
 package fi.orderly.logic;
 
+import com.mysql.cj.Query;
 import fi.orderly.dao.Shipment;
 import fi.orderly.ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+
+import javax.swing.text.html.parser.Entity;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -28,6 +31,8 @@ public class HubController {
     public static void exit() {
         Platform.exit();
     }
+
+
     public String addRoom(String name, String temperature) {
         if (!validateAddRoomInput(name, temperature).isEmpty()) {
             return validateAddRoomInput(name, temperature);
@@ -42,13 +47,13 @@ public class HubController {
         }
 
         String query = "SELECT id FROM rooms WHERE room='" + storage + "'";
-        String sql = "INSERT INTO products (product, code, unit, temperature, defaultroom_id) VALUES (" +
+        String sql = "INSERT INTO products (product, code, unit, temperature, room_id) VALUES (" +
                 "'" + product + "', " +
                 "'" + code + "', " +
                 "'" + unit + "', " +
                 "NULLIF('" + temperature + "', ''), " +
                 "" + utils.getResultInt(query, "id") + ")";
-        return executeSQL(sql, "'" + product + "' already exists");
+        return executeSQL(sql, "'" + product + "' or code " + code +" already exists");
     }
 
     public String removeRoom(String room) {
@@ -121,7 +126,7 @@ public class HubController {
             String amount = shipment.getDataPackage(i).getAmount();
             changeBalance(room, code, batch, amount);
         }
-        String sql = "DELETE FROM shipments WHERE shipment_number='" + shipment.getShipmentNumber() + "'";
+        String sql = "DELETE FROM shipments WHERE number='" + shipment.getShipmentNumber() + "'";
         return executeSQL(sql, "Shipment was not removed as should");
     }
 
@@ -214,11 +219,14 @@ public class HubController {
             statement.execute(sql);
         } catch (SQLException e) {
             if (e.getErrorCode() == 1062) {
+                System.out.println("ErrorCode 1062 with: " + sql);
                 return errorMessage;
             }
+            System.out.println("Failed to exucute: " + sql);
         }
         return "";
     }
+
     private String executeChangeBalance(String countQuery, String insert, String change) {
         try {
             if (utils.getResultInt(countQuery, "COUNT(*)") == 0) {
@@ -258,11 +266,11 @@ public class HubController {
         addProduct("Kurpitsa", "4000", "KG", "4", "Room 2");
         addProduct("Sipuli", "5000", "KG", "4", "Room 2");
 
-        String insert1 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 1, 1, 10)";
-        String insert2 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 2, 1, 40)";
-        String insert3 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 3, 1, 160)";
-        String insert4 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 4, 1, 640)";
-        String insert5 = "INSERT INTO shipments (shipment_number, product_id, batch, amount) VALUES (1, 5, 1, 2560)";
+        String insert1 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 1, 1, 10)";
+        String insert2 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 2, 1, 40)";
+        String insert3 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 3, 1, 160)";
+        String insert4 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 4, 1, 640)";
+        String insert5 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 5, 1, 2560)";
         String[] commandList = new String[] {insert1, insert2, insert3, insert4, insert5};
 
         for (String s : commandList) {

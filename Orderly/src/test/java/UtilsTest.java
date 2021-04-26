@@ -42,8 +42,8 @@ public class UtilsTest {
 
     @Test
     public void amountOfProducts()throws SQLException{
-        String insert1 = "INSERT INTO products (product, code, unit, defaultroom_id) VALUES ('Banaani', '0001', 'KG', 1)";
-        String insert2 = "INSERT INTO products (product, code, unit, temperature, defaultroom_id) VALUES ('Kurpitsa', '0002', 'KG', 12.0, 1)";
+        String insert1 = "INSERT INTO products (product, code, unit, room_id) VALUES ('Banaani', '0001', 'KG', 1)";
+        String insert2 = "INSERT INTO products (product, code, unit, temperature, room_id) VALUES ('Kurpitsa', '0002', 'KG', 12.0, 1)";
         String delete = "DELETE FROM products WHERE product='Kurpitsa'";
 
         assertEquals(0, utils.amountOfProducts());

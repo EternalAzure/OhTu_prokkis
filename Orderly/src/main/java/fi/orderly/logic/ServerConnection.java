@@ -7,12 +7,13 @@ import java.sql.*;
 public class ServerConnection {
 
     public static final String DATABASE = "warehouse";
-    public static final String TEST_DATABASE = "warehousetest";
+    public static final String TEST_DATABASE = "test";
 
     public static Statement createConnection(String database) {
-        final String dbUrl = "jdbc:mysql://visitor@localhost:3306";
-        final String user = "visitor"; //CREDENTIALS
-        final String pass = "y";
+
+        final String dbUrl = "jdbc:mysql://mysql-demo-varasto.mysql.database.azure.com:3306/login?useSSL=true&requireSSL=false";
+        final String user = "mefistofeles@mysql-demo-varasto";
+        final String pass = "#demoDatabase30";
 
         try {
             //Connect to server
@@ -21,6 +22,7 @@ public class ServerConnection {
 
             //Select right database
             statement.execute("USE " + database);
+            System.out.println("Selected database: " + database);
             return statement;
 
         } catch (SQLException exception) {

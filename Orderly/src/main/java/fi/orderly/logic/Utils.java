@@ -39,6 +39,7 @@ public class Utils {
             result.next();
             return result.getString(column);
         } catch (SQLException e) {
+            System.out.println("Failed to query: " + query);
             return "0";
         }
     }
@@ -47,11 +48,9 @@ public class Utils {
         try {
             ResultSet result = statement.executeQuery(query);
             result.next();
-            System.out.println("getResInt::" + result.getInt(column));
             return result.getInt(column);
         } catch (SQLException e) {
-            System.out.println("Faulty SQL was run in Utils.getResultInt()");
-            e.printStackTrace();
+            System.out.println("Failed to query: " + query);
             return 0;
         }
     }
@@ -62,7 +61,7 @@ public class Utils {
             result.next();
             return result.getDouble(column);
         } catch (SQLException e) {
-            System.out.println("Faulty SQL was run in Utils.getResultDouble()");
+            System.out.println("Failed to query: " + query);
             return 0.0;
         }
     }
@@ -132,6 +131,7 @@ public class Utils {
                 }
             } catch (SQLException e) {
                 System.out.println("Faulty SQL was run in Utils.hasRoom()");
+                return false;
             }
         }
         return true;
