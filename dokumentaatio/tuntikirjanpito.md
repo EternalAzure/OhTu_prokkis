@@ -33,4 +33,7 @@ Ajat eivät sisällä laskareita.
 | 24.4        | 3           |Kokeilin Zulu jdk11 joka sisältää javafx.</br>Jotain säädin ja laitoin</br>linux realese githubiin|
 | 25.4        | 3           |Refaktorointia, sekvenssikaavioita, </br>dokumentointia ja miettimistä|
 | 25.4        | 3.5         |Tutustuin ja aloitin Azuren käytön. </br>Yhdistin ohjelman pilveen. </br> Yritin konfia terminaalia|
-| yht.        | 78.6        |
+| 26.4        | 2           |Koitan näyttää tietokannan taulut </br> rullattavassa taulukossa|
+| 26.4        | 5           |Huoneet ja tuotteet taulut näkyy, </br>mutta lähetykset ja saldo ei. </br>Vastaanotto ilmoittaa onnistumisesta|
+| 26.4        | 1           |Jokaisesta tietokannan taulusta </br> on graafinen taulukko|
+| yht.        | 86.6        |
