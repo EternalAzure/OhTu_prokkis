@@ -34,4 +34,5 @@ Ajat eivät sisällä laskareita.
 | 25.4        | 3           |Refaktorointia, sekvenssikaavioita, </br>dokumentointia ja miettimistä|
 | 25.4        | 3.5         |Tutustuin ja aloitin Azuren käytön. </br>Yhdistin ohjelman pilveen. </br> Yritin konfia terminaalia|
 | 26.4        | 2           |Koitan näyttää tietokannan taulut </br> rullattavassa taulukossa|
-| yht.        | 80.6        |
+| 26.4        | 5           |Huoneet ja tuotteet taulut näkyy, </br>mutta lähetykset ja saldo ei. </br>Vastaanotto ilmoittaa onnistumisesta 
+| yht.        | 85.6        |
