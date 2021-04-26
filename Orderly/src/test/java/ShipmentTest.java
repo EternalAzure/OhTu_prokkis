@@ -31,7 +31,7 @@ public class ShipmentTest {
     public void fetchData() {
         shipment = new Shipment("1", statement);
         //Check that test shipment makes 5 products
-        assertEquals(5, utils.amountOfProducts());
+        assertEquals(5, utils.tableSizeProducts());
 
         //-- SHOULD PASS --//
         //Right number of DataPackages (1 for each product)

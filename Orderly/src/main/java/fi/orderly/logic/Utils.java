@@ -12,12 +12,20 @@ public class Utils {
         this.statement = statement;
     }
 
-    public int amountOfRooms() {
+    public int tableSizeRooms() {
         String sql = "SELECT COUNT(*) FROM rooms";
         return getResultInt(sql, "COUNT(*)");
     }
-    public int amountOfProducts() {
+    public int tableSizeProducts() {
         String sql = "SELECT COUNT(*) FROM products";
+        return getResultInt(sql, "COUNT(*)");
+    }
+    public int tableSizeBalance() {
+        String sql = "SELECT COUNT(*) FROM balance";
+        return getResultInt(sql, "COUNT(*)");
+    }
+    public int tableSizeShipments() {
+        String sql = "SELECT COUNT(*) FROM shipments";
         return getResultInt(sql, "COUNT(*)");
     }
 
@@ -40,7 +48,7 @@ public class Utils {
             return result.getString(column);
         } catch (SQLException e) {
             System.out.println("Failed to query: " + query);
-            return "0";
+            return null;
         }
     }
 
@@ -120,6 +128,9 @@ public class Utils {
     }
 
     public boolean hasRoom(String[] rooms) {
+        if (rooms.length == 0) {
+            return false;
+        }
 
         for (String room: rooms) {
             String query = "SELECT COUNT(room) FROM rooms WHERE room='" + room + "'";

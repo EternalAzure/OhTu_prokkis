@@ -1,6 +1,9 @@
 #error{
     -fx-text-fill: Red;
 }
+#success{
+    -fx-text-fill: Green;
+}
 #blue-menu{
     -fx-background-color: SteelBlue;
 }

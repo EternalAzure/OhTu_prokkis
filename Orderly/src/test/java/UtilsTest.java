@@ -28,16 +28,16 @@ public class UtilsTest {
         String insert2 = "INSERT INTO rooms (room, temperature) VALUES ('Marjat', 14)";
         String delete = "DELETE FROM rooms WHERE room='Marjat'";
 
-        assertEquals(0, utils.amountOfRooms());
+        assertEquals(0, utils.tableSizeRooms());
 
         statement.execute(insert1);
-        assertEquals(1, utils.amountOfRooms());
+        assertEquals(1, utils.tableSizeRooms());
 
         statement.execute(insert2);
-        assertEquals(2, utils.amountOfRooms());
+        assertEquals(2, utils.tableSizeRooms());
 
         statement.execute(delete);
-        assertEquals(1, utils.amountOfRooms());
+        assertEquals(1, utils.tableSizeRooms());
     }
 
     @Test
@@ -46,16 +46,16 @@ public class UtilsTest {
         String insert2 = "INSERT INTO products (product, code, unit, temperature, room_id) VALUES ('Kurpitsa', '0002', 'KG', 12.0, 1)";
         String delete = "DELETE FROM products WHERE product='Kurpitsa'";
 
-        assertEquals(0, utils.amountOfProducts());
+        assertEquals(0, utils.tableSizeProducts());
 
         statement.execute(insert1);
-        assertEquals(1, utils.amountOfProducts());
+        assertEquals(1, utils.tableSizeProducts());
 
         statement.execute(insert2);
-        assertEquals(2, utils.amountOfProducts());
+        assertEquals(2, utils.tableSizeProducts());
 
         statement.execute(delete);
-        assertEquals(1, utils.amountOfProducts());
+        assertEquals(1, utils.tableSizeProducts());
     }
 
     @Test

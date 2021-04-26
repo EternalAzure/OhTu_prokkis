@@ -95,6 +95,7 @@ public class ShipmentWorkspace {
 
     public void setErrorMessage(String message) {
         errorMessage.setText(message);
+        if (message.equals("Success")) errorMessage.setId("success");
     }
 
 }

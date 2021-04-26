@@ -1,6 +1,7 @@
 package fi.orderly.ui;
 import fi.orderly.logic.HubController;
 import fi.orderly.logic.ServerConnection;
+import fi.orderly.ui.tables.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -19,6 +20,10 @@ public class Hub  extends Application {
 
     final private WorkSpaces workSpaces = new WorkSpaces(statement);
     final private HubController hubController = new HubController(statement);
+    final private TableViewInfiniteScrolling roomsView = new RoomsTableView();
+    final private TableViewInfiniteScrolling productView = new ProductsTableView();
+    final private  TableViewInfiniteScrolling balanceView = new BalanceTableView();
+    final private TableViewInfiniteScrolling shipmentsView = new ShipmentsTableView();
 
     @Override
     public void start(Stage window){
@@ -56,7 +61,15 @@ public class Hub  extends Application {
         MenuItem truncateProducts = new MenuItem("Truncate 'products'");
         MenuItem truncateBalance = new MenuItem("Truncate 'balance'");
         MenuItem truncateShipments = new MenuItem("Truncate 'shipments'");
-        dataBase.getItems().addAll(truncateRooms, truncateProducts, truncateBalance, truncateShipments);
+        MenuItem truncateAll = new MenuItem("Truncate all");
+        dataBase.getItems().addAll(truncateRooms, truncateProducts, truncateBalance, truncateShipments, truncateAll);
+
+        Menu showTables = new Menu("Show tables");
+        MenuItem showRooms = new MenuItem("Show rooms");
+        MenuItem showProducts = new MenuItem("Show products");
+        MenuItem showBalance = new MenuItem("Show balance");
+        MenuItem showShipments = new MenuItem("Show shipments");
+        showTables.getItems().addAll(showRooms, showProducts, showBalance, showShipments);
 
         borderPane.setLeft(leftMenu);
         borderPane.setTop(hBox);
@@ -75,7 +88,7 @@ public class Hub  extends Application {
         Hyperlink receive = new Hyperlink("Receive shipment");
         Hyperlink collect = new Hyperlink("Send shipment");
 
-        menuBar.getMenus().addAll(testing, dataBase); //MENUBAR
+        menuBar.getMenus().addAll(testing, dataBase, showTables); //MENUBAR
         leftMenu.getChildren().addAll(
                 addRoom,
                 addProduct,
@@ -88,12 +101,18 @@ public class Hub  extends Application {
         );
         //endregion
 
-        create.setOnAction(event -> hubController.createTestShipment()); //SAME AS...
-        delete.setOnAction(event -> hubController.deleteTestShipment()); //THIS TOO...
+        showRooms.setOnAction(event -> roomsView.display(statement));
+        showProducts.setOnAction(event -> productView.display(statement));
+        showBalance.setOnAction(event -> balanceView.display(statement));
+        showShipments.setOnAction(event -> shipmentsView.display(statement));
+
+        create.setOnAction(event -> hubController.createTestShipment()); //TESTING
+        delete.setOnAction(event -> hubController.deleteTestShipment()); //TESTING
         truncateRooms.setOnAction(event -> hubController.truncateRooms());
         truncateProducts.setOnAction(event -> hubController.truncateProducts());
         truncateBalance.setOnAction(event -> hubController.truncateBalance());
         truncateShipments.setOnAction(event -> hubController.truncateShipments());
+        truncateAll.setOnAction(event -> hubController.truncateAll());
         logout.setOnMouseClicked(event -> HubController.logout(window));
         exit.setOnMouseClicked(event -> HubController.exit());
 

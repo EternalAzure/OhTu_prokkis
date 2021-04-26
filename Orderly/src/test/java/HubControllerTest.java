@@ -33,28 +33,28 @@ public class HubControllerTest {
         //-- SHOULD PASS --//
         //When both name and temperature is given
         hubController.addRoom("Hedelmät", "14");
-        assertEquals(1, utils.amountOfRooms());
+        assertEquals(1, utils.tableSizeRooms());
 
         //decimal temperature
         hubController.addRoom("Kalat", "2.0");
-        assertEquals(2, utils.amountOfRooms());
+        assertEquals(2, utils.tableSizeRooms());
 
         //When only name is given
         hubController.addRoom("Marjat", "");
-        assertEquals(3, utils.amountOfRooms());
+        assertEquals(3, utils.tableSizeRooms());
 
         //-- SHOULD NOT PASS --//
         //Duplicate room
         hubController.addRoom("Hedelmät", "14");
-        assertEquals(3, utils.amountOfRooms());
+        assertEquals(3, utils.tableSizeRooms());
 
         //When only temperature is given
         hubController.addRoom("", "7");
-        assertEquals(3, utils.amountOfRooms());
+        assertEquals(3, utils.tableSizeRooms());
 
         //Non numeric temperature
         hubController.addRoom("Kalat", "17a");
-        assertEquals(3, utils.amountOfRooms());
+        assertEquals(3, utils.tableSizeRooms());
 
 
     }
@@ -65,73 +65,73 @@ public class HubControllerTest {
         hubController.addRoom("Room", "10");
         //When all is given and valid
         hubController.addProduct("Porkkana", "1111", "KG", "4", "Room");
-        assertEquals(1, utils.amountOfProducts());
+        assertEquals(1, utils.tableSizeProducts());
         //Again
         hubController.addProduct("Fenkoli", "0000", "KG", "4", "Room");
-        assertEquals(2, utils.amountOfProducts());
+        assertEquals(2, utils.tableSizeProducts());
         //Temperature not given
         hubController.addProduct("Etiketti", "2222", "KPL", "", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
 
         //-- SHOULD NOT PASS --//
         //Duplicate product
         hubController.addProduct("Porkkana", "1111", "KG", "4", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Duplicate name
         hubController.addProduct("Porkkana", "1010", "KG", "4", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Duplicate code
         hubController.addProduct("Sipuli", "1111", "KG", "4", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Name not given
         hubController.addProduct("", "3333", "KPL", "3", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Name and temp not given
         hubController.addProduct("", "4444", "KPL", "", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Code not given
         hubController.addProduct("Palsternakka", "", "KPL", "", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Unit not given
         hubController.addProduct("Lehtikaali", "5555", "", "", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Non numeric code given
         hubController.addProduct("Keräkaali", "abc", "KPL", "", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Non numeric temperature
         hubController.addProduct("Ananas", "6666", "KPL", "20A", "Room");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Storage not given
         hubController.addProduct("Kurpitsa", "7777", "KPL", "20A", "");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
         //Faulty storage given
         hubController.addProduct("Minttu", "9999", "KPL", "20A", "Falty");
-        assertEquals(3, utils.amountOfProducts());
+        assertEquals(3, utils.tableSizeProducts());
     }
 
     @Test
     public void removeRoom(){
         hubController.addRoom("Hedelmät", "14");
-        assertEquals(1, utils.amountOfRooms());
+        assertEquals(1, utils.tableSizeRooms());
 
         hubController.removeRoom("");
-        assertEquals(1, utils.amountOfRooms());
+        assertEquals(1, utils.tableSizeRooms());
 
         hubController.removeRoom("Hedelmät");
-        assertEquals(0, utils.amountOfRooms());
+        assertEquals(0, utils.tableSizeRooms());
     }
 
     @Test
     public void removeProduct(){
         hubController.addRoom("Room", "");
         hubController.addProduct("Herne", "92", "PKT", "7", "Room");
-        assertEquals(1, utils.amountOfProducts());
+        assertEquals(1, utils.tableSizeProducts());
 
         hubController.removeProduct("");
-        assertEquals(1, utils.amountOfProducts());
+        assertEquals(1, utils.tableSizeProducts());
 
         hubController.removeProduct("Herne");
-        assertEquals(0, utils.amountOfProducts());
+        assertEquals(0, utils.tableSizeProducts());
     }
 
     @Test
@@ -202,7 +202,11 @@ public class HubControllerTest {
 
         //-- SHOULD PASS --//
         //Valid input
-        hubController.transfer("Room 1", "Room 2", "9920", "1", "25.0");
+        hubController.transfer("Room 1", "Room 2", "9920", "1", "30.0");
+        assertEquals(30, utils.getBalance("Room 2", "9920", "1"), 0);
+        assertEquals(15, utils.getBalance("Room 1", "9920", "1"), 0);
+        //Valid input
+        hubController.transfer("Room 2", "Room 1", "9920", "1", "5");
         assertEquals(25, utils.getBalance("Room 2", "9920", "1"), 0);
         assertEquals(20, utils.getBalance("Room 1", "9920", "1"), 0);
 
@@ -248,7 +252,7 @@ public class HubControllerTest {
     @Test
     public void createTestShipment(){
         hubController.createTestShipment();
-        assertEquals(5, utils.amountOfProducts());
+        assertEquals(5, utils.tableSizeProducts());
         String ka = "SELECT COUNT(*) FROM products WHERE product='Kaali' AND code='1000' AND unit='KG' AND temperature='4'";
         String po = "SELECT COUNT(*) FROM products WHERE product='Porkkana' AND code='2000' AND unit='KG' AND temperature='4'";
         String pe = "SELECT COUNT(*) FROM products WHERE product='Peruna' AND code='3000' AND unit='KG' AND temperature='4'";

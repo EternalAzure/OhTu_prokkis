@@ -1,12 +1,9 @@
 package fi.orderly.logic;
 
-import com.mysql.cj.Query;
 import fi.orderly.dao.Shipment;
 import fi.orderly.ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-
-import javax.swing.text.html.parser.Entity;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -53,14 +50,14 @@ public class HubController {
                 "'" + unit + "', " +
                 "NULLIF('" + temperature + "', ''), " +
                 "" + utils.getResultInt(query, "id") + ")";
-        return executeSQL(sql, "'" + product + "' or code " + code +" already exists");
+        return executeSQL(sql, "'" + product + "' or code " + code + " already exists");
     }
 
     public String removeRoom(String room) {
         if (room.isEmpty()) {
             return empty;
         }
-        if (!utils.hasRoom(new String[] { room } )) {
+        if (!utils.hasRoom(new String[] { room })) {
             return "Room not found";
         }
         String sql = "DELETE FROM rooms WHERE room='" + room + "';";
@@ -127,7 +124,11 @@ public class HubController {
             changeBalance(room, code, batch, amount);
         }
         String sql = "DELETE FROM shipments WHERE number='" + shipment.getShipmentNumber() + "'";
-        return executeSQL(sql, "Shipment was not removed as should");
+        String error = executeSQL(sql, "Shipment was not removed as should");
+        if (error.isEmpty()) {
+            return "Success";
+        }
+        return error;
     }
 
     public void sendShipment(Shipment shipment) {
@@ -155,7 +156,7 @@ public class HubController {
         if (!Utils.isDouble(temperature) && !temperature.isEmpty()) {
             return decimal;
         }
-        if (!utils.hasRoom(new String[] { storage } )) {
+        if (!utils.hasRoom(new String[] { storage })) {
             return "No such room";
         }
 
@@ -188,7 +189,7 @@ public class HubController {
         if (Double.parseDouble(amount) <= 0) {
             return "Only positive numbers are allowed";
         }
-        if (!utils.hasRoom(new String[] { from, to } )) {
+        if (!utils.hasRoom(new String[] { from, to })) {
             return "Destination or origin does not exist";
         }
         if (!utils.hasItem(code, "products", "code")) {
@@ -198,7 +199,7 @@ public class HubController {
     }
 
     private String validateChangeBalanceAction(String room, String code, String batch) {
-        if (!utils.hasRoom(new String[] { room } )) {
+        if (!utils.hasRoom(new String[] { room })) {
             return "Room does not exist";
         }
         if (!utils.hasItem(code, "products", "code")) {
@@ -254,6 +255,12 @@ public class HubController {
     }
     public void truncateShipments() {
         executeSQL("TRUNCATE TABLE shipments", "");
+    }
+    public void truncateAll() {
+        truncateRooms();
+        truncateProducts();
+        truncateBalance();
+        truncateShipments();
     }
 
     //Strictly for testing purposes
