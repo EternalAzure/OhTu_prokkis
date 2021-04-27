@@ -64,3 +64,8 @@ Sen jälkeen voit kokeilla ajaa tiedoston komennolla
 ```
 java -jar Orderly-1.0-SNAPSHOT.jar
 ```
+
+### Uusimmat julkaisut
+
+[Linux](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/viikko5)
+[Windows](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/viikko5-win)
