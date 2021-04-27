@@ -36,4 +36,5 @@ Ajat eivät sisällä laskareita.
 | 26.4        | 2           |Koitan näyttää tietokannan taulut </br> rullattavassa taulukossa|
 | 26.4        | 5           |Huoneet ja tuotteet taulut näkyy, </br>mutta lähetykset ja saldo ei. </br>Vastaanotto ilmoittaa onnistumisesta|
 | 26.4        | 1           |Jokaisesta tietokannan taulusta </br> on graafinen taulukko|
-| yht.        | 86.6        |
+| 27.4        | 2.7         |Aloitin keräilyn devaamisen. </br>Tuntuu että huollan koodia enemmän </br> kuin kehitän uutta|
+| yht.        | 89.3        |
