@@ -39,4 +39,5 @@ Ajat eivät sisällä laskareita.
 | 27.4        | 2.7         |Aloitin keräilyn devaamisen. </br>Tuntuu että huollan koodia enemmän </br> kuin kehitän uutta|
 | 27.4        | 5.5         |Aloitin poistamaan SQL koodia kontrollerista </br>ja siirsin sen uusiin tietokantarajapintoihin.</br>Kehitin testi datan luomista. Tein pohja                                    työn</br> lähetysten luomiselle ohjelman sisällä. </br> Valitettavasti ohjelma oli vielä "rikki",</br> kun palautuksen aika tuli|
 | 28.4        | 1           |Valitin checkstylestä ja mietin eikö input</br> validaatio voisi ylittää 20 rivin rajaa|
-| yht.        | 95.8        |
+| 28.4        | 4           |No kyllä sen sai jotenkin taiteiltua</br>Lyhyitä metodeita on helppo kirjoittaa,</br> mutta lyhyitä metodeita joissa on järkeä ei|
+| yht.        | 99.8        |
