@@ -38,4 +38,5 @@ Ajat eivät sisällä laskareita.
 | 26.4        | 1           |Jokaisesta tietokannan taulusta </br> on graafinen taulukko|
 | 27.4        | 2.7         |Aloitin keräilyn devaamisen. </br>Tuntuu että huollan koodia enemmän </br> kuin kehitän uutta|
 | 27.4        | 5.5         |Aloitin poistamaan SQL koodia kontrollerista </br>ja siirsin sen uusiin tietokantarajapintoihin.</br>Kehitin testi datan luomista. Tein pohja                                    työn</br> lähetysten luomiselle ohjelman sisällä. </br> Valitettavasti ohjelma oli vielä "rikki",</br> kun palautuksen aika tuli|
-| yht.        | 94.8        |
+| 28.4        | 1           |Valitin checkstylestä ja mietin eikö input</br> validaatio voisi ylittää 20 rivin rajaa|
+| yht.        | 95.8        |
