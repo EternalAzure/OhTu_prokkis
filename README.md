@@ -57,31 +57,31 @@ __Tapa 3: Lataa release__
 
 __Windows__ </br>
 Lataa viimeisimmän julkaisun jar-tiedosto koneellesi.</br>
-Tuplaklikkaa tiedostoa.
+Tuplaklikkaa tiedostoa. </br>
 __Linux__ </br>
 Linuxilla saatat joutua merkitsemään tiedoston ajettavaksi (executable) </br>
 Korvaa ```Orderly-1.0-SNAPSHOT.jar``` käyttämäsi julkaisun tiedostonimellä.
 ```
-chmod +x Orderly-1.0-SNAPSHOT.jar
+$ chmod +x Orderly-1.0-SNAPSHOT.jar
 ```
 Sen jälkeen voit kokeilla ajaa tiedoston komennolla
 ```
-java -jar Orderly-1.0-SNAPSHOT.jar
+$ java -jar Orderly-1.0-SNAPSHOT.jar
 ```
 Vaihtoehtoisesti voit tuplaklikata tiedostoa -> ominaisuudet -> luvat -> rastita ruutu.
 
 ### Testien ajaminen
 Automaattisten testien ajaminen
 ```
-mvn test
+$ mvn test
 ```
 Testikattavuus raportin luominen
 ```
-mvn test jacoco:report
+$ mvn test jacoco:report
 ```
 Checkstyle raportin luominen
 ```
-mvn jxr:jxr checkstyle:checkstyle
+$ mvn jxr:jxr checkstyle:checkstyle
 ```
 ### Uusimmat julkaisut
 
