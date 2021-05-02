@@ -40,5 +40,6 @@ Ajat eivät sisällä laskareita.
 | 27.4        | 5.5         |Aloitin poistamaan SQL koodia kontrollerista </br>ja siirsin sen uusiin tietokantarajapintoihin.</br>Kehitin testi datan luomista. Tein pohja                                    työn</br> lähetysten luomiselle ohjelman sisällä. </br> Valitettavasti ohjelma oli vielä "rikki",</br> kun palautuksen aika tuli|
 | 28.4        | 1           |Valitin checkstylestä ja mietin eikö input</br> validaatio voisi ylittää 20 rivin rajaa|
 | 28.4        | 4           |No kyllä sen sai jotenkin taiteiltua</br>Lyhyitä metodeita on helppo kirjoittaa,</br> mutta lyhyitä metodeita joissa on järkeä ei|
-| 28.7        | 1           |Vanhojen Utils metodien korvaamista uusilla</br> db rajapinta metodeilla|
-| yht.        | 100.8       |
+| 28.4        | 1           |Vanhojen Utils metodien korvaamista uusilla</br> db rajapinta metodeilla|
+| 2.5         | 0.2         |README päivitys ja ohjeiden luonti|
+| yht.        | 101.0       |
