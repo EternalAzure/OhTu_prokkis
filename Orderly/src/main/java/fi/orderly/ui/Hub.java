@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -29,6 +30,7 @@ public class Hub  extends Application {
     @Override
     public void start(Stage window){
         hub = window;
+        hub.getIcons().add(new Image("Orderly_icon_bw.png"));
         hub.initStyle(StageStyle.UNDECORATED);
         hub.setMinHeight(400);
         hub.setMinWidth(600);

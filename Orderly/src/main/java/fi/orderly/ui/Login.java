@@ -22,6 +22,8 @@ public class Login extends Application {
     @Override
     public void start(Stage loginWindow){
         window = loginWindow;
+        window.getIcons().add(new Image("Orderly_icon_bw.png"));
+        //window.getIcons().add(new Image(Login.class.getResourceAsStream("ORDERLY_Logo_fix.png")));
         window.setResizable(false);
         window.setTitle("Orderly");
         window.initStyle(StageStyle.UNDECORATED);
