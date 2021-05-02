@@ -12,7 +12,7 @@ Pyrkimys on myöhemmin toteuttaa moninaista tilastointia ja useita käyttäjä p
 
 <p>
 Sovelluksessa on kirjautumisikkuna, joka vertaa annettua nimeä ja salasanaa </br>
-osoitteessa locahost:3306 olevaan MySQL tietokantaan nimeltä login. </br>
+osoitteessa Azure pilvessä olevaan MySQL tietokantaan nimeltä login. </br>
 Toistaiseksi järjestelmän ylläpitäjä lisää käyttäjiä sovellukseen eikä sovellus </br> 
 itse tarjoa mahdollisuutta rekisteröityä.
 </p>
@@ -40,23 +40,27 @@ Kuvassa otetaan vastaan saapuvaa lähetystä.
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md) </br>
 [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md) </br>
 
-__Ajaminen terminaalista__ </br>
+### Ohjelman ajaminen:
+__Tapa 1: Käynnistä projektikansiosta main metodi__
 ```
-mvn compile exec:java -Dexec.mainClass=ui.Login
+$ mvn compile exec:java -Dexec.mainClass=fi.orderly.ui.Main
 ```
+__Tapa 2: Pakkaa jar tiedostoksi__
 ```
-mvn test
+$ mvn package
 ```
+__Aja .jar__
 ```
-mvn test jacoco:report
+$ cd target/ && java -jar .jar
 ```
-### Ohjeet .jar ajamiseen
+__Tapa 3: Lataa release__
+
+__Windows__ </br>
 Lataa viimeisimmän julkaisun jar-tiedosto koneellesi.</br>
-Windowsilla tiedoston voi ajaa suoraan. Ohjelma herjaa tietokannan</br>
-puuttumisesta, mutta älä anna sen häiritä.</br>
-</br>
-Linuxilla saatat joutua merkitsemään tiedoston ajettavaksi</br>
-Korvaa ```Orderly-1.0-SNAPSHOT.jar``` käyttämälläsi julkaisulla.
+Tuplaklikkaa tiedostoa.
+__Linux__ </br>
+Linuxilla saatat joutua merkitsemään tiedoston ajettavaksi (executable) </br>
+Korvaa ```Orderly-1.0-SNAPSHOT.jar``` käyttämäsi julkaisun tiedostonimellä.
 ```
 chmod +x Orderly-1.0-SNAPSHOT.jar
 ```
@@ -64,7 +68,21 @@ Sen jälkeen voit kokeilla ajaa tiedoston komennolla
 ```
 java -jar Orderly-1.0-SNAPSHOT.jar
 ```
+Vaihtoehtoisesti voit tuplaklikata tiedostoa -> ominaisuudet -> luvat -> rastita ruutu.
 
+### Testien ajaminen
+Automaattisten testien ajaminen
+```
+mvn test
+```
+Testikattavuus raportin luominen
+```
+mvn test jacoco:report
+```
+Checkstyle raportin luominen
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
 ### Uusimmat julkaisut
 
 [Linux](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/viikko5)
