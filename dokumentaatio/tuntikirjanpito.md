@@ -42,4 +42,5 @@ Ajat eivät sisällä laskareita.
 | 28.4        | 4           |No kyllä sen sai jotenkin taiteiltua</br>Lyhyitä metodeita on helppo kirjoittaa,</br> mutta lyhyitä metodeita joissa on järkeä ei|
 | 28.4        | 1           |Vanhojen Utils metodien korvaamista uusilla</br> db rajapinta metodeilla|
 | 2.5         | 0.2         |README päivitys ja ohjeiden luonti|
-| yht.        | 101.0       |
+| 2.5         | 1.25        |Joku ongelma kun vaihdoin pom.xml compiler ohjeeksi 8 -> 11. Asetin sovellukselle custom iconin|
+| yht.        | 102.25       |
