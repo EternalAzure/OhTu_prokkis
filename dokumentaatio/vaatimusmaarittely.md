@@ -32,8 +32,8 @@ Viimeinen askel on tilastoida raaka-aineita ja hävikkiä.
 - [x] Muuta tuotteen määrää huoneen ja erän mukaan
 - [x] Siirrä tuotetta huoneesta toiseen erän mukaan
 - [x] Vastaanota saapuva lähetys
-- [ ] Kerää lähtevä lähetys
-- [ ] Lähetä lähetys
+- [x] Kerää lähtevä lähetys
+- [x] Lähetä lähetys
 - [ ] Muunna raaka-aineet tuotteeksi reseptin mukaan
 - [ ] Tilastointi
 
