@@ -12,22 +12,6 @@ public class Utils {
         this.statement = statement;
     }
 
-    public int tableSizeRooms() {
-        String sql = "SELECT COUNT(*) FROM rooms";
-        return getResultInt(sql, "COUNT(*)");
-    }
-    public int tableSizeProducts() {
-        String sql = "SELECT COUNT(*) FROM products";
-        return getResultInt(sql, "COUNT(*)");
-    }
-    public int tableSizeBalance() {
-        String sql = "SELECT COUNT(*) FROM balance";
-        return getResultInt(sql, "COUNT(*)");
-    }
-    public int tableSizeShipments() {
-        String sql = "SELECT COUNT(*) FROM shipments";
-        return getResultInt(sql, "COUNT(*)");
-    }
 
     public Double getBalance(String room, String code, String batch) {
         String roomIdQuery = "SELECT id FROM rooms WHERE room='" + room + "'";
@@ -47,29 +31,24 @@ public class Utils {
             result.next();
             return result.getString(column);
         } catch (SQLException e) {
-            System.out.println("Failed to query: " + query);
             return null;
         }
     }
-
     public int getResultInt(String query, String column) {
         try {
             ResultSet result = statement.executeQuery(query);
             result.next();
             return result.getInt(column);
         } catch (SQLException e) {
-            System.out.println("Failed to query: " + query);
             return 0;
         }
     }
-
     public double getResultDouble(String query, String column) {
         try {
             ResultSet result = statement.executeQuery(query);
             result.next();
             return result.getDouble(column);
         } catch (SQLException e) {
-            System.out.println("Failed to query: " + query);
             return 0.0;
         }
     }
@@ -82,31 +61,49 @@ public class Utils {
         }
         return false;
     }
-
-    public static boolean isInt(String input) {
-        if (input.isEmpty()) {
-            return false;
-        }
+    public static boolean notInt(String input) {
         try {
             Integer.parseInt(input); //int integer =
-            return true;
         } catch (NumberFormatException e) {
-            return false;
+            return true;
         }
+        return false;
     }
-
-    public static boolean isDouble(String input) {
-        if (input.isEmpty()) {
-            return false;
+    public boolean notInt(String[] input) {
+        for (String s: input) {
+            try {
+                Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                return true;
+            }
         }
+        return false;
+    }
+    public static boolean notDouble(String input) {
         try {
             Double.parseDouble(input); //double d =
-            return true;
-        } catch (NumberFormatException e) {
             return false;
+        } catch (NumberFormatException e) {
+            return true;
         }
     }
-
+    public boolean notDouble(String[] input) {
+        for (String s: input) {
+            try {
+                Double.parseDouble(s);
+            } catch (NumberFormatException e) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean isNumeric(String value) {
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (pattern.matcher(value).matches()) {
+            return true;
+        }
+        return false;
+    }
     public static boolean isNumeric(String[] textFields) {
         Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
         int count = 0;
@@ -120,31 +117,5 @@ public class Utils {
             }
         }
         return count == textFields.length;
-    }
-
-    public boolean hasItem(String value, String table, String column) {
-        String query = "SELECT COUNT(" + column + ") FROM " + table + " WHERE " + column + "='" + value + "'";
-        return getResultInt(query, "COUNT(" + column + ")") > 0;
-    }
-
-    public boolean hasRoom(String[] rooms) {
-        if (rooms.length == 0) {
-            return false;
-        }
-
-        for (String room: rooms) {
-            String query = "SELECT COUNT(room) FROM rooms WHERE room='" + room + "'";
-            try {
-                ResultSet result = statement.executeQuery(query);
-                result.next();
-                if (result.getInt("COUNT(room)") == 0) {
-                    return false;
-                }
-            } catch (SQLException e) {
-                System.out.println("Faulty SQL was run in Utils.hasRoom()");
-                return false;
-            }
-        }
-        return true;
     }
 }

@@ -15,8 +15,8 @@ public class ShipmentTest {
     final String database = ServerConnection.TEST_DATABASE;
     Statement statement = ServerConnection.createConnection(database);
     HubController hubController = new HubController(statement);
-    Utils utils = new Utils(statement);
     Shipment shipment;
+
     @Before
     public void setUp() throws SQLException {
         assert statement != null;
@@ -25,20 +25,18 @@ public class ShipmentTest {
         statement.execute("TRUNCATE TABLE balance");
         statement.execute("TRUNCATE TABLE shipments");
 
-        hubController.createTestShipment();
+        hubController.createTestData();
     }
     @Test
     public void fetchData() {
         shipment = new Shipment("1", statement);
-        //Check that test shipment makes 5 products
-        assertEquals(5, utils.tableSizeProducts());
 
         //-- SHOULD PASS --//
         //Right number of DataPackages (1 for each product)
         shipment.forTestingOnly("1");
         assertEquals(5, shipment.getLength());
         //Shipment number is saved and can be accessed
-        assertEquals("1", shipment.getShipmentNumber());
+        assertEquals(1, shipment.getShipmentNumber());
         //Content of DataPackage is correct
         Shipment.DataPackage data = shipment.getDataPackage(0);
         assertEquals("Kaali", data.getName());

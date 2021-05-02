@@ -10,12 +10,12 @@ public class Shipment {
     final private Statement statement;
     final private Utils utils;
     private DataPackage[] list;
-    final private String shipmentNumber;
+    final private int shipmentNumber;
 
     public Shipment(String shipmentNumber, Statement statement) {
         this.statement = statement;
         utils = new Utils(statement);
-        this.shipmentNumber = shipmentNumber;
+        this.shipmentNumber = Integer.parseInt(shipmentNumber);
         fetchData(shipmentNumber);
     }
 
@@ -56,7 +56,7 @@ public class Shipment {
         return list.length;
     }
 
-    public String getShipmentNumber() {
+    public int getShipmentNumber() {
         return shipmentNumber;
     }
 

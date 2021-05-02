@@ -1,7 +1,8 @@
 package fi.orderly.ui.tables;
-import fi.orderly.dao.ITable;
+import fi.orderly.dao.tables.ITable;
 
 import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterface.DatabaseAccess;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,21 +12,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-
 import java.sql.Statement;
 
-/**
- * This class is only modified by me
- * Original idea posted by Robert Lichtenberger
- * http://programmingtipsandtraps.blogspot.com/2014/10/infinite-scrolling-with-javafx-tableview.html
- */
 
 public class TableViewInfiniteScrolling {
 
     ObservableList<ITable> items = FXCollections.observableArrayList();
     TableView<ITable> table = new TableView<>();
     Statement statement;
-    Utils utils;
+    Utils utils = new Utils(statement);
+    DatabaseAccess db = new DatabaseAccess(statement);
 
     Stage stage = new Stage();
     Scene scene;
@@ -41,7 +37,6 @@ public class TableViewInfiniteScrolling {
 
     public void display(Statement statement) {
         this.statement = statement;
-        utils = new Utils(statement);
         addItems();
         table.setItems(items);
 

@@ -1,25 +1,29 @@
 package fi.orderly.logic;
 
+import fi.orderly.dao.Delivery;
 import fi.orderly.dao.Shipment;
+import fi.orderly.logic.dbinterface.*;
 import fi.orderly.ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.util.Random;
 
 public class HubController {
 
-    final private Statement statement;
     final private Utils utils;
-    public HubController(Statement statement) {
-        this.statement = statement;
-        this.utils = new Utils(statement);
-    }
+    final private TestData testData;
+    final private SaldoOperations engine;
+    DatabaseAccess db;
 
-    final private String numeric = "Numeric input needed";
-    final private String empty = "Non allowed empty value";
-    final private String decimal = "Decimal number needed";
-    final private String integer = "Integer needed";
+    public HubController(Statement statement) {
+        utils = new Utils(statement);
+        testData = new TestData(statement);
+        engine = new SaldoOperations(statement);
+        db = new DatabaseAccess(statement);
+    }
 
     public static void logout(Stage currentWindow) {
         new Login().start(new Stage());
@@ -31,76 +35,239 @@ public class HubController {
 
 
     public String addRoom(String name, String temperature) {
-        if (!validateAddRoomInput(name, temperature).isEmpty()) {
-            return validateAddRoomInput(name, temperature);
+        if (!validate01(name, temperature).isEmpty()) {
+            return validate01(name, temperature);
         }
-        String sql = "INSERT INTO rooms (room, temperature) VALUES ('" + name + "', NULLIF('" + temperature + "', ''))";
-        return executeSQL(sql, "'" + name + "' already exists");
+        if (!execute01(name, temperature).isEmpty()) {
+            return execute01(name, temperature);
+        }
+        return "Success";
+    }
+    private String validate01(String name, String temperature) {
+        try {
+            if (name.isEmpty()) {
+                return "Non allowed empty values";
+            }
+            if (db.rooms.countRoom(name) > 0) {
+                return "Duplicate. Not allowed";
+            }
+            if (Utils.notDouble(temperature) && !temperature.isEmpty()) {
+                return "Temperature has to be \neither empty or decimal";
+            }
+        } catch (SQLException e) {
+            return "SQLException. \nContact your service provider";
+        }
+        return "";
+    }
+    private String execute01(String name, String temperature) {
+        try {
+            if (temperature.isEmpty()) {
+                db.rooms.insertRoom(name);
+            } else {
+                db.rooms.insertRoom(name, Double.parseDouble(temperature));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (e.getErrorCode() == 1062) {
+                return "Duplicate. Not accepted";
+            }
+            return "SQLException. \nContact your service provider";
+        }
+        return "";
     }
 
     public String addProduct(String product, String code, String unit, String temperature, String storage) {
-        if (!validateAddProductInput(product, code, unit, temperature, storage).isEmpty()) {
-            return validateAddProductInput(product, code, unit, temperature, storage);
+        if (!validate02(product, code, unit, temperature, storage).isEmpty()) {
+            return validate02(product, code, unit, temperature, storage);
         }
-
-        String query = "SELECT id FROM rooms WHERE room='" + storage + "'";
-        String sql = "INSERT INTO products (product, code, unit, temperature, room_id) VALUES (" +
-                "'" + product + "', " +
-                "'" + code + "', " +
-                "'" + unit + "', " +
-                "NULLIF('" + temperature + "', ''), " +
-                "" + utils.getResultInt(query, "id") + ")";
-        return executeSQL(sql, "'" + product + "' or code " + code + " already exists");
+        if (!execute02(product, code, unit, storage, temperature).isEmpty()) {
+            return execute02(product, code, unit, storage, temperature);
+        }
+        return "Success";
+    }
+    private String validate02(String product, String code, String unit, String temperature, String storage) {
+        if (Utils.isEmpty(new String[] { product, code, unit, storage })) {
+            return "Non allowed empty values";
+        }
+        if (Utils.notInt(code)) {
+            return "Code has to be integer";
+        }
+        if (Utils.notDouble(temperature) && !temperature.isEmpty()) {
+            return "Temperature has to be decimal";
+        }
+        try {
+            if (db.rooms.countRoom(storage) == 0) {
+                return "Room not found";
+            }
+        } catch (NumberFormatException n) {
+            return "Temperature has to be \neither empty or decimal";
+        } catch (SQLException e) { }
+        return "";
+    }
+    private String execute02(String product, String code, String unit, String storage, String temperature) {
+        try {
+            int roomId = db.rooms.findIdByName(storage);
+            if (temperature.isEmpty()) {
+                db.products.insertProduct(product, code, unit, roomId);
+            } else {
+                db.products.insertProduct(product, code, unit, Double.parseDouble(temperature), roomId);
+            }
+        } catch (SQLIntegrityConstraintViolationException e) {
+            return "Duplicate. Not allowed";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "SQLException. \nContact your service provider";
+        }
+        return "";
     }
 
     public String removeRoom(String room) {
-        if (room.isEmpty()) {
-            return empty;
+        if (!validate03(room).isEmpty()) {
+            return validate03(room);
         }
-        if (!utils.hasRoom(new String[] { room })) {
-            return "Room not found";
+        if (!execute03(room).isEmpty()) {
+            return execute03(room);
         }
-        String sql = "DELETE FROM rooms WHERE room='" + room + "';";
-        return executeSQL(sql, "unknown SQL error");
+        return "Success";
+    }
+    private String validate03(String room) {
+        try {
+            if (room.isEmpty()) {
+                return "Non allowed empty values";
+            }
+            if (db.rooms.countRoom(room) == 0) {
+                return "Room not found";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "SQLException. \nContact your service provider";
+        }
+        return "";
+    }
+    private String execute03(String room) {
+        try {
+            db.rooms.deleteRoom(room);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "SQLException. \nContact your service provider";
+        }
+        return "";
     }
 
     public String removeProduct(String product) {
-        if (product.isEmpty()) {
-            return empty;
+        if (!validate04(product).isEmpty()) {
+            return validate04(product);
         }
-        if (!utils.hasItem(product, "products", "product")) {
-            return "Product not found";
+        if (!execute04(product).isEmpty()) {
+            return execute04(product);
         }
-        String sql = "DELETE FROM products WHERE product='" + product + "';";
-        return executeSQL(sql, "unknown SQL error");
+        return "Success";
+    }
+    private String validate04(String product) {
+        try {
+            if (product.isEmpty()) {
+                return "Non allowed empty values";
+            }
+            if (db.products.countProductName(product) == 0) {
+                return "Product not found";
+            }
+        } catch (SQLException e) {
+            e.getErrorCode();
+            e.printStackTrace();
+            return "SQLException. \nContact your service provider";
+        }
+        return "";
+    }
+    private String execute04(String product) {
+        try {
+            db.products.deleteProduct(product);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "SQLException. \nContact your service provider";
+        }
+        return "";
     }
 
     public String changeBalance(String room, String code, String batch, String newBalance) {
-        if (!validateChangeBalanceInput(room, code, batch, newBalance).isEmpty()) {
-            return validateChangeBalanceInput(room, code, batch, newBalance);
+
+        try {
+
+            if (!validate05(room, code, batch, newBalance).isEmpty()) {
+                return validate05(room, code, batch, newBalance);
+            }
+            if (!execute05(room, code, batch, newBalance).isEmpty()) {
+                return execute05(room, code, batch, newBalance);
+            }
+
+        } catch (SQLException e) {
+            return "SQLException. \nContact your service provider";
+        } catch (NumberFormatException n) {
+            return "Wrong number format";
         }
-
-        String roomIdQuery = "SELECT id FROM rooms WHERE room='" + room + "'";
-        String productIdQuery = "SELECT id FROM products WHERE code='" + code + "'";
-        String roomId = utils.getResultString(roomIdQuery, "id");
-        String productId = utils.getResultString(productIdQuery, "id");
-
-        if (!validateChangeBalanceAction(room, code, batch).isEmpty()) {
-            return validateChangeBalanceAction(room, code, batch);
+        return "Success";
+    }
+    private String validate05(String room, String code, String batch, String newBalance) throws SQLException, NumberFormatException {
+        if (db.rooms.countRoom(room) == 0) {
+            return "Room not found";
         }
+        if (db.products.countProductCode(code) == 0) {
+            return "Product code not found";
+        }
+        if (!db.foundBatch(Integer.parseInt(batch))) {
+            return "Batch number not found";
+        }
+        if (Double.parseDouble(newBalance) < 0) {
+            return "Negative balance not accepted";
+        }
+        return "";
+    }
+    private String execute05(String room, String code, String batch, String newBalance) throws SQLException {
+        int roomId = db.rooms.findIdByName(room);
+        int productId = db.products.findIdByCode(code);
+        int batchNumber = Integer.parseInt(batch);
+        double newAmount = Double.parseDouble(newBalance);
 
-        String countQuery = "SELECT COUNT(*) FROM balance WHERE product_id='" + productId + "' AND room_id='" + roomId + "' AND batch='" + batch + "'";
-        String insert = "INSERT INTO balance (room_id, product_id, batch, amount) " +
-                "VALUES ('" + roomId + "', " + productId + ", '" + batch + "', '" + newBalance + "')";
-        String change = "UPDATE balance SET amount=" + newBalance + " WHERE product_id='" + productId + "' AND room_id='" + roomId + "' AND batch='" + batch + "'";
-
-        return executeChangeBalance(countQuery, insert, change);
+        if (db.balance.foundBalance(roomId, productId, batchNumber)) {
+            db.balance.updateBalance(roomId, productId, batchNumber, newAmount);
+        } else {
+            db.balance.insertBalance(roomId, productId, batchNumber, newAmount);
+        }
+        return "";
     }
 
     public String transfer(String from, String to, String code, String batch, String amount) {
-        if (!validateTransferInput(from, to, code, batch, amount).isEmpty()) {
-            return validateTransferInput(from, to, code, batch, amount);
+        try {
+
+            if (!validate06(from, to, code, batch, amount).isEmpty()) {
+                return validate06(from, to, code, batch, amount);
+            }
+            if (!execute06(from, to, code, batch, amount).isEmpty()) {
+                return validate06(from, to, code, batch, amount);
+            }
+
+        } catch (SQLException e) {
+            return "SQLException. \nContact your service provider";
+        } catch (NumberFormatException n) {
+            return "Wrong number format";
         }
+        return "Success";
+    }
+    private String validate06(String from, String to, String code, String batch, String amount) throws SQLException, NumberFormatException {
+        if (!db.foundRooms(new String[] { from, to })) {
+            return "Room/s not found";
+        }
+        if (db.products.countProductCode(code) == 0) {
+            return "Product code not found";
+        }
+        if (!db.foundBatch(Integer.parseInt(batch))) {
+            return "Batch number not found";
+        }
+        if (Double.parseDouble(amount) < 0) {
+            return "Negative values not allowed";
+        }
+        return "";
+    }
+    private String execute06(String from, String to, String code, String batch, String amount) {
         double oldBalance = utils.getBalance(from, code, batch);
         double newBalance = oldBalance - Double.parseDouble(amount);
 
@@ -115,6 +282,7 @@ public class HubController {
         return "";
     }
 
+
     public String receiveShipment(Shipment shipment) {
         for (int i = 0; i < shipment.getLength(); i++) {
             String room = shipment.getDataPackage(i).getStorageRoom();
@@ -123,175 +291,91 @@ public class HubController {
             String amount = shipment.getDataPackage(i).getAmount();
             changeBalance(room, code, batch, amount);
         }
-        String sql = "DELETE FROM shipments WHERE number='" + shipment.getShipmentNumber() + "'";
-        String error = executeSQL(sql, "Shipment was not removed as should");
-        if (error.isEmpty()) {
-            return "Success";
-        }
-        return error;
-    }
-
-    public void sendShipment(Shipment shipment) {
-        System.out.println("sendShipment()");
-    }
-
-    //region Validation methods
-    private String validateAddRoomInput(String name, String temperature) {
-        if (name.isEmpty()) {
-            return empty;
-        }
-        if (!Utils.isDouble(temperature) && !temperature.isEmpty()) {
-            return decimal;
-        }
-        return "";
-    }
-
-    private String validateAddProductInput(String product, String code, String unit, String temperature, String storage) {
-        if (Utils.isEmpty(new String[] { product, code, unit, storage })) {
-            return empty;
-        }
-        if (!Utils.isNumeric(new String[] { code })) {
-            return numeric;
-        }
-        if (!Utils.isDouble(temperature) && !temperature.isEmpty()) {
-            return decimal;
-        }
-        if (!utils.hasRoom(new String[] { storage })) {
-            return "No such room";
-        }
-
-        return "";
-    }
-
-    private String validateChangeBalanceInput(String room, String code, String batch, String newBalance) {
-        if (Utils.isEmpty(new String[] { room, code, batch, newBalance })) {
-            return empty;
-        }
-        if (!Utils.isNumeric(new String[] { code, batch })) {
-            return numeric;
-        }
-        if (!Utils.isDouble(newBalance)) {
-            return decimal;
-        }
-        if (Double.parseDouble(newBalance) <= 0) {
-            return "Only positive numbers are allowed";
-        }
-        return "";
-    }
-
-    private String validateTransferInput(String from, String to, String code, String batch, String amount) {
-        if (Utils.isEmpty(new String[] { from, to, code, batch, amount })) {
-            return empty;
-        }
-        if (!Utils.isNumeric(new String[] { code, batch })) {
-            return numeric;
-        }
-        if (Double.parseDouble(amount) <= 0) {
-            return "Only positive numbers are allowed";
-        }
-        if (!utils.hasRoom(new String[] { from, to })) {
-            return "Destination or origin does not exist";
-        }
-        if (!utils.hasItem(code, "products", "code")) {
-            return "Product does not exist";
-        }
-        return "";
-    }
-
-    private String validateChangeBalanceAction(String room, String code, String batch) {
-        if (!utils.hasRoom(new String[] { room })) {
-            return "Room does not exist";
-        }
-        if (!utils.hasItem(code, "products", "code")) {
-            return "Product does not exist";
-        }
-        boolean notInShipments = !utils.hasItem(batch, "shipments", "batch");
-        boolean notInBalance = !utils.hasItem(batch, "balance", "batch");
-        if (notInShipments && notInBalance) {
-            return "Batch does not exist. \nBatches are created along side shipments";
-        }
-        return "";
-    }
-
-    //endregion
-
-    private String executeSQL(String sql, String errorMessage) {
         try {
-            statement.execute(sql);
-        } catch (SQLException e) {
-            if (e.getErrorCode() == 1062) {
-                System.out.println("ErrorCode 1062 with: " + sql);
-                return errorMessage;
-            }
-            System.out.println("Failed to exucute: " + sql);
-        }
-        return "";
-    }
-
-    private String executeChangeBalance(String countQuery, String insert, String change) {
-        try {
-            if (utils.getResultInt(countQuery, "COUNT(*)") == 0) {
-                statement.execute(insert);
-            } else {
-                statement.executeUpdate(change);
-            }
+            db.shipments.deleteShipment(shipment.getShipmentNumber());
         } catch (SQLException e) {
             e.printStackTrace();
-            return "SQL error";
         }
-        return "";
+        return "Success";
     }
 
-    // MENUBAR
-    public void truncateRooms() {
-        executeSQL("TRUNCATE TABLE rooms", "");
+    public void sendDelivery(Delivery delivery) {
+        try {
+            for (int i = 0; i < delivery.getLength(); i++) {
+                String code = delivery.getDataPackage(i).getCode();
+                int batch = delivery.getDataPackage(i).getBatch();
+                double amount = delivery.getDataPackage(i).getAmount();
+                String room = delivery.getDataPackage(i).getFrom();
 
+                engine.subractBalance(room, code, batch, amount);
+            }
+
+            db.deliveries.deleteDelivery(delivery.getDeliveryNumber());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    // MENUBAR TRUNCATE
+    public void truncateRooms() {
+        db.rooms.truncate();
     }
     public void truncateProducts() {
-        executeSQL("TRUNCATE TABLE products", "");
+        db.products.truncate();
     }
     public void truncateBalance() {
-        executeSQL("TRUNCATE TABLE balance", "");
+        db.balance.truncate();
     }
     public void truncateShipments() {
-        executeSQL("TRUNCATE TABLE shipments", "");
+        db.shipments.truncate();
+    }
+    public void truncateDeliveries() {
+        db.deliveries.truncate();
     }
     public void truncateAll() {
-        truncateRooms();
-        truncateProducts();
-        truncateBalance();
-        truncateShipments();
+        db.rooms.truncate();
+        db.products.truncate();
+        db.balance.truncate();
+        db.shipments.truncate();
+        db.deliveries.truncate();
+    }
+
+    //MENUBAR POPULATE
+    public void generateRooms() {
+        int n = db.rooms.size();
+        for (int i = n; i < n + 10; i++) {
+            Random r = new Random();
+            int temp = r.nextInt(44) - 22;
+            addRoom("Room " + i, "" + temp);
+        }
+        System.out.println("10 rooms generated");
+    }
+    public void generateProducts() {
+        addRoom("Room 1", "");
+        String[] prefixes = new String[]
+        { "ba", "bo", "bi", "ce", "ci", "ca", "doo", "fu", "gua", "gas", "hedd", "hull", "hym", "j", "kappa", "luu", "luo", "las", "mello" };
+        String[] suffixes = new String[] {"aas", "er", "nips", "seed", "ror", "berry", "beet", "root", "leaf", "ddi", "llon", "sprout"};
+        Random r = new Random();
+
+        int counter = 0;
+        int i = db.products.size();
+        while (counter < 50) {
+            int pre = r.nextInt(prefixes.length);
+            int suf = r.nextInt(suffixes.length);
+            int n = r.nextInt(1000);
+
+            if (addProduct(prefixes[pre] + suffixes[suf] + n, "" + (i + counter), "KG", "", "Room 1").equals("Success")) {
+                counter++;
+            }
+        }
+        System.out.println("50 products generated");
     }
 
     //Strictly for testing purposes
-    public void createTestShipment() {
-        addRoom("Room 1", "4");
-        addRoom("Room 2", "");
-        addProduct("Kaali", "1000", "KG", "4", "Room 1");
-        addProduct("Porkkana", "2000", "KG", "4", "Room 1");
-        addProduct("Peruna", "3000", "KG", "4", "Room 1");
-        addProduct("Kurpitsa", "4000", "KG", "4", "Room 2");
-        addProduct("Sipuli", "5000", "KG", "4", "Room 2");
-
-        String insert1 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 1, 1, 10)";
-        String insert2 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 2, 1, 40)";
-        String insert3 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 3, 1, 160)";
-        String insert4 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 4, 1, 640)";
-        String insert5 = "INSERT INTO shipments (number, product_id, batch, amount) VALUES (1, 5, 1, 2560)";
-        String[] commandList = new String[] {insert1, insert2, insert3, insert4, insert5};
-
-        for (String s : commandList) {
-            executeSQL(s, "");
-        }
-    }
-    public void deleteTestShipment() {
-        String sql = "TRUNCATE TABLE shipments";
-        String sql2 = "TRUNCATE TABLE products";
-        try {
-            statement.execute(sql);
-            statement.execute(sql2);
-        } catch (SQLException e) {
-            System.out.println("Could not truncate tables");
-        }
+    public void createTestData() {
+        testData.createShipmentAndDelivery();
     }
 }

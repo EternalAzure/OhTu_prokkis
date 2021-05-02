@@ -1,11 +1,11 @@
-package fi.orderly.dao;
+package fi.orderly.dao.tables;
 
 import fi.orderly.logic.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.sql.Statement;
 
-public class BalanceTable implements ITable{
+public class BalanceTable implements ITable {
 
     private String room = null;
     private String name = null;
@@ -46,7 +46,9 @@ public class BalanceTable implements ITable{
         return productNameProperty().get();
     }
     public StringProperty productNameProperty() {
-        if (productName == null) productName = new SimpleStringProperty(this, "productName");
+        if (productName == null) {
+            productName = new SimpleStringProperty(this, "productName");
+        }
         return productName;
     }
 

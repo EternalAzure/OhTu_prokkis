@@ -85,7 +85,7 @@ public class ShipmentWorkspace {
     }
 
     public String validateInput(String input){
-        if (input.isEmpty() || !Utils.isInt(input)) return "Input needs to be integer";
+        if (input.isEmpty() || !Utils.notInt(input)) return "Input needs to be integer";
         String query = "SELECT COUNT(*) FROM shipments WHERE number=" + input;
         int deliverySize = utils.getResultInt(query, "COUNT(*)");
         if (deliverySize == 0) return "No shipments found";

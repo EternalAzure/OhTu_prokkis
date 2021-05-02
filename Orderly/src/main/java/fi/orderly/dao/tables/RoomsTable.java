@@ -1,11 +1,11 @@
-package fi.orderly.dao;
+package fi.orderly.dao.tables;
 
 import fi.orderly.logic.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.sql.Statement;
 
-public class RoomsTable implements ITable{
+public class RoomsTable implements ITable {
 
     private String name = null;
     private String temperature = null;
@@ -19,18 +19,30 @@ public class RoomsTable implements ITable{
     }
 
     private StringProperty roomName;
-    public void setRoomName(String value) { roomNameProperty().set(value); }
-    public String getRoomName() { return roomNameProperty().get(); }
+    public void setRoomName(String value) {
+        roomNameProperty().set(value);
+    }
+    public String getRoomName() {
+        return roomNameProperty().get();
+    }
     public StringProperty roomNameProperty() {
-        if (roomName == null) roomName = new SimpleStringProperty(this, "roomName");
+        if (roomName == null) {
+            roomName = new SimpleStringProperty(this, "roomName");
+        }
         return roomName;
     }
 
     private StringProperty roomTemperature;
-    public void setRoomTemperature(String value) { roomTemperatureProperty().set(value); }
-    public String getRoomTemperature() { return roomTemperatureProperty().get(); }
+    public void setRoomTemperature(String value) {
+        roomTemperatureProperty().set(value);
+    }
+    public String getRoomTemperature() {
+        return roomTemperatureProperty().get();
+    }
     public StringProperty roomTemperatureProperty() {
-        if (roomTemperature == null) roomTemperature = new SimpleStringProperty(this, "null");
+        if (roomTemperature == null) {
+            roomTemperature = new SimpleStringProperty(this, "null");
+        }
         return roomTemperature;
     }
 

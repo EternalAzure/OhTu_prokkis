@@ -1,6 +1,6 @@
 package fi.orderly.ui.tables;
-import fi.orderly.dao.ProductsTable;
-import fi.orderly.dao.ITable;
+import fi.orderly.dao.tables.ProductsTable;
+import fi.orderly.dao.tables.ITable;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -9,13 +9,15 @@ public class ProductsTableView extends TableViewInfiniteScrolling {
 
     @Override
     void addItems() {
-        int limit = items.size() + 10;
+        int limit = items.size() + 30;
         for (int i = items.size(); i < limit; i++) {
-            if (i >= utils.tableSizeProducts()) {
+            if (i >= db.products.size()) {
                 break;
             }
-
             ProductsTable p = new ProductsTable(items.size() + 1, statement);
+            if (p.getProductCode().isEmpty()) {
+                continue;
+            }
             items.add(p);
         }
     }

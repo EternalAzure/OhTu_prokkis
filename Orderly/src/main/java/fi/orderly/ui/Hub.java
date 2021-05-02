@@ -22,8 +22,9 @@ public class Hub  extends Application {
     final private HubController hubController = new HubController(statement);
     final private TableViewInfiniteScrolling roomsView = new RoomsTableView();
     final private TableViewInfiniteScrolling productView = new ProductsTableView();
-    final private  TableViewInfiniteScrolling balanceView = new BalanceTableView();
+    final private TableViewInfiniteScrolling balanceView = new BalanceTableView();
     final private TableViewInfiniteScrolling shipmentsView = new ShipmentsTableView();
+    final private TableViewInfiniteScrolling deliveriesView = new DeliveriesTableView();
 
     @Override
     public void start(Stage window){
@@ -31,7 +32,7 @@ public class Hub  extends Application {
         hub.initStyle(StageStyle.UNDECORATED);
         hub.setMinHeight(400);
         hub.setMinWidth(600);
-        hub.setTitle("Orderly - fi.orderly.dao.ui.Hub");
+        hub.setTitle("Orderly - Hub");
         BorderPane borderPane = new BorderPane();
         VBox leftMenu = new VBox();
 
@@ -46,30 +47,30 @@ public class Hub  extends Application {
         HBox.setHgrow(logout, Priority.NEVER);
         HBox.setHgrow(exit, Priority.NEVER);
 
-        Menu testing = new Menu("Testing");
-        Menu terminal = new Menu("Receiving terminal");
-        MenuItem create = new MenuItem("Create shipment");
-        MenuItem delete = new MenuItem("Delete shipment");
-        terminal.getItems().addAll(
-                create, delete
-        );
+        Menu testing = new Menu("Populate");
+        MenuItem createTestData = new MenuItem("Create test data");
+        MenuItem generateProducts = new MenuItem("Generate 50 products");
+        MenuItem generateRooms = new MenuItem("Generate 10 rooms");
+        testing.getItems().addAll(createTestData, generateRooms, generateProducts);
 
-        testing.getItems().addAll(terminal);
-
-        Menu dataBase = new Menu("Database");
+        //TRUNCATE MENU
+        Menu dataBase = new Menu("Truncate");
         MenuItem truncateRooms = new MenuItem("Truncate 'rooms'");
         MenuItem truncateProducts = new MenuItem("Truncate 'products'");
         MenuItem truncateBalance = new MenuItem("Truncate 'balance'");
         MenuItem truncateShipments = new MenuItem("Truncate 'shipments'");
+        MenuItem truncateDeliveries = new MenuItem("Truncate 'deliveries'");
         MenuItem truncateAll = new MenuItem("Truncate all");
-        dataBase.getItems().addAll(truncateRooms, truncateProducts, truncateBalance, truncateShipments, truncateAll);
+        dataBase.getItems().addAll(truncateAll, truncateRooms, truncateProducts, truncateBalance, truncateShipments, truncateDeliveries);
 
+        //SHOW MENU
         Menu showTables = new Menu("Show tables");
         MenuItem showRooms = new MenuItem("Show rooms");
         MenuItem showProducts = new MenuItem("Show products");
         MenuItem showBalance = new MenuItem("Show balance");
         MenuItem showShipments = new MenuItem("Show shipments");
-        showTables.getItems().addAll(showRooms, showProducts, showBalance, showShipments);
+        MenuItem showDeliveries = new MenuItem("Show deliveries");
+        showTables.getItems().addAll(showRooms, showProducts, showBalance, showShipments, showDeliveries);
 
         borderPane.setLeft(leftMenu);
         borderPane.setTop(hBox);
@@ -86,7 +87,10 @@ public class Hub  extends Application {
         Hyperlink changeBalance = new Hyperlink("Change balance");
         Hyperlink transfer = new Hyperlink("Transfer");
         Hyperlink receive = new Hyperlink("Receive shipment");
-        Hyperlink collect = new Hyperlink("Send shipment");
+        Hyperlink collectDelivery = new Hyperlink("Collect delivery");
+        Hyperlink sendDelivery = new Hyperlink("Send delivery");
+        Hyperlink newShipment = new Hyperlink("New shipment");
+        Hyperlink newDelivery = new Hyperlink("New delivery");
 
         menuBar.getMenus().addAll(testing, dataBase, showTables); //MENUBAR
         leftMenu.getChildren().addAll(
@@ -97,25 +101,37 @@ public class Hub  extends Application {
                 changeBalance,
                 transfer,
                 receive,
-                collect
+                collectDelivery,
+                sendDelivery,
+                newShipment,
+                newDelivery
         );
         //endregion
 
+        //MENUBAR SHOW
         showRooms.setOnAction(event -> roomsView.display(statement));
         showProducts.setOnAction(event -> productView.display(statement));
         showBalance.setOnAction(event -> balanceView.display(statement));
         showShipments.setOnAction(event -> shipmentsView.display(statement));
+        showDeliveries.setOnAction(event -> deliveriesView.display(statement));
 
-        create.setOnAction(event -> hubController.createTestShipment()); //TESTING
-        delete.setOnAction(event -> hubController.deleteTestShipment()); //TESTING
+        //MENUBAR POPULATE
+        createTestData.setOnAction(event -> hubController.createTestData()); //TESTING
+        generateRooms.setOnAction(event -> hubController.generateRooms());
+        generateProducts.setOnAction(event -> hubController.generateProducts());
+
+        //MENUBAR TRUNCATE
         truncateRooms.setOnAction(event -> hubController.truncateRooms());
         truncateProducts.setOnAction(event -> hubController.truncateProducts());
         truncateBalance.setOnAction(event -> hubController.truncateBalance());
         truncateShipments.setOnAction(event -> hubController.truncateShipments());
+        truncateDeliveries.setOnAction(event -> hubController.truncateDeliveries());
         truncateAll.setOnAction(event -> hubController.truncateAll());
+
         logout.setOnMouseClicked(event -> HubController.logout(window));
         exit.setOnMouseClicked(event -> HubController.exit());
 
+        //MENU
         addRoom.setOnAction(event -> setWorkSpace(workSpaces.addRoomWorkspace()));
         addProduct.setOnAction(event -> setWorkSpace(workSpaces.addProductWorkspace()));
         removeRoom.setOnAction(event -> setWorkSpace(workSpaces.removeRoomWorkspace()));
@@ -123,7 +139,10 @@ public class Hub  extends Application {
         changeBalance.setOnAction(event -> setWorkSpace(workSpaces.changeBalanceWorkspace()));
         transfer.setOnAction(event -> setWorkSpace(workSpaces.transferWorkspace()));
         receive.setOnAction(event -> setWorkSpace(workSpaces.receiveWorkspace(this)));
-        collect.setOnAction(event -> setWorkSpace(workSpaces.collectWorkspace(this)));
+        collectDelivery.setOnAction(event -> setWorkSpace(workSpaces.collectDeliveryWorkspace(this, statement)));
+        sendDelivery.setOnAction(event -> setWorkSpace(workSpaces.sendDeliveryWorkspace(this)));
+        //newShipment.setOnAction(event -> );
+        //newDelivery.setOnAction(event -> );
 
         Scene scene = new Scene(borderPane, 800, 600);
         scene.getStylesheets().add("hub.css");

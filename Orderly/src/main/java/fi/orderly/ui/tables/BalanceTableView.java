@@ -1,6 +1,6 @@
 package fi.orderly.ui.tables;
-import fi.orderly.dao.ITable;
-import fi.orderly.dao.BalanceTable;
+import fi.orderly.dao.tables.ITable;
+import fi.orderly.dao.tables.BalanceTable;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -10,13 +10,16 @@ public class BalanceTableView extends TableViewInfiniteScrolling{
 
     @Override
     void addItems() {
-        int limit = items.size() + 10;
+        int limit = items.size() + 30;
         for (int i = items.size(); i < limit; i++) {
-            if (i >= utils.tableSizeBalance()) {
+            if (i >= db.balance.size()) {
                 break;
             }
 
             BalanceTable b = new BalanceTable(items.size() + 1, statement);
+            if (b.getRoomName().isEmpty()) {
+                continue;
+            }
             items.add(b);
         }
         System.out.println("Did add items");

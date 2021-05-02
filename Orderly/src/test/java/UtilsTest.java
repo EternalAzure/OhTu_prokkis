@@ -1,6 +1,7 @@
 import java.sql.*;
 
 import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterface.DatabaseAccess;
 import org.junit.Before;
 import org.junit.Test;
 import fi.orderly.logic.ServerConnection;
@@ -12,6 +13,7 @@ public class UtilsTest {
     final String database = ServerConnection.TEST_DATABASE;
     Statement statement = ServerConnection.createConnection(database);
     Utils utils = new Utils(statement);
+    DatabaseAccess db = new DatabaseAccess(statement);
     //Be sure to use test database when using methods outside of test class
 
     @Before
@@ -20,42 +22,6 @@ public class UtilsTest {
         statement.execute("TRUNCATE TABLE products");
         statement.execute("TRUNCATE TABLE rooms");
         statement.execute("TRUNCATE TABLE balance");
-    }
-
-    @Test
-    public void amountOfRooms() throws SQLException{
-        String insert1 = "INSERT INTO rooms (room, temperature) VALUES ('Hedelmät', 14)";
-        String insert2 = "INSERT INTO rooms (room, temperature) VALUES ('Marjat', 14)";
-        String delete = "DELETE FROM rooms WHERE room='Marjat'";
-
-        assertEquals(0, utils.tableSizeRooms());
-
-        statement.execute(insert1);
-        assertEquals(1, utils.tableSizeRooms());
-
-        statement.execute(insert2);
-        assertEquals(2, utils.tableSizeRooms());
-
-        statement.execute(delete);
-        assertEquals(1, utils.tableSizeRooms());
-    }
-
-    @Test
-    public void amountOfProducts()throws SQLException{
-        String insert1 = "INSERT INTO products (product, code, unit, room_id) VALUES ('Banaani', '0001', 'KG', 1)";
-        String insert2 = "INSERT INTO products (product, code, unit, temperature, room_id) VALUES ('Kurpitsa', '0002', 'KG', 12.0, 1)";
-        String delete = "DELETE FROM products WHERE product='Kurpitsa'";
-
-        assertEquals(0, utils.tableSizeProducts());
-
-        statement.execute(insert1);
-        assertEquals(1, utils.tableSizeProducts());
-
-        statement.execute(insert2);
-        assertEquals(2, utils.tableSizeProducts());
-
-        statement.execute(delete);
-        assertEquals(1, utils.tableSizeProducts());
     }
 
     @Test
@@ -80,5 +46,14 @@ public class UtilsTest {
         assertTrue(Utils.isEmpty(new String[]{"", "ABC"}));
         //Not empty
         assertFalse(Utils.isEmpty(new String[]{"ABC", "123"}));
+    }
+
+    @Test
+    public void getBalance() throws SQLException {
+        db.rooms.insertRoom("Room", 2);
+        db.products.insertProduct("A", "1", "KG", 1);
+        db.balance.insertBalance(1, 1, 1, 300);
+
+        assertEquals(300, utils.getBalance("Room", "1", "1"), 0);
     }
 }

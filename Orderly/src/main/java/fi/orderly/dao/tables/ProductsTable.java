@@ -1,11 +1,11 @@
-package fi.orderly.dao;
+package fi.orderly.dao.tables;
 
 import fi.orderly.logic.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.sql.Statement;
 
-public class ProductsTable implements ITable{
+public class ProductsTable implements ITable {
 
     private String name = null;
     private String code = null;
@@ -25,7 +25,9 @@ public class ProductsTable implements ITable{
     }
 
     private StringProperty productName;
-    public void setProductName(String value) { productNameProperty().set(value); }
+    public void setProductName(String value) {
+        productNameProperty().set(value);
+    }
     public String getProductName() {
         return productNameProperty().get();
     }
@@ -65,18 +67,30 @@ public class ProductsTable implements ITable{
     }
 
     private StringProperty productTemp;
-    public void setProductTemp(String value) { productTempProperty().set(value); }
-    public String getProductTemp() { return productTempProperty().get(); }
+    public void setProductTemp(String value) {
+        productTempProperty().set(value);
+    }
+    public String getProductTemp() {
+        return productTempProperty().get();
+    }
     public StringProperty productTempProperty() {
-        if (productTemp == null) productTemp = new SimpleStringProperty(this, "productTemp");
+        if (productTemp == null) {
+            productTemp = new SimpleStringProperty(this, "productTemp");
+        }
         return productTemp;
     }
 
     private StringProperty defaultRoom;
-    public void setDefaultRoom(String value) { defaultRoomProperty().set(value); }
-    public String getDefaultRoom() { return defaultRoomProperty().get(); }
+    public void setDefaultRoom(String value) {
+        defaultRoomProperty().set(value);
+    }
+    public String getDefaultRoom() {
+        return defaultRoomProperty().get();
+    }
     public StringProperty defaultRoomProperty() {
-        if (defaultRoom == null) defaultRoom = new SimpleStringProperty(this, "null");
+        if (defaultRoom == null) {
+            defaultRoom = new SimpleStringProperty(this, "null");
+        }
         return defaultRoom;
     }
 

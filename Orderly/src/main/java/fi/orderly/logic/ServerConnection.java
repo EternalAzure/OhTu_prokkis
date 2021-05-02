@@ -22,7 +22,6 @@ public class ServerConnection {
 
             //Select right database
             statement.execute("USE " + database);
-            System.out.println("Selected database: " + database);
             return statement;
 
         } catch (SQLException exception) {

@@ -1,4 +1,4 @@
-package fi.orderly.dao;
+package fi.orderly.dao.tables;
 
 public interface ITable {
 
