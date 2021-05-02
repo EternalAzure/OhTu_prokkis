@@ -36,4 +36,10 @@ Ajat eivät sisällä laskareita.
 | 26.4        | 2           |Koitan näyttää tietokannan taulut </br> rullattavassa taulukossa|
 | 26.4        | 5           |Huoneet ja tuotteet taulut näkyy, </br>mutta lähetykset ja saldo ei. </br>Vastaanotto ilmoittaa onnistumisesta|
 | 26.4        | 1           |Jokaisesta tietokannan taulusta </br> on graafinen taulukko|
-| yht.        | 86.6        |
+| 27.4        | 2.7         |Aloitin keräilyn devaamisen. </br>Tuntuu että huollan koodia enemmän </br> kuin kehitän uutta|
+| 27.4        | 5.5         |Aloitin poistamaan SQL koodia kontrollerista </br>ja siirsin sen uusiin tietokantarajapintoihin.</br>Kehitin testi datan luomista. Tein pohja                                    työn</br> lähetysten luomiselle ohjelman sisällä. </br> Valitettavasti ohjelma oli vielä "rikki",</br> kun palautuksen aika tuli|
+| 28.4        | 1           |Valitin checkstylestä ja mietin eikö input</br> validaatio voisi ylittää 20 rivin rajaa|
+| 28.4        | 4           |No kyllä sen sai jotenkin taiteiltua</br>Lyhyitä metodeita on helppo kirjoittaa,</br> mutta lyhyitä metodeita joissa on järkeä ei|
+| 28.4        | 1           |Vanhojen Utils metodien korvaamista uusilla</br> db rajapinta metodeilla|
+| 2.5         | 0.2         |README päivitys ja ohjeiden luonti|
+| yht.        | 101.0       |
