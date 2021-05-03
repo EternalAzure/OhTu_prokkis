@@ -44,4 +44,5 @@ Ajat eivät sisällä laskareita.
 | 2.5         | 0.2         |README päivitys ja ohjeiden luonti|
 | 2.5         | 1.25        |Joku ongelma kun vaihdoin pom.xml compiler ohjeeksi 8 -> 11. Asetin sovellukselle custom iconin|
 | 2.5         | 0.25        |Jotain oli vialla liittyen iconiin? Suljin ja avasin IDEn ja homma toimii. Hämmennys|
-| yht.        | 102.50      |
+| 3.5         | 0.17        |Korjasin sisäänkirjautumiseen liittyvän ongelman joka nostettiin esiin koodikatselmoinnissa. (sql LIKE-operaattori)|
+| yht.        | 102.67      |
