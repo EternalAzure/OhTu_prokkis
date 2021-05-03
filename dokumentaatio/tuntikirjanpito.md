@@ -35,7 +35,7 @@ Ajat eivät sisällä laskareita.
 | 25.4        | 3.5         |Tutustuin ja aloitin Azuren käytön. Yhdistin ohjelman pilveen. Yritin konfia terminaalia|
 | 26.4        | 2           |Koitan näyttää tietokannan taulut rullattavassa taulukossa|
 | 26.4        | 5           |Huoneet ja tuotteet taulut näkyy, mutta lähetykset ja saldo ei. </br>Vastaanotto ilmoittaa onnistumisesta|
-| 26.4        | 1           |Jokaisesta tietokannan taulusta </br> on graafinen taulukko|
+| 26.4        | 1           |Jokaisesta tietokannan taulusta on graafinen taulukko|
 | 27.4        | 2.7         |Aloitin keräilyn devaamisen. Tuntuu, että huollan koodia enemmän kuin kehitän uutta|
 | 27.4        | 5.5         |Aloitin poistamaan SQL koodia kontrollerista ja siirsin sen uusiin tietokantarajapintoihin.</br> Kehitin testi datan luomista. Tein pohja työn lähetysten luomiselle ohjelman sisällä.</br> Valitettavasti ohjelma oli vielä "rikki", kun palautuksen aika tuli|
 | 28.4        | 1           |Valitin checkstylestä ja mietin eikö input validaatio voisi ylittää 20 rivin rajaa|
