@@ -15,32 +15,34 @@ Ajat eivät sisällä laskareita.
 | 13.4        | 3           |Netbeans on syvältä. Onneksi on Intellij|
 | 17.4        | 0.5         |Kokeilin turhaan ohjeen mukaisia testikirjastoja|
 | 17.4        | 0.3         |Vaatimusmäärittelyn päivitys ja laajentaminen|
-| 19.4        | 3           |Vaihdoin JDK ja päivitin ohjeen mukaiset</br>dependencyt, poistin JavaFX testikirjastosta ja loin</br> virheviestit käyttäjälle|
+| 19.4        | 3           |Vaihdoin JDK ja päivitin ohjeen mukaiset dependencyt,</br> poistin JavaFX testikirjastosta ja loin virheviestit käyttäjälle|
 | 19.4        | 1           |HubControllerin säätöä|
 | 19.4        | 2           |CSS ja GUI hienosäätöä, GUI refaktorointia| 
-| 19.4        | 3           |HubController puolittaminen Utils luokkaan </br>ja testien vastaava jakaminen </br> Toimitusten vastaanoton kehittäminen|
-| 19.4        | 1           |addProduct() debuggausta. Parametrit oli syötetty</br> väärinpäin mutta automaattiset testit meni läpi|
-| 19.4        | 2           |Lähetykset taulu lisätty. Datan hakeminen</br>taulusta ja sen esittäminen ruudulla|
-| 20.4        | 2           |Yritys saada saapuva lähetys järkevästi</br>ruudulle. Luokkien tehtävien selkeytys|
-| 20.4        | 0.5         |Arkkitehtuurin uudelleen miettiminen</br> Tarvitsen datamodel luokan </br>tietokannan ja GUI väliin|
+| 19.4        | 3           |HubController puolittaminen Utils luokkaan ja testien vastaava jakaminen.</br> Toimitusten vastaanoton kehittäminen|
+| 19.4        | 1           |addProduct() debuggausta. Parametrit oli syötetty väärinpäin, mutta automaattiset testit meni läpi|
+| 19.4        | 2           |Lähetykset taulu lisätty. Datan hakeminen taulusta ja sen esittäminen ruudulla|
+| 20.4        | 2           |Yritys saada saapuva lähetys järkevästi ruudulle. Luokkien tehtävien selkeytys|
+| 20.4        | 0.5         |Arkkitehtuurin uudelleen miettiminen. Tarvitsen datamodel luokan tietokannan ja GUI väliin|
 | 20.4        | 0.5         |Vaatimusmäärittelyn ja README:n ajantasaistus|
 | 21.4        | 6           |Refaktorointia siellä täällä|
 | 22.4        | 2           |Refaktorointia ja tehotonta ihmettelyä|
 | 22.4        | 1           |Kaavioiden piirtelyä ja arkkitehtuuridokumentin päivitys|
-| 22.4        | 5           |Mietin ja kokeilin tapoja hakea ja esittää</br> dataa tietokannasta|
-| 23.4        | 3           |Sain sen simpuran lähetyksen vastaanoton </br> toimimaan. SQL kertaus kannatti|
-| 24.4        | 2           |Testien tarkistus, manuaalinen testaus,</br> Shipment testien luominen.|
-| 24.4        | 3           |Kokeilin Zulu jdk11 joka sisältää javafx.</br>Jotain säädin ja laitoin</br>linux realese githubiin|
-| 25.4        | 3           |Refaktorointia, sekvenssikaavioita, </br>dokumentointia ja miettimistä|
-| 25.4        | 3.5         |Tutustuin ja aloitin Azuren käytön. </br>Yhdistin ohjelman pilveen. </br> Yritin konfia terminaalia|
-| 26.4        | 2           |Koitan näyttää tietokannan taulut </br> rullattavassa taulukossa|
-| 26.4        | 5           |Huoneet ja tuotteet taulut näkyy, </br>mutta lähetykset ja saldo ei. </br>Vastaanotto ilmoittaa onnistumisesta|
+| 22.4        | 5           |Mietin ja kokeilin tapoja hakea ja esittää dataa tietokannasta|
+| 23.4        | 3           |Sain sen simpuran lähetyksen vastaanoton toimimaan. SQL kertaus kannatti|
+| 24.4        | 2           |Testien tarkistus, manuaalinen testaus, Shipment testien luominen.|
+| 24.4        | 3           |Kokeilin Zulu jdk11 joka sisältää javafx. Jotain säädin ja laitoin linux realese githubiin|
+| 25.4        | 3           |Refaktorointia, sekvenssikaavioita, dokumentointia ja miettimistä|
+| 25.4        | 3.5         |Tutustuin ja aloitin Azuren käytön. Yhdistin ohjelman pilveen. Yritin konfia terminaalia|
+| 26.4        | 2           |Koitan näyttää tietokannan taulut rullattavassa taulukossa|
+| 26.4        | 5           |Huoneet ja tuotteet taulut näkyy, mutta lähetykset ja saldo ei. </br>Vastaanotto ilmoittaa onnistumisesta|
 | 26.4        | 1           |Jokaisesta tietokannan taulusta </br> on graafinen taulukko|
-| 27.4        | 2.7         |Aloitin keräilyn devaamisen. </br>Tuntuu että huollan koodia enemmän </br> kuin kehitän uutta|
-| 27.4        | 5.5         |Aloitin poistamaan SQL koodia kontrollerista </br>ja siirsin sen uusiin tietokantarajapintoihin.</br>Kehitin testi datan luomista. Tein pohja                                    työn</br> lähetysten luomiselle ohjelman sisällä. </br> Valitettavasti ohjelma oli vielä "rikki",</br> kun palautuksen aika tuli|
-| 28.4        | 1           |Valitin checkstylestä ja mietin eikö input</br> validaatio voisi ylittää 20 rivin rajaa|
-| 28.4        | 4           |No kyllä sen sai jotenkin taiteiltua</br>Lyhyitä metodeita on helppo kirjoittaa,</br> mutta lyhyitä metodeita joissa on järkeä ei|
-| 28.4        | 1           |Vanhojen Utils metodien korvaamista uusilla</br> db rajapinta metodeilla|
+| 27.4        | 2.7         |Aloitin keräilyn devaamisen. Tuntuu, että huollan koodia enemmän kuin kehitän uutta|
+| 27.4        | 5.5         |Aloitin poistamaan SQL koodia kontrollerista ja siirsin sen uusiin tietokantarajapintoihin.</br>
+                             Kehitin testi datan luomista. Tein pohja työn lähetysten luomiselle ohjelman sisällä. </br> 
+                             Valitettavasti ohjelma oli vielä "rikki", kun palautuksen aika tuli|
+| 28.4        | 1           |Valitin checkstylestä ja mietin eikö input validaatio voisi ylittää 20 rivin rajaa|
+| 28.4        | 4           |No kyllä sen sai jotenkin taiteiltua. Lyhyitä metodeita on helppo kirjoittaa,</br> mutta lyhyitä metodeita joissa on järkeä ei|
+| 28.4        | 1           |Vanhojen Utils metodien korvaamista uusilla db rajapinta metodeilla|
 | 2.5         | 0.2         |README päivitys ja ohjeiden luonti|
 | 2.5         | 1.25        |Joku ongelma kun vaihdoin pom.xml compiler ohjeeksi 8 -> 11. Asetin sovellukselle custom iconin|
 | 2.5         | 0.25        |Jotain oli vialla liittyen iconiin? Suljin ja avasin IDEn ja homma toimii. Hämmennys|
