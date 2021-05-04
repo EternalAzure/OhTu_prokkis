@@ -36,7 +36,8 @@ Viimeinen askel on tilastoida raaka-aineita ja hävikkiä.
 - [x] Lähetä lähetys
 - [x] Näyttää tietokannan sisällön
 - [ ] Muunna raaka-aineet tuotteeksi reseptin mukaan
-- [ ] Tilastointi
+- [ ] Luoda saapuva toimitus (käyttöliittymä)
+- [ ] Luoda lähtevä toimitus (käyttöliittymä)
 
 ----
 ## Jatkokehitys
