@@ -47,4 +47,5 @@ Ajat eivät sisällä laskareita.
 | 3.5         | 0.17        |Korjasin sisäänkirjautumiseen liittyvän ongelman joka nostettiin esiin koodikatselmoinnissa. (sql LIKE-operaattori)|
 | 3.5         | 0.67        |Muutin koodikatselmoinnin ehdotuksen mukaan osan SQL komennoista PreparedStatementeiksi|
 | 4.5         | 2           |Muutin loputkin SQL komennot turvallisempaan PreparedStatement muotoon|      
+| 4.5         | 0.5         |Tein virheitä SQL muutoksissa ja korjailin niitä yksikkötestien ohjaamana|
 | yht.        | 105.34      |
