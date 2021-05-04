@@ -48,5 +48,5 @@ Ajat eivät sisällä laskareita.
 | 3.5         | 0.67        |Muutin koodikatselmoinnin ehdotuksen mukaan osan SQL komennoista PreparedStatementeiksi|
 | 4.5         | 2           |Muutin loputkin SQL komennot turvallisempaan PreparedStatement muotoon|      
 | 4.5         | 0.5         |Tein virheitä SQL muutoksissa ja korjailin niitä yksikkötestien ohjaamana|
-| 4.5         | 1.0         |Lisään testikattavuutta|
-| yht.        | 106.34      |
+| 4.5         | 2           |Lisään testikattavuutta|
+| yht.        | 107.34      |
