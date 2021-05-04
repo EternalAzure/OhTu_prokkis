@@ -2,34 +2,35 @@ import fi.orderly.dao.Shipment;
 import fi.orderly.logic.HubController;
 import fi.orderly.logic.ServerConnection;
 
-import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ShipmentTest {
 
     final String database = ServerConnection.TEST_DATABASE;
-    Statement statement = ServerConnection.createConnection(database);
-    HubController hubController = new HubController(statement);
+    Connection connection = ServerConnection.createConnection(database);
+    HubController hubController = new HubController(connection);
+    DatabaseAccess db = new DatabaseAccess(connection);
     Shipment shipment;
 
     @Before
     public void setUp() throws SQLException {
-        assert statement != null;
-        statement.execute("TRUNCATE TABLE products");
-        statement.execute("TRUNCATE TABLE rooms");
-        statement.execute("TRUNCATE TABLE balance");
-        statement.execute("TRUNCATE TABLE shipments");
+        assert connection != null;
+        db.rooms.truncate();
+        db.products.truncate();
+        db.balance.truncate();
+        db.shipments.truncate();
 
         hubController.createTestData();
     }
     @Test
     public void fetchData() {
-        shipment = new Shipment("1", statement);
+        shipment = new Shipment("1", connection);
 
         //-- SHOULD PASS --//
         //Right number of DataPackages (1 for each product)

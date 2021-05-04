@@ -5,7 +5,7 @@ import fi.orderly.dao.Shipment;
 import fi.orderly.logic.HubController;
 import fi.orderly.logic.Utils;
 
-import fi.orderly.logic.dbinterface.DatabaseAccess;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,21 +15,26 @@ import java.sql.*;
 public class HubControllerTest {
 
     final String database = ServerConnection.TEST_DATABASE;
-    Statement statement = ServerConnection.createConnection(database);
-    HubController hubController = new HubController(statement);
-    Utils utils = new Utils(statement);
-    DatabaseAccess db = new DatabaseAccess(statement);
+    Connection connection = ServerConnection.createConnection(database);
+    HubController hubController = new HubController(connection);
+    Utils utils = new Utils(connection);
+    DatabaseAccess db = new DatabaseAccess(connection);
     //BE SURE TO USE TEST DATABASE IN EVERY STEP
     //Methods outside of test class will have their own dependencies!!!
 
     @Before
     public void setUp() throws SQLException{
-        assert statement != null;
-        statement.execute("TRUNCATE TABLE products");
-        statement.execute("TRUNCATE TABLE rooms");
-        statement.execute("TRUNCATE TABLE balance");
-        statement.execute("TRUNCATE TABLE shipments");
-        statement.execute("TRUNCATE TABLE deliveries");
+        assert connection != null;
+        PreparedStatement sql1 = connection.prepareStatement("TRUNCATE TABLE products");
+        PreparedStatement sql2 = connection.prepareStatement("TRUNCATE TABLE rooms");
+        PreparedStatement sql3 = connection.prepareStatement("TRUNCATE TABLE balance");
+        PreparedStatement sql4 = connection.prepareStatement("TRUNCATE TABLE shipments");
+        PreparedStatement sql5 = connection.prepareStatement("TRUNCATE TABLE deliveries");
+        sql1.executeUpdate();
+        sql2.executeUpdate();
+        sql3.executeUpdate();
+        sql4.executeUpdate();
+        sql5.executeUpdate();
     }
 
     @Test
@@ -228,15 +233,16 @@ public class HubControllerTest {
     @Test
     public void receiveShipment() throws SQLException {
         hubController.createTestData();
-        hubController.receiveShipment(new Shipment("1", statement));
+        hubController.receiveShipment(new Shipment("1", connection));
 
+        assertEquals(10, db.balance.queryBalance(db.rooms.findIdByName("Room"), db.products.findIdByCode("1000"), 1), 0);
         assertEquals(10, utils.getBalance("Room 1", "1000", "1"), 0);
         assertEquals(40, utils.getBalance("Room 1", "2000", "1"), 0);
         assertEquals(160, utils.getBalance("Room 1", "3000", "1"), 0);
         assertEquals(640, utils.getBalance("Room 2", "4000", "1"), 0);
         assertEquals(2560, utils.getBalance("Room 2", "5000", "1"), 0);
         //Receiving shipment destroys it, thus stopping it being received again
-        assertFalse(db.shipments.hasShipment(1));
+        assertFalse(db.shipments.foundShipment(1));
     }
 
     @Test
@@ -319,7 +325,7 @@ public class HubControllerTest {
         db.deliveries.insertDelivery(1, 5, 1280);
         assertEquals(5, db.deliveries.size());
 
-        Delivery delivery = new Delivery(1, statement);
+        Delivery delivery = new Delivery(1, connection);
         delivery.collect("1100", "1", "5", "Room 3");
         delivery.collect("2200", "1", "20", "Room 3");
         delivery.collect("3300", "1", "80", "Room 3");

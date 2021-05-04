@@ -14,7 +14,7 @@ public class DeliveriesTableView extends TableViewInfiniteScrolling{
             if (i >= db.deliveries.size()) {
                 break;
             }
-            DeliveriesTable s = new DeliveriesTable(items.size() + 1, statement);
+            DeliveriesTable s = new DeliveriesTable(items.size() + 1, connection);
             if (s.getDeliveryNumber().isEmpty()) {
                 continue;
             }

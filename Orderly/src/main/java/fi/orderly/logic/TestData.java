@@ -1,12 +1,12 @@
 package fi.orderly.logic;
 
-import fi.orderly.logic.dbinterface.DeliveriesInterface;
-import fi.orderly.logic.dbinterface.ProductsInterface;
-import fi.orderly.logic.dbinterface.RoomsInterface;
-import fi.orderly.logic.dbinterface.ShipmentsInterface;
+import fi.orderly.logic.dbinterfaces.DeliveriesInterface;
+import fi.orderly.logic.dbinterfaces.ProductsInterface;
+import fi.orderly.logic.dbinterfaces.RoomsInterface;
+import fi.orderly.logic.dbinterfaces.ShipmentsInterface;
 
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class TestData {
 
@@ -15,11 +15,11 @@ public class TestData {
     ShipmentsInterface shipmentsInterface;
     DeliveriesInterface deliveriesInterface;
 
-    public TestData(Statement statement) {
-        roomsInterface = new RoomsInterface(statement);
-        productsInterface = new ProductsInterface(statement);
-        shipmentsInterface = new ShipmentsInterface(statement);
-        deliveriesInterface = new DeliveriesInterface(statement);
+    public TestData(Connection connection) {
+        roomsInterface = new RoomsInterface(connection);
+        productsInterface = new ProductsInterface(connection);
+        shipmentsInterface = new ShipmentsInterface(connection);
+        deliveriesInterface = new DeliveriesInterface(connection);
     }
 
     public void createShipmentAndDelivery() {

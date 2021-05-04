@@ -2,13 +2,14 @@ package fi.orderly.logic;
 
 import fi.orderly.dao.Delivery;
 import fi.orderly.dao.Shipment;
-import fi.orderly.logic.dbinterface.*;
+import fi.orderly.logic.dbinterfaces.*;
 import fi.orderly.ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
 import java.util.Random;
 
 public class HubController {
@@ -18,11 +19,11 @@ public class HubController {
     final private SaldoOperations engine;
     DatabaseAccess db;
 
-    public HubController(Statement statement) {
-        utils = new Utils(statement);
-        testData = new TestData(statement);
-        engine = new SaldoOperations(statement);
-        db = new DatabaseAccess(statement);
+    public HubController(Connection connection) {
+        utils = new Utils(connection);
+        testData = new TestData(connection);
+        engine = new SaldoOperations(connection);
+        db = new DatabaseAccess(connection);
     }
 
     public static void logout(Stage currentWindow) {

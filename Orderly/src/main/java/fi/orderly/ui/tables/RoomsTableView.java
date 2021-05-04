@@ -16,7 +16,7 @@ public class RoomsTableView extends TableViewInfiniteScrolling {
                 break;
             }
 
-            RoomsTable r = new RoomsTable(items.size() + 1, statement);
+            RoomsTable r = new RoomsTable(items.size() + 1, connection);
             if (r.getRoomName() == null || r.getRoomName().isEmpty()) {
                 continue;
             }

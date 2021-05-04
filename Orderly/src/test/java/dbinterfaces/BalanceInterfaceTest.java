@@ -1,35 +1,48 @@
+package dbinterfaces;
+
 import fi.orderly.logic.ServerConnection;
-import fi.orderly.logic.dbinterface.DatabaseAccess;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import static org.junit.Assert.*;
 
 public class BalanceInterfaceTest {
 
     final String database = ServerConnection.TEST_DATABASE;
-    Statement statement = ServerConnection.createConnection(database);
-    DatabaseAccess db = new DatabaseAccess(statement);
+    Connection connection = ServerConnection.createConnection(database);
+    DatabaseAccess db = new DatabaseAccess(connection);
 
     @Before
     public void setUp() throws SQLException {
-        assert statement != null;
-        statement.execute("TRUNCATE TABLE products");
-        statement.execute("TRUNCATE TABLE rooms");
-        statement.execute("TRUNCATE TABLE balance");
-        statement.execute("TRUNCATE TABLE shipments");
-        statement.execute("TRUNCATE TABLE deliveries");
+        assert connection != null;
+        PreparedStatement sql1 = connection.prepareStatement("TRUNCATE TABLE products");
+        PreparedStatement sql2 = connection.prepareStatement("TRUNCATE TABLE rooms");
+        PreparedStatement sql3 = connection.prepareStatement("TRUNCATE TABLE balance");
+        PreparedStatement sql4 = connection.prepareStatement("TRUNCATE TABLE shipments");
+        PreparedStatement sql5 = connection.prepareStatement("TRUNCATE TABLE deliveries");
+
+        sql1.executeUpdate();
+        sql2.executeUpdate();
+        sql3.executeUpdate();
+        sql4.executeUpdate();
+        sql5.executeUpdate();
 
         String insertRooms = "INSERT INTO rooms (room) VALUES ('Room 1')";
         String insertProducts = "INSERT INTO products (product, code, unit, room_id) VALUES ('Nauris', '1000', 'KG', 1)";
         String insertBalance = "INSERT INTO balance (room_id, product_id, batch, amount) VALUES (1, 1, 1, 100.0)";
-        statement.execute(insertRooms);
-        statement.execute(insertProducts);
-        statement.execute(insertBalance);
+        PreparedStatement sql6 = connection.prepareStatement(insertRooms);
+        PreparedStatement sql7 = connection.prepareStatement(insertProducts);
+        PreparedStatement sql8 = connection.prepareStatement(insertBalance);
+
+        sql6.executeUpdate(insertRooms);
+        sql7.executeUpdate(insertProducts);
+        sql8.executeUpdate(insertBalance);
     }
 
     @Test
@@ -37,7 +50,8 @@ public class BalanceInterfaceTest {
         assertEquals(1, db.balance.size());
 
         String insertBalance = "INSERT INTO balance (room_id, product_id, batch, amount) VALUES (1, 1, 2, 100.0)";
-        statement.execute(insertBalance);
+        PreparedStatement sql = connection.prepareStatement(insertBalance);
+        sql.executeUpdate(insertBalance);
         assertEquals(2, db.balance.size());
     }
 
@@ -55,7 +69,8 @@ public class BalanceInterfaceTest {
         db.balance.updateBalance(1, 1, 1, 200);
 
         String select = "SELECT amount FROM balance WHERE room_id=1 AND product_id=1 AND batch=1";
-        ResultSet resultSet = statement.executeQuery(select);
+        PreparedStatement sql = connection.prepareStatement(select);
+        ResultSet resultSet = sql.executeQuery(select);
         resultSet.next();
         double saldo = resultSet.getDouble("amount");
 

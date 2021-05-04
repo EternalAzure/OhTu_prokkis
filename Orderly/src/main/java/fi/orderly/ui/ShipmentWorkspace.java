@@ -9,11 +9,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import fi.orderly.logic.Utils;
-import java.sql.Statement;
+import java.sql.Connection;
 
 public class ShipmentWorkspace {
 
-    Statement statement;
+    Connection connection;
     Utils utils;
     HubController hubController;
     private Shipment shipment;
@@ -21,10 +21,10 @@ public class ShipmentWorkspace {
     // Has dependency
     // Shipment in getShipmentWorkspace()
 
-    public ShipmentWorkspace(Statement statement){
-        this.statement = statement;
-        utils = new Utils(statement);
-        hubController = new HubController(statement);
+    public ShipmentWorkspace(Connection connection) {
+        this.connection = connection;
+        utils = new Utils(connection);
+        hubController = new HubController(connection);
         errorMessage.setId("error");
     }
 
@@ -48,7 +48,7 @@ public class ShipmentWorkspace {
         header.setId("header");
 
         //2. Fetch data
-        shipment = new Shipment(shipmentNumber, statement);
+        shipment = new Shipment(shipmentNumber, connection);
 
         //3. Put data to visual table rows
         for (int i = 0; i < shipment.getLength(); i++) {

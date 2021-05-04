@@ -1,10 +1,12 @@
 package fi.orderly.dao;
 
 import fi.orderly.logic.Utils;
-import fi.orderly.logic.dbinterface.DatabaseAccess;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 
 public class Delivery {
@@ -12,15 +14,15 @@ public class Delivery {
     int index = 0;
     DataPackage[] collected;
     HashMap<String, Double> requested;
-    Statement statement;
+    Connection connection;
     Utils utils;
     DatabaseAccess db;
     int deliveryNumber;
 
-    public Delivery(int deliveryNumber, Statement statement) {
-        this.statement = statement;
-        utils = new Utils(statement);
-        db = new DatabaseAccess(statement);
+    public Delivery(int deliveryNumber, Connection connection) {
+        this.connection = connection;
+        utils = new Utils(connection);
+        db = new DatabaseAccess(connection);
         this.deliveryNumber = deliveryNumber;
         requested = new HashMap<>();
         fetchRequest(deliveryNumber);
@@ -61,9 +63,10 @@ public class Delivery {
 
     public void fetchRequest(int deliveryNumber) {
         try {
-            String select = "SELECT products.code, deliveries.amount FROM deliveries, products WHERE deliveries.product_id=products.id AND number=" + deliveryNumber;
             collected = new DataPackage[db.deliveries.numberOfDeliveries(deliveryNumber)];
-            ResultSet result = statement.executeQuery(select);
+            String select = "SELECT products.code, deliveries.amount FROM deliveries, products WHERE deliveries.product_id=products.id AND number=" + deliveryNumber;
+            PreparedStatement sql = connection.prepareStatement(select);
+            ResultSet result = sql.executeQuery(select);
 
             while (result.next()) {
                 String i = result.getString("code");

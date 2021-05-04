@@ -14,7 +14,7 @@ public class ShipmentsTableView extends TableViewInfiniteScrolling{
             if (i >= db.shipments.size()) {
                 break;
             }
-            ShipmentsTable s = new ShipmentsTable(items.size() + 1, statement);
+            ShipmentsTable s = new ShipmentsTable(items.size() + 1, connection);
             if (s.getShipmentNumber().isEmpty()) {
                 continue;
             }

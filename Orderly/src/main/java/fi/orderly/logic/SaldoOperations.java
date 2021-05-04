@@ -1,9 +1,10 @@
 package fi.orderly.logic;
 
-import fi.orderly.logic.dbinterface.BalanceInterface;
-import fi.orderly.logic.dbinterface.ProductsInterface;
-import fi.orderly.logic.dbinterface.RoomsInterface;
+import fi.orderly.logic.dbinterfaces.BalanceInterface;
+import fi.orderly.logic.dbinterfaces.ProductsInterface;
+import fi.orderly.logic.dbinterfaces.RoomsInterface;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -14,10 +15,10 @@ public class SaldoOperations {
     RoomsInterface roomsInterface;
     ProductsInterface productsInterface;
 
-    public SaldoOperations(Statement statement) {
-        this.balanceInterface = new BalanceInterface(statement);
-        this.roomsInterface = new RoomsInterface(statement);
-        this.productsInterface = new ProductsInterface(statement);
+    public SaldoOperations(Connection connection) {
+        this.balanceInterface = new BalanceInterface(connection);
+        this.roomsInterface = new RoomsInterface(connection);
+        this.productsInterface = new ProductsInterface(connection);
     }
 
     //Add and subtract

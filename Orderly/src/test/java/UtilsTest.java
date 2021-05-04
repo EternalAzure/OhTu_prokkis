@@ -1,7 +1,7 @@
 import java.sql.*;
 
 import fi.orderly.logic.Utils;
-import fi.orderly.logic.dbinterface.DatabaseAccess;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
 import org.junit.Test;
 import fi.orderly.logic.ServerConnection;
@@ -11,17 +11,17 @@ import static org.junit.Assert.*;
 
 public class UtilsTest {
     final String database = ServerConnection.TEST_DATABASE;
-    Statement statement = ServerConnection.createConnection(database);
-    Utils utils = new Utils(statement);
-    DatabaseAccess db = new DatabaseAccess(statement);
+    Connection connection = ServerConnection.createConnection(database);
+    Utils utils = new Utils(connection);
+    DatabaseAccess db = new DatabaseAccess(connection);
     //Be sure to use test database when using methods outside of test class
 
     @Before
     public void setUp() throws SQLException{
-        assert statement != null;
-        statement.execute("TRUNCATE TABLE products");
-        statement.execute("TRUNCATE TABLE rooms");
-        statement.execute("TRUNCATE TABLE balance");
+        assert connection != null;
+        db.rooms.truncate();
+        db.products.truncate();
+        db.balance.truncate();
     }
 
     @Test

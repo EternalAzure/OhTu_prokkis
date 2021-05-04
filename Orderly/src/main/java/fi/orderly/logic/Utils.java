@@ -1,15 +1,13 @@
 package fi.orderly.logic;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.regex.Pattern;
 
 public class Utils {
 
-    final private Statement statement;
-    public Utils(Statement statement) {
-        this.statement = statement;
+    final private Connection connection;
+    public Utils(Connection connection) {
+        this.connection = connection;
     }
 
 
@@ -27,7 +25,8 @@ public class Utils {
 
     public String getResultString(String query, String column) {
         try {
-            ResultSet result = statement.executeQuery(query);
+            PreparedStatement sql = connection.prepareStatement(query);
+            ResultSet result = sql.executeQuery();
             result.next();
             return result.getString(column);
         } catch (SQLException e) {
@@ -36,7 +35,8 @@ public class Utils {
     }
     public int getResultInt(String query, String column) {
         try {
-            ResultSet result = statement.executeQuery(query);
+            PreparedStatement sql = connection.prepareStatement(query);
+            ResultSet result = sql.executeQuery();
             result.next();
             return result.getInt(column);
         } catch (SQLException e) {
@@ -45,7 +45,8 @@ public class Utils {
     }
     public double getResultDouble(String query, String column) {
         try {
-            ResultSet result = statement.executeQuery(query);
+            PreparedStatement sql = connection.prepareStatement(query);
+            ResultSet result = sql.executeQuery();
             result.next();
             return result.getDouble(column);
         } catch (SQLException e) {

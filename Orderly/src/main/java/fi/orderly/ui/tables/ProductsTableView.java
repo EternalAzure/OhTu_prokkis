@@ -14,7 +14,7 @@ public class ProductsTableView extends TableViewInfiniteScrolling {
             if (i >= db.products.size()) {
                 break;
             }
-            ProductsTable p = new ProductsTable(items.size() + 1, statement);
+            ProductsTable p = new ProductsTable(items.size() + 1, connection);
             if (p.getProductCode().isEmpty()) {
                 continue;
             }

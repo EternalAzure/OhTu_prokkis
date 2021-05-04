@@ -1,20 +1,19 @@
 package fi.orderly.dao;
 
 import fi.orderly.logic.Utils;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
 
 public class Shipment {
 
-    final private Statement statement;
+    final private Connection connection;
     final private Utils utils;
     private DataPackage[] list;
     final private int shipmentNumber;
 
-    public Shipment(String shipmentNumber, Statement statement) {
-        this.statement = statement;
-        utils = new Utils(statement);
+    public Shipment(String shipmentNumber, Connection connection) {
+        this.connection = connection;
+        utils = new Utils(connection);
         this.shipmentNumber = Integer.parseInt(shipmentNumber);
         fetchData(shipmentNumber);
     }
@@ -28,12 +27,17 @@ public class Shipment {
 
     private void fetchData(String shipmentNumber) {
         String query = "SELECT products.product, products.code, shipments.batch, shipments.amount, products.unit, rooms.room FROM shipments, products, rooms " +
-                "WHERE number='" + shipmentNumber + "' AND products.id=shipments.product_id AND rooms.id=products.room_id";
+                "WHERE number=? AND products.id=shipments.product_id AND rooms.id=products.room_id";
+        String sizeQuery = "SELECT COUNT(*) FROM shipments, products, rooms WHERE number=? AND products.id=shipments.product_id AND rooms.id=products.room_id";
+        
+        try {
+            PreparedStatement sql1 = connection.prepareStatement(sizeQuery);
+            sql1.setString(1, shipmentNumber);
+            list = new DataPackage[utils.getResultInt(sizeQuery, "COUNT(*)")];
 
-        String sizeQuery = "SELECT COUNT(*) FROM shipments, products, rooms WHERE number='" + shipmentNumber + "' AND products.id=shipments.product_id AND rooms.id=products.room_id";
-        list = new DataPackage[utils.getResultInt(sizeQuery, "COUNT(*)")];
-
-        try (ResultSet result = statement.executeQuery(query)) {
+            PreparedStatement sql2 = connection.prepareStatement(query);
+            sql2.setString(1, shipmentNumber);
+            ResultSet result = sql2.executeQuery(query);
             int i = 0;
             while (result.next()) {
                 String name = result.getString("products.product");

@@ -3,7 +3,7 @@ package fi.orderly.dao.tables;
 import fi.orderly.logic.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.sql.Statement;
+import java.sql.Connection;
 
 public class BalanceTable implements ITable {
 
@@ -14,8 +14,8 @@ public class BalanceTable implements ITable {
     private String amount = null;
     Utils utils;
 
-    public BalanceTable(int index, Statement statement) {
-        utils = new Utils(statement);
+    public BalanceTable(int index, Connection connection) {
+        utils = new Utils(connection);
         fetchData(index);
         setRoomName(room);
         setProductName(name);

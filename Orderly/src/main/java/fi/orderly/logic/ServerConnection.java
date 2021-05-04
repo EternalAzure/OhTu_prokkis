@@ -9,7 +9,7 @@ public class ServerConnection {
     public static final String DATABASE = "warehouse";
     public static final String TEST_DATABASE = "test";
 
-    public static Statement createConnection(String database) {
+    public static Connection createConnection(String database) {
 
         final String dbUrl = "jdbc:mysql://mysql-demo-varasto.mysql.database.azure.com:3306/login?useSSL=true&requireSSL=false";
         final String user = "mefistofeles@mysql-demo-varasto";
@@ -22,7 +22,8 @@ public class ServerConnection {
 
             //Select right database
             statement.execute("USE " + database);
-            return statement;
+            //return statement;
+            return server;
 
         } catch (SQLException exception) {
             AlertWindow.display("Could not establish connection\n" +

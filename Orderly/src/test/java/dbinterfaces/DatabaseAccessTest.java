@@ -1,16 +1,19 @@
+package dbinterfaces;
+
 import fi.orderly.logic.ServerConnection;
-import fi.orderly.logic.dbinterface.DatabaseAccess;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DatabaseAccessTest {
 
     final String database = ServerConnection.TEST_DATABASE;
-    Statement statement = ServerConnection.createConnection(database);
-    DatabaseAccess db = new DatabaseAccess(statement);
+    Connection connection = ServerConnection.createConnection(database);
+    DatabaseAccess db = new DatabaseAccess(connection);
 
     @Before
     public void setUp() {

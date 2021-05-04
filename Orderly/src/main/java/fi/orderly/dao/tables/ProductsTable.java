@@ -3,7 +3,7 @@ package fi.orderly.dao.tables;
 import fi.orderly.logic.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.sql.Statement;
+import java.sql.Connection;
 
 public class ProductsTable implements ITable {
 
@@ -14,8 +14,8 @@ public class ProductsTable implements ITable {
     private String room = null;
     Utils utils;
 
-    public ProductsTable(int index, Statement statement) {
-        utils = new Utils(statement);
+    public ProductsTable(int index, Connection connection) {
+        utils = new Utils(connection);
         fetchData(index);
         setProductName(name);
         setProductCode(code);

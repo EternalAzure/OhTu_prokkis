@@ -1,11 +1,10 @@
 package fi.orderly.ui.tables;
 import fi.orderly.dao.tables.ITable;
 import fi.orderly.dao.tables.BalanceTable;
-
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class BalanceTableView extends TableViewInfiniteScrolling{
+public class BalanceTableView extends TableViewInfiniteScrolling {
 
 
     @Override
@@ -16,7 +15,7 @@ public class BalanceTableView extends TableViewInfiniteScrolling{
                 break;
             }
 
-            BalanceTable b = new BalanceTable(items.size() + 1, statement);
+            BalanceTable b = new BalanceTable(items.size() + 1, connection);
             if (b.getRoomName().isEmpty()) {
                 continue;
             }

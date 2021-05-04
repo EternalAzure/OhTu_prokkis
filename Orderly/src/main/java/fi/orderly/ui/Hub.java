@@ -11,16 +11,16 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.sql.Statement;
+import java.sql.Connection;
 
 public class Hub  extends Application {
 
     public static Stage hub;
-    final private Statement statement = ServerConnection.createConnection(ServerConnection.DATABASE);
+    final private Connection connection = ServerConnection.createConnection(ServerConnection.DATABASE);
     final private BorderPane workspaceParent = new BorderPane();
 
-    final private WorkSpaces workSpaces = new WorkSpaces(statement);
-    final private HubController hubController = new HubController(statement);
+    final private WorkSpaces workSpaces = new WorkSpaces(connection);
+    final private HubController hubController = new HubController(connection);
     final private TableViewInfiniteScrolling roomsView = new RoomsTableView();
     final private TableViewInfiniteScrolling productView = new ProductsTableView();
     final private TableViewInfiniteScrolling balanceView = new BalanceTableView();
@@ -111,11 +111,11 @@ public class Hub  extends Application {
         //endregion
 
         //MENUBAR SHOW
-        showRooms.setOnAction(event -> roomsView.display(statement));
-        showProducts.setOnAction(event -> productView.display(statement));
-        showBalance.setOnAction(event -> balanceView.display(statement));
-        showShipments.setOnAction(event -> shipmentsView.display(statement));
-        showDeliveries.setOnAction(event -> deliveriesView.display(statement));
+        showRooms.setOnAction(event -> roomsView.display(connection));
+        showProducts.setOnAction(event -> productView.display(connection));
+        showBalance.setOnAction(event -> balanceView.display(connection));
+        showShipments.setOnAction(event -> shipmentsView.display(connection));
+        showDeliveries.setOnAction(event -> deliveriesView.display(connection));
 
         //MENUBAR POPULATE
         createTestData.setOnAction(event -> hubController.createTestData()); //TESTING
@@ -141,7 +141,7 @@ public class Hub  extends Application {
         changeBalance.setOnAction(event -> setWorkSpace(workSpaces.changeBalanceWorkspace()));
         transfer.setOnAction(event -> setWorkSpace(workSpaces.transferWorkspace()));
         receive.setOnAction(event -> setWorkSpace(workSpaces.receiveWorkspace(this)));
-        collectDelivery.setOnAction(event -> setWorkSpace(workSpaces.collectDeliveryWorkspace(this, statement)));
+        collectDelivery.setOnAction(event -> setWorkSpace(workSpaces.collectDeliveryWorkspace(this, connection)));
         sendDelivery.setOnAction(event -> setWorkSpace(workSpaces.sendDeliveryWorkspace(this)));
         //newShipment.setOnAction(event -> );
         //newDelivery.setOnAction(event -> );

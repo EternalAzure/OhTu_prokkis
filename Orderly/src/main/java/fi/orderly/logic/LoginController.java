@@ -7,37 +7,43 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.awt.*;
 import java.net.URI;
-import java.sql.Statement;
+import java.sql.*;
 
 public class LoginController {
 
     final private Hub hub;
-    Utils utils;
-    Statement statement = ServerConnection.createConnection("login");
+
+    //Statement statement = ServerConnection.createConnection("login");
+    Connection connection = ServerConnection.createConnection("login");
     public LoginController(Hub hub) {
         this.hub = hub;
-        utils = new Utils(statement);
+        //utils = new Utils(statement);
     }
 
     public void login(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
             return;
         }
-        String sql = "SELECT name, password, role FROM users WHERE name LIKE '" + username + "'";
-        String name = utils.getResultString(sql, "name");
-        String pw = utils.getResultString(sql, "password");
-        String role = utils.getResultString(sql, "role"); //waits to be used
+        try {
+            PreparedStatement sql = connection.prepareStatement("SELECT name, password, role FROM users WHERE name=?");
+            sql.setString(1, username);
+            ResultSet resultSet = sql.executeQuery();
+            String name = resultSet.getString("name");
+            String pw = resultSet.getString("password");
+            String role = resultSet.getString("role"); //waits to be implemented
 
-        System.out.println(username + "::" + name);
-        System.out.println(password + "::" + pw);
-        if (name.isEmpty()) {
-            AlertWindow.display("Incorrect name");
-        }
-        if (pw.equals(password)) {
-            hub.start(new Stage());
-            Login.window.close();
-        } else {
-            AlertWindow.display("Incorrect password");
+            if (name == null) {
+                AlertWindow.display("Incorrect name");
+                return;
+            }
+            if (pw.equals(password)) {
+                hub.start(new Stage());
+                Login.window.close();
+            } else {
+                AlertWindow.display("Incorrect password");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

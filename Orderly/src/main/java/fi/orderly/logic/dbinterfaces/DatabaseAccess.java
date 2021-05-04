@@ -1,7 +1,7 @@
-package fi.orderly.logic.dbinterface;
+package fi.orderly.logic.dbinterfaces;
 
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DatabaseAccess {
 
@@ -11,12 +11,12 @@ public class DatabaseAccess {
     final public ShipmentsInterface shipments;
     final public DeliveriesInterface deliveries;
 
-    public DatabaseAccess(Statement statement) {
-        rooms = new RoomsInterface(statement);
-        products = new ProductsInterface(statement);
-        balance = new BalanceInterface(statement);
-        shipments = new ShipmentsInterface(statement);
-        deliveries = new DeliveriesInterface(statement);
+    public DatabaseAccess(Connection connection) {
+        rooms = new RoomsInterface(connection);
+        products = new ProductsInterface(connection);
+        balance = new BalanceInterface(connection);
+        shipments = new ShipmentsInterface(connection);
+        deliveries = new DeliveriesInterface(connection);
     }
 
     public boolean foundRooms(String[] list) throws SQLException {

@@ -2,7 +2,7 @@ package fi.orderly.ui.tables;
 import fi.orderly.dao.tables.ITable;
 
 import fi.orderly.logic.Utils;
-import fi.orderly.logic.dbinterface.DatabaseAccess;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,16 +12,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import java.sql.Statement;
-
+import java.sql.Connection;
 
 public class TableViewInfiniteScrolling {
 
     ObservableList<ITable> items = FXCollections.observableArrayList();
     TableView<ITable> table = new TableView<>();
-    Statement statement;
-    Utils utils = new Utils(statement);
-    DatabaseAccess db = new DatabaseAccess(statement);
+    Connection connection;
+    Utils utils = new Utils(connection);
+    DatabaseAccess db = new DatabaseAccess(connection);
 
     Stage stage = new Stage();
     Scene scene;
@@ -35,8 +34,8 @@ public class TableViewInfiniteScrolling {
     }
 
 
-    public void display(Statement statement) {
-        this.statement = statement;
+    public void display(Connection connection) {
+        this.connection = connection;
         addItems();
         table.setItems(items);
 

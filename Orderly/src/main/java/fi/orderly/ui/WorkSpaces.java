@@ -1,15 +1,15 @@
 package fi.orderly.ui;
 import fi.orderly.dao.Delivery;
 import fi.orderly.logic.Utils;
-import fi.orderly.logic.dbinterface.DatabaseAccess;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import fi.orderly.logic.HubController;
 
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 
 public class WorkSpaces {
@@ -20,12 +20,12 @@ public class WorkSpaces {
     HashMap<Integer, Delivery> deliveries;
     DatabaseAccess db;
 
-    public WorkSpaces(Statement statement) {
-        this.hubController = new HubController(statement);
-         shipmentWorkspace = new ShipmentWorkspace(statement);
-         utils = new Utils(statement);
+    public WorkSpaces(Connection connection) {
+        this.hubController = new HubController(connection);
+         shipmentWorkspace = new ShipmentWorkspace(connection);
+         utils = new Utils(connection);
          deliveries = new HashMap<>();
-         db = new DatabaseAccess(statement);
+         db = new DatabaseAccess(connection);
     }
 
     public VBox addRoomWorkspace() {
@@ -185,7 +185,7 @@ public class WorkSpaces {
         return vBox;
     }
 
-    public VBox collectDeliveryWorkspace(Hub hub, Statement statement) {
+    public VBox collectDeliveryWorkspace(Hub hub, Connection connection) {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField deliveryNumber = new TextField();
@@ -195,11 +195,11 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(deliveryNumber, apply, message);
-        apply.setOnAction(event -> chooseAction(deliveryNumber.getText(), message, statement, hub));
+        apply.setOnAction(event -> chooseAction(deliveryNumber.getText(), message, connection, hub));
         return vBox;
     }
 
-    private void chooseAction(String delNumb, Label message, Statement statement, Hub hub) {
+    private void chooseAction(String delNumb, Label message, Connection connection, Hub hub) {
         //Non valid input
         if (delNumb.isEmpty()) {
             message.setText("Non allowed empty value");
@@ -211,8 +211,8 @@ public class WorkSpaces {
         }
         //Valid input
         try {
-            if (db.deliveries.hasDelivery(Integer.parseInt(delNumb))) {
-                hub.setWorkSpace(collectDelivery(Integer.parseInt(delNumb), statement));
+            if (db.deliveries.foundDelivery(Integer.parseInt(delNumb))) {
+                hub.setWorkSpace(collectDelivery(Integer.parseInt(delNumb), connection));
                 return;
             }
         } catch (SQLException e) {
@@ -222,12 +222,12 @@ public class WorkSpaces {
         message.setText("delivery not found");
     }
 
-    private VBox collectDelivery(int deliveryNumber, Statement statement) {
+    private VBox collectDelivery(int deliveryNumber, Connection connection) {
         Delivery delivery;
         if (deliveries.containsKey(deliveryNumber)) {
             delivery = deliveries.get(deliveryNumber);
         } else {
-            delivery = new Delivery(deliveryNumber, statement);
+            delivery = new Delivery(deliveryNumber, connection);
         }
 
         VBox vBox = new VBox();

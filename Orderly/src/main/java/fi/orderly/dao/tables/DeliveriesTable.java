@@ -3,8 +3,7 @@ package fi.orderly.dao.tables;
 import fi.orderly.logic.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
-import java.sql.Statement;
+import java.sql.Connection;
 
 public class DeliveriesTable implements ITable {
 
@@ -13,8 +12,8 @@ public class DeliveriesTable implements ITable {
     private String amount;
 
     Utils utils;
-    public DeliveriesTable(int index, Statement statement) {
-        utils = new Utils(statement);
+    public DeliveriesTable(int index, Connection connection) {
+        utils = new Utils(connection);
         fetchData(index);
         setDeliveryNumber(number);
         setProductName(product);

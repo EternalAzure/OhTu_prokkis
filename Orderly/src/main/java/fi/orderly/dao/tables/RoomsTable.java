@@ -3,7 +3,7 @@ package fi.orderly.dao.tables;
 import fi.orderly.logic.Utils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.sql.Statement;
+import java.sql.Connection;
 
 public class RoomsTable implements ITable {
 
@@ -11,8 +11,8 @@ public class RoomsTable implements ITable {
     private String temperature = null;
     Utils utils;
 
-    public RoomsTable(int index, Statement statement) {
-        utils = new Utils(statement);
+    public RoomsTable(int index, Connection connection) {
+        utils = new Utils(connection);
         fetchData(index);
         setRoomName(name);
         setRoomTemperature(temperature);
