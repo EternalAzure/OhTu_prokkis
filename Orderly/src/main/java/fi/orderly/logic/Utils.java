@@ -10,50 +10,6 @@ public class Utils {
         this.connection = connection;
     }
 
-
-    public Double getBalance(String room, String code, String batch) {
-        String roomIdQuery = "SELECT id FROM rooms WHERE room='" + room + "'";
-        String productIdQuery = "SELECT id FROM products WHERE code='" + code + "'";
-        String roomId = getResultString(roomIdQuery, "id");
-        String productId = getResultString(productIdQuery, "id");
-        String sql = "SELECT amount FROM balance WHERE " +
-                "room_id='" + roomId + "' AND " +
-                "product_id='" + productId + "' AND " +
-                "batch='" + batch + "'";
-        return getResultDouble(sql, "amount");
-    }
-
-    public String getResultString(String query, String column) {
-        try {
-            PreparedStatement sql = connection.prepareStatement(query);
-            ResultSet result = sql.executeQuery();
-            result.next();
-            return result.getString(column);
-        } catch (SQLException e) {
-            return null;
-        }
-    }
-    public int getResultInt(String query, String column) {
-        try {
-            PreparedStatement sql = connection.prepareStatement(query);
-            ResultSet result = sql.executeQuery();
-            result.next();
-            return result.getInt(column);
-        } catch (SQLException e) {
-            return 0;
-        }
-    }
-    public double getResultDouble(String query, String column) {
-        try {
-            PreparedStatement sql = connection.prepareStatement(query);
-            ResultSet result = sql.executeQuery();
-            result.next();
-            return result.getDouble(column);
-        } catch (SQLException e) {
-            return 0.0;
-        }
-    }
-
     public static boolean isEmpty(String[] input) {
         for (String string: input) {
             if (string == null || string.isEmpty()) {
@@ -70,7 +26,7 @@ public class Utils {
         }
         return false;
     }
-    public boolean notInt(String[] input) {
+    public static boolean notInt(String[] input) {
         for (String s: input) {
             try {
                 Integer.parseInt(s);

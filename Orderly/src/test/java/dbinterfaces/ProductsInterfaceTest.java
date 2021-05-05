@@ -37,13 +37,13 @@ public class ProductsInterfaceTest {
 
     @Test
     public void insertProduct() throws SQLException {
-        db.products.insertProduct("Kaali", "2000", "KG", 1);
+        db.products.insertProduct("Kaali", 2000, "KG", 1);
         assertEquals(2, db.products.size());
 
-        db.products.insertProduct("Porkkana", "3000", "KG", 6, 1);
+        db.products.insertProduct("Porkkana", 3000, "KG", 6, 1);
         assertEquals(3, db.products.size());
 
-        db.products.insertProduct("Peruna", "4000", "KG", 1);
+        db.products.insertProduct("Peruna", 4000, "KG", 1);
         assertEquals(4, db.products.size());
     }
 
@@ -52,7 +52,7 @@ public class ProductsInterfaceTest {
         db.products.deleteProduct("Nauris");
         assertEquals(0, db.products.size());
 
-        db.products.insertProduct("Kaali", "1000", "KG", 1);
+        db.products.insertProduct("Kaali", 1000, "KG", 1);
         db.products.deleteProduct(1000);
         assertEquals(0, db.products.size());
     }
@@ -70,12 +70,12 @@ public class ProductsInterfaceTest {
 
     @Test
     public void findIdByCode() throws SQLException {
-        assertEquals(1, db.products.findIdByCode("1000"));
+        assertEquals(1, db.products.findIdByCode(1000));
     }
 
     @Test
     public void findCodeById() throws SQLException {
-        assertEquals("1000", db.products.findCodeById(1));
+        assertEquals(1000, db.products.findCodeById(1));
     }
 
     @Test

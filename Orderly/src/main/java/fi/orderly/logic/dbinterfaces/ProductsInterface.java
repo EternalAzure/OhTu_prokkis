@@ -9,22 +9,22 @@ public class ProductsInterface {
         this.connection = connection;
     }
 
-    public void insertProduct(String product, String code, String unit, double temperature, int roomId) throws SQLException {
+    public void insertProduct(String product, int code, String unit, double temperature, int roomId) throws SQLException {
         String insert = "INSERT INTO products (product, code, unit, temperature, room_id) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement sql = connection.prepareStatement(insert);
         sql.setString(1, product);
-        sql.setString(2, code);
+        sql.setInt(2, code);
         sql.setString(3, unit);
         sql.setDouble(4, temperature);
         sql.setInt(5, roomId);
         sql.executeUpdate();
     }
 
-    public void insertProduct(String product, String code, String unit, int roomId) throws SQLException {
+    public void insertProduct(String product, int code, String unit, int roomId) throws SQLException {
         String insert = "INSERT INTO products (product, code, unit, room_id) VALUES (?, ?, ?, ?)";
         PreparedStatement sql = connection.prepareStatement(insert);
         sql.setString(1, product);
-        sql.setString(2, code);
+        sql.setInt(2, code);
         sql.setString(3, unit);
         sql.setInt(4, roomId);
         sql.executeUpdate();
@@ -44,14 +44,22 @@ public class ProductsInterface {
         sql.executeUpdate();
     }
 
-    public boolean foundProduct(String product) throws SQLException {
+    public boolean foundProduct(String name) throws SQLException {
         String select = "SELECT COUNT(*) FROM products WHERE product=?";
         PreparedStatement sql = connection.prepareStatement(select);
-        sql.setString(1, product);
+        sql.setString(1, name);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
         return resultSet.getInt("COUNT(*)") > 0;
+    }
 
+    public boolean foundProduct(int code) throws SQLException {
+        String select = "SELECT COUNT(*) FROM products WHERE code=?";
+        PreparedStatement sql = connection.prepareStatement(select);
+        sql.setInt(1, code);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("COUNT(*)") > 0;
     }
 
     public int findIdByName(String product) throws SQLException {
@@ -63,22 +71,22 @@ public class ProductsInterface {
         return resultSet.getInt("id");
     }
 
-    public int findIdByCode(String code) throws SQLException {
+    public int findIdByCode(int code) throws SQLException {
         String select = "SELECT id FROM products WHERE code=?";
         PreparedStatement sql = connection.prepareStatement(select);
-        sql.setString(1, code);
+        sql.setInt(1, code);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
         return resultSet.getInt("id");
     }
 
-    public String findCodeById(int id) throws SQLException {
+    public int findCodeById(int id) throws SQLException {
         String select = "SELECT code FROM products WHERE id=?";
         PreparedStatement sql = connection.prepareStatement(select);
         sql.setInt(1, id);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getString("code");
+        return resultSet.getInt("code");
     }
 
     public ResultSet queryProduct(int id) throws SQLException {
@@ -99,10 +107,10 @@ public class ProductsInterface {
         return resultSet.getInt("COUNT(*)");
     }
 
-    public int countProductCode(String code) throws SQLException {
+    public int countProductCode(int code) throws SQLException {
         String query = "SELECT COUNT(*) FROM products WHERE code=?";
         PreparedStatement sql = connection.prepareStatement(query);
-        sql.setString(1, code);
+        sql.setInt(1, code);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
         return resultSet.getInt("COUNT(*)");

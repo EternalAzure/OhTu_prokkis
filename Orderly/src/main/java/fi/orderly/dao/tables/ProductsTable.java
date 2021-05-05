@@ -1,9 +1,13 @@
 package fi.orderly.dao.tables;
 
 import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ProductsTable implements ITable {
 
@@ -12,10 +16,10 @@ public class ProductsTable implements ITable {
     private String unit = null;
     private String temperature = null;
     private String room = null;
-    Utils utils;
+    DatabaseAccess db;
 
     public ProductsTable(int index, Connection connection) {
-        utils = new Utils(connection);
+        db = new DatabaseAccess(connection);
         fetchData(index);
         setProductName(name);
         setProductCode(code);
@@ -95,12 +99,17 @@ public class ProductsTable implements ITable {
     }
 
     private void fetchData(int id) {
-        String query = "SELECT products.product, products.code, products.unit, products.temperature, rooms.room " +
-                "FROM products, rooms WHERE products.id=" + id + " AND rooms.id=products.room_id";
-        name = utils.getResultString(query, "product");
-        code = utils.getResultString(query, "code");
-        unit = utils.getResultString(query, "unit");
-        temperature = utils.getResultString(query, "temperature");
-        room = utils.getResultString(query, "room");
+        try {
+            PreparedStatement sql = db.tableProducts(id);
+            ResultSet resultSet = sql.executeQuery();
+
+            name = String.valueOf(resultSet.getInt("product"));
+            code = resultSet.getString("code");
+            unit = String.valueOf(resultSet.getInt("unit"));
+            temperature = String.valueOf(resultSet.getDouble("temperature"));
+            room = String.valueOf(resultSet.getDouble("room_id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

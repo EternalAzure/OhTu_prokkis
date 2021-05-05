@@ -1,27 +1,31 @@
 package fi.orderly.dao.tables;
 
 import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class BalanceTable implements ITable {
 
-    private String room = null;
     private String name = null;
     private String code = null;
     private String batch = null;
     private String amount = null;
-    Utils utils;
+    private String room = null;
+    DatabaseAccess db;
 
     public BalanceTable(int index, Connection connection) {
-        utils = new Utils(connection);
+        db = new DatabaseAccess(connection);
         fetchData(index);
-        setRoomName(room);
         setProductName(name);
         setProductCode(code);
         setProductBatch(batch);
         setProductAmount(amount);
+        setRoomName(room);
     }
 
     private StringProperty roomName;
@@ -96,12 +100,18 @@ public class BalanceTable implements ITable {
 
 
     private void fetchData(int id) {
-        String query = "SELECT products.product, products.code, balance.batch, balance.amount, rooms.room " +
-                "FROM products, rooms, balance WHERE balance.id=" + id + " AND products.id=product_id AND rooms.id=balance.room_id";
-        name = utils.getResultString(query, "product");
-        code = utils.getResultString(query, "code");
-        batch = utils.getResultString(query, "batch");
-        amount = utils.getResultString(query, "amount");
-        room = utils.getResultString(query, "room");
+        try {
+            PreparedStatement sql = db.tableBalance(id);
+            ResultSet resultSet = sql.executeQuery();
+
+            name = resultSet.getString("product");
+            code = String.valueOf(resultSet.getInt("code"));
+            batch = String.valueOf(resultSet.getInt("batch"));
+            amount = String.valueOf(resultSet.getDouble("amount"));
+            room = resultSet.getString("room");
+        } catch (
+                SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -48,12 +48,4 @@ public class UtilsTest {
         assertFalse(Utils.isEmpty(new String[]{"ABC", "123"}));
     }
 
-    @Test
-    public void getBalance() throws SQLException {
-        db.rooms.insertRoom("Room", 2);
-        db.products.insertProduct("A", "1", "KG", 1);
-        db.balance.insertBalance(1, 1, 1, 300);
-
-        assertEquals(300, utils.getBalance("Room", "1", "1"), 0);
-    }
 }

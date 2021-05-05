@@ -48,4 +48,29 @@ public class DatabaseAccessTest {
         assertTrue(db.foundRooms(new String[] { "Room 1", "Room 2", "Room 3" }));
     }
 
+    @Test
+    public void tableRooms() {
+
+    }
+
+    @Test
+    public void tableProducts() {
+
+    }
+
+    @Test
+    public void tableBalance() {
+
+    }
+
+    @Test
+    public void tableShipments() {
+
+    }
+
+    @Test
+    public void tableDeliveries() {
+
+    }
+
 }

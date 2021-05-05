@@ -1,18 +1,19 @@
 package fi.orderly.dao.tables;
 
-import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class RoomsTable implements ITable {
 
     private String name = null;
     private String temperature = null;
-    Utils utils;
+    DatabaseAccess db;
 
     public RoomsTable(int index, Connection connection) {
-        utils = new Utils(connection);
+        db = new DatabaseAccess(connection);
         fetchData(index);
         setRoomName(name);
         setRoomTemperature(temperature);
@@ -47,8 +48,11 @@ public class RoomsTable implements ITable {
     }
 
     private void fetchData(int id) {
-        String query = "SELECT room, temperature FROM rooms WHERE id=" + id;
-        name = utils.getResultString(query, "room");
-        temperature = utils.getResultString(query, "temperature");
+        try {
+            name = db.rooms.queryRoom(id)[0];
+            temperature = db.rooms.queryRoom(id)[1];
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -30,11 +30,11 @@ public class ShipmentTest {
     }
     @Test
     public void fetchData() {
-        shipment = new Shipment("1", connection);
+        shipment = new Shipment(1, connection);
 
         //-- SHOULD PASS --//
         //Right number of DataPackages (1 for each product)
-        shipment.forTestingOnly("1");
+        shipment.forTestingOnly(1);
         assertEquals(5, shipment.getLength());
         //Shipment number is saved and can be accessed
         assertEquals(1, shipment.getShipmentNumber());

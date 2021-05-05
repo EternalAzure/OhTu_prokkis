@@ -13,7 +13,7 @@ public class Delivery {
 
     int index = 0;
     DataPackage[] collected;
-    HashMap<String, Double> requested;
+    HashMap<Integer, Double> requested;
     Connection connection;
     Utils utils;
     DatabaseAccess db;
@@ -33,7 +33,7 @@ public class Delivery {
             return;
         }
         requested.remove(code);
-        collected[index] = new DataPackage(code, Integer.parseInt(batch), Double.parseDouble(amount), room);
+        collected[index] = new DataPackage(Integer.parseInt(code), Integer.parseInt(batch), Double.parseDouble(amount), room);
         index++;
     }
 
@@ -41,7 +41,7 @@ public class Delivery {
         if (Utils.isEmpty(new String[] { code, batch, amount, room})) {
             return false;
         }
-        if (Utils.notInt(batch)) {
+        if (Utils.notInt(new String[] { code, batch })) {
             return false;
         }
         if (Utils.notDouble(amount)) {
@@ -69,7 +69,7 @@ public class Delivery {
             ResultSet result = sql.executeQuery(select);
 
             while (result.next()) {
-                String i = result.getString("code");
+                int i = result.getInt("code");
                 double j = result.getDouble("amount");
                 requested.put(i, j);
             }
@@ -94,19 +94,19 @@ public class Delivery {
     }
 
     public static class DataPackage {
-        String code;
+        int code;
         int batch;
         double amount;
         String from;
 
-        public DataPackage(String code, int batch, double amount, String from) {
+        public DataPackage(int code, int batch, double amount, String from) {
             this.code = code;
             this.batch = batch;
             this.amount = amount;
             this.from = from;
         }
 
-        public String getCode() {
+        public int getCode() {
             return code;
         }
         public int getBatch() {

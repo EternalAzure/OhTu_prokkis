@@ -1,9 +1,13 @@
 package fi.orderly.dao.tables;
 
 import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DeliveriesTable implements ITable {
 
@@ -11,9 +15,9 @@ public class DeliveriesTable implements ITable {
     private String product;
     private String amount;
 
-    Utils utils;
+    DatabaseAccess db;
     public DeliveriesTable(int index, Connection connection) {
-        utils = new Utils(connection);
+        db = new DatabaseAccess(connection);
         fetchData(index);
         setDeliveryNumber(number);
         setProductName(product);
@@ -63,10 +67,15 @@ public class DeliveriesTable implements ITable {
     }
 
     private void fetchData(int id) {
-        String query = "SELECT deliveries.number, products.product, deliveries.amount " +
-                "FROM products, deliveries WHERE deliveries.id=" + id + " AND products.id=product_id";
-        number = utils.getResultString(query, "number");
-        product = utils.getResultString(query, "product");
-        amount = utils.getResultString(query, "amount");
+        try {
+            PreparedStatement sql = db.tableDeliveries(id);
+            ResultSet resultSet = sql.executeQuery();
+
+            number = String.valueOf(resultSet.getInt("number"));
+            product = resultSet.getString("product");
+            amount = String.valueOf(resultSet.getDouble("amount"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

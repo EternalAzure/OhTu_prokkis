@@ -1,9 +1,12 @@
 package fi.orderly.dao.tables;
 
-import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ShipmentsTable implements ITable {
 
@@ -12,9 +15,10 @@ public class ShipmentsTable implements ITable {
     private String batch;
     private String amount;
 
-    Utils utils;
+    DatabaseAccess db;
+
     public ShipmentsTable(int index, Connection connection) {
-        utils = new Utils(connection);
+        db = new DatabaseAccess(connection);
         fetchData(index);
         setShipmentNumber(number);
         setProductName(name);
@@ -80,11 +84,16 @@ public class ShipmentsTable implements ITable {
     }
 
     private void fetchData(int id) {
-        String query = "SELECT shipments.number, products.product, shipments.batch, shipments.amount " +
-                "FROM products, shipments WHERE shipments.id=" + id + " AND products.id=product_id";
-        number = utils.getResultString(query, "number");
-        name = utils.getResultString(query, "product");
-        batch = utils.getResultString(query, "batch");
-        amount = utils.getResultString(query, "amount");
+        try {
+            PreparedStatement sql = db.tableShipments(id);
+            ResultSet resultSet = sql.executeQuery();
+
+            number = String.valueOf(resultSet.getInt("number"));
+            name = resultSet.getString("product");
+            batch = String.valueOf(resultSet.getInt("batch"));
+            amount = String.valueOf(resultSet.getDouble("amount"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

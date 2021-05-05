@@ -30,8 +30,8 @@ public class DeliveriesInterfaceTest {
     @Test
     public void insertDelivery() throws  SQLException {
         db.rooms.insertRoom("Room 3");
-        db.products.insertProduct("Selleri", "1000", "PSS", 1);
-        db.products.insertProduct("Mustajuuri", "2000", "KG", 1);
+        db.products.insertProduct("Selleri", 1000, "PSS", 1);
+        db.products.insertProduct("Mustajuuri", 2000, "KG", 1);
 
         //Finds 1 delivery with number 1
         db.deliveries.insertDelivery(1, 1, 100);
@@ -87,7 +87,7 @@ public class DeliveriesInterfaceTest {
     public void foundDelivery() throws  SQLException {
         Statement statement = connection.createStatement();
         db.rooms.insertRoom("Room 3");
-        db.products.insertProduct("Selleri", "1000", "PSS", 1);
+        db.products.insertProduct("Selleri", 1000, "PSS", 1);
         statement.executeUpdate("INSERT INTO deliveries (number, product_id, amount) VALUES (1, 1, 200)");
 
         assertTrue(db.deliveries.foundDelivery(1));
@@ -103,7 +103,7 @@ public class DeliveriesInterfaceTest {
     public void numberOfDelivery() throws  SQLException {
         Statement statement = connection.createStatement();
         db.rooms.insertRoom("Room 3");
-        db.products.insertProduct("Selleri", "1000", "PSS", 1);
+        db.products.insertProduct("Selleri", 1000, "PSS", 1);
         statement.executeUpdate("INSERT INTO deliveries (number, product_id, amount) VALUES (1, 1, 200)");
 
         assertEquals(1, db.deliveries.numberOfDeliveries(1));
@@ -116,7 +116,7 @@ public class DeliveriesInterfaceTest {
 
         Statement statement = connection.createStatement();
         db.rooms.insertRoom("Room 3");
-        db.products.insertProduct("Selleri", "1000", "PSS", 1);
+        db.products.insertProduct("Selleri", 1000, "PSS", 1);
         statement.executeUpdate("INSERT INTO deliveries (number, product_id, amount) VALUES (1, 1, 200)");
 
         assertEquals(1, db.deliveries.size());
@@ -126,7 +126,7 @@ public class DeliveriesInterfaceTest {
     public void truncate() throws SQLException {
         Statement statement = connection.createStatement();
         db.rooms.insertRoom("Room 3");
-        db.products.insertProduct("Selleri", "1000", "PSS", 1);
+        db.products.insertProduct("Selleri", 1000, "PSS", 1);
         statement.executeUpdate("INSERT INTO deliveries (number, product_id, amount) VALUES (1, 1, 200)");
 
         db.deliveries.truncate();

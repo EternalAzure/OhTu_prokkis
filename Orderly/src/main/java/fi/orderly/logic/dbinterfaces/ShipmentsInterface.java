@@ -53,6 +53,15 @@ public class ShipmentsInterface {
         return resultSet.getInt("COUNT(*)") > 0;
     }
 
+    public int numberOfShipment(int number) throws SQLException {
+        String query = "SELECT COUNT(*) FROM shipments WHERE number=?";
+        PreparedStatement sql = connection.prepareStatement(query);
+        sql.setInt(1, number);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("COUNT(*)");
+    }
+
     public int size() {
         try{
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM shipments");

@@ -5,10 +5,7 @@ import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static org.junit.Assert.*;
 
@@ -85,7 +82,17 @@ public class BalanceInterfaceTest {
 
     @Test
     public void queryBalance() throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("INSERT INTO rooms (room) VALUES ('Room 2')");
+        statement.executeUpdate("INSERT INTO products (product, code, unit, room_id) VALUES ('Kaali', 2000, 'KG', 2)");
+        statement.executeUpdate("INSERT INTO balance (room_id, product_id, batch, amount) VALUES (2, 2, 2, 200)");
+        statement.executeUpdate("INSERT INTO balance (room_id, product_id, batch, amount) VALUES (1, 1, 2, 300)");
+
         assertEquals(100, db.balance.queryBalance(1, 1, 1), 0);
+
+        assertEquals(200, db.balance.queryBalance(2, 2, 2), 0);
+
+        assertEquals(300, db.balance.queryBalance(1, 1, 2), 0);
     }
 
     @Test

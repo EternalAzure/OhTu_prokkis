@@ -1,20 +1,21 @@
 package fi.orderly.dao;
 
 import fi.orderly.logic.Utils;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 
 import java.sql.*;
 
 public class Shipment {
 
     final private Connection connection;
-    final private Utils utils;
+    final private DatabaseAccess db;
     private DataPackage[] list;
     final private int shipmentNumber;
 
-    public Shipment(String shipmentNumber, Connection connection) {
+    public Shipment(int shipmentNumber, Connection connection) {
         this.connection = connection;
-        utils = new Utils(connection);
-        this.shipmentNumber = Integer.parseInt(shipmentNumber);
+        db = new DatabaseAccess(connection);
+        this.shipmentNumber = shipmentNumber;
         fetchData(shipmentNumber);
     }
 
@@ -25,19 +26,11 @@ public class Shipment {
         return list[index];
     }
 
-    private void fetchData(String shipmentNumber) {
-        String query = "SELECT products.product, products.code, shipments.batch, shipments.amount, products.unit, rooms.room FROM shipments, products, rooms " +
-                "WHERE number=? AND products.id=shipments.product_id AND rooms.id=products.room_id";
-        String sizeQuery = "SELECT COUNT(*) FROM shipments, products, rooms WHERE number=? AND products.id=shipments.product_id AND rooms.id=products.room_id";
-        
+    private void fetchData(int shipmentNumber) {
         try {
-            PreparedStatement sql1 = connection.prepareStatement(sizeQuery);
-            sql1.setString(1, shipmentNumber);
-            list = new DataPackage[utils.getResultInt(sizeQuery, "COUNT(*)")];
-
-            PreparedStatement sql2 = connection.prepareStatement(query);
-            sql2.setString(1, shipmentNumber);
-            ResultSet result = sql2.executeQuery(query);
+            list = new DataPackage[db.shipments.numberOfShipment(shipmentNumber)];
+            PreparedStatement sql = db.queryShipment(shipmentNumber);
+            ResultSet result = sql.executeQuery();
             int i = 0;
             while (result.next()) {
                 String name = result.getString("products.product");
@@ -46,11 +39,9 @@ public class Shipment {
                 String amount = result.getString("shipments.amount");
                 String unit = result.getString("products.unit");
                 String room = result.getString("rooms.room");
-
                 list[i] = new DataPackage(name, code, batch, amount, unit, room);
                 i++;
             }
-
         } catch (SQLException e) {
             System.out.println("SQL fail at Shipment.fetchData()");
         }
@@ -64,7 +55,7 @@ public class Shipment {
         return shipmentNumber;
     }
 
-    public void forTestingOnly(String shipmentNumber) {
+    public void forTestingOnly(int shipmentNumber) {
         //Use only to gain access from test class
         fetchData(shipmentNumber);
     }

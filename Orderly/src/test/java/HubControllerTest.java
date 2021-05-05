@@ -146,19 +146,15 @@ public class HubControllerTest {
     @Test
     public void balance() throws SQLException{
         db.rooms.insertRoom("Room", 2);
-        db.products.insertProduct("A", "1000", "KG", 2, 1);
-        db.products.insertProduct("B", "2000", "KG", 2, 1);
-        db.products.insertProduct("NoBatch", "0000", "KPL", 1);
+        db.products.insertProduct("A", 1000, "KG", 2, 1);
+        db.products.insertProduct("B", 2000, "KG", 2, 1);
+        db.products.insertProduct("NoBatch", 0, "KPL", 1);
 
         db.balance.insertBalance(1, 1, 1, 300.0);
         db.shipments.insertShipment(1, 2, 2, 10);
         double amount = db.balance.queryBalance(1, 1, 1);
 
         assertEquals(300.0, amount, 0);
-        //Test getBalance()
-        assertEquals(300.0, utils.getBalance("Room", "1000", "1"), 0);
-        //Non existing room
-        assertEquals(0, utils.getBalance("Marjat", "1000", "1"), 0);
 
         //-- SHOULD PASS --//
         //Updates existing row
@@ -181,7 +177,7 @@ public class HubControllerTest {
         //Non existing batch
         hubController.changeBalance("Room", "2000", "9090", "500");
         assertEquals(2, db.balance.size(), 0);
-        assertEquals(60, utils.getBalance("Room", "2000", "2"), 0);
+        assertEquals(60, db.queryBalance("Room", 2000, 2), 0);
         //Update without batch. Should fail to change balance and NOT create new "batch"
         hubController.changeBalance("Room", "1000", "", "30.0");
         assertEquals(2, db.balance.size(), 0);
@@ -193,15 +189,17 @@ public class HubControllerTest {
     public void transfer() throws SQLException{
         db.rooms.insertRoom("Room 1");
         db.rooms.insertRoom("Room 2");
-        db.products.insertProduct("Kuha", "9920", "KG", 2, 1);
+        db.products.insertProduct("Kuha", 9920, "KG", 2, 1);
         db.shipments.insertShipment(1, 1, 1, 10);
 
         db.balance.insertBalance(1, 1, 1, 45.0);
-        assertEquals(45, utils.getBalance("Room 1", "9920", "1"), 0);
+        assertEquals(45, db.queryBalance("Room 1", 9920, 1), 0);
 
         //-- SHOULD PASS --//
         //Valid input
         hubController.transfer("Room 1", "Room 2", "9920", "1", "30.0");
+        assertEquals(30, db.queryBalance("Room 2", 1, 1), 0);
+        assertEquals(15, db.queryBalance("Room 1", 1, 1), 0);
         assertEquals(30, db.balance.queryBalance(2, 1, 1), 0);
         assertEquals(15, db.balance.queryBalance(1, 1, 1), 0);
         //Valid input
@@ -233,14 +231,14 @@ public class HubControllerTest {
     @Test
     public void receiveShipment() throws SQLException {
         hubController.createTestData();
-        hubController.receiveShipment(new Shipment("1", connection));
+        hubController.receiveShipment(new Shipment(1, connection));
 
-        assertEquals(10, db.balance.queryBalance(db.rooms.findIdByName("Room"), db.products.findIdByCode("1000"), 1), 0);
-        assertEquals(10, utils.getBalance("Room 1", "1000", "1"), 0);
-        assertEquals(40, utils.getBalance("Room 1", "2000", "1"), 0);
-        assertEquals(160, utils.getBalance("Room 1", "3000", "1"), 0);
-        assertEquals(640, utils.getBalance("Room 2", "4000", "1"), 0);
-        assertEquals(2560, utils.getBalance("Room 2", "5000", "1"), 0);
+        assertEquals(10, db.queryBalance("Room 1", 1000, 1), 0);
+        assertEquals(40, db.queryBalance("Room 1", 2000, 1), 0);
+        assertEquals(160, db.queryBalance("Room 1", 3000, 1), 0);
+        assertEquals(640, db.queryBalance("Room 2", 4000, 1), 0);
+        assertEquals(2560, db.queryBalance("Room 2", 5000, 1), 0);
+
         //Receiving shipment destroys it, thus stopping it being received again
         assertFalse(db.shipments.foundShipment(1));
     }
@@ -251,63 +249,146 @@ public class HubControllerTest {
     }
 
     @Test
-    public void createTestShipment(){
+    public void newShipment() throws SQLException {
+        db.rooms.insertRoom("Room 1");
+        db.products.insertProduct("Kaali", 1000, "KG", 1);
+        db.products.insertProduct("Porkkana", 2000, "KG", 1);
+        //-- SHOULD PASS --//
+        hubController.newShipment("1", "1000", "1", "100");
+        assertEquals(1, db.shipments.size());
+        assertEquals(1, db.shipments.numberOfShipment(1));
+        hubController.newShipment("1", "1000", "2", "100");
+        assertEquals(2, db.shipments.size());
+        hubController.newShipment("1", "2000", "2", "100");
+        assertEquals(3, db.shipments.size());
+
+
+        //-- SHOULD NOT PASS --//
+        //Product does not exist
+        hubController.newShipment("1", "3000", "1", "100");
+        assertEquals(3, db.shipments.size());
+
+        //Duplicate
+        hubController.newShipment("1", "2000", "2", "100");
+        assertEquals(3, db.shipments.size());
+
+        //Invalid input: number
+        hubController.newShipment("ABC", "1000", "1", "100");
+        assertEquals(3, db.shipments.size());
+        hubController.newShipment("", "1000", "1", "100");
+        assertEquals(3, db.shipments.size());
+
+        //Invalid input: code
+        hubController.newShipment("1", "ABC", "1", "100");
+        assertEquals(3, db.shipments.size());
+        hubController.newShipment("1", "", "1", "100");
+        assertEquals(3, db.shipments.size());
+
+        //Invalid input: batch
+        hubController.newShipment("1", "1000", "ABC", "100");
+        assertEquals(3, db.shipments.size());
+        hubController.newShipment("1", "1000", "", "100");
+        assertEquals(3, db.shipments.size());
+
+        //Invalid input: amount
+        hubController.newShipment("ABC", "1000", "1", "ABC");
+        assertEquals(3, db.shipments.size());
+        hubController.newShipment("ABC", "1000", "1", "");
+        assertEquals(3, db.shipments.size());
+    }
+
+    @Test
+    public void newDelivery() throws SQLException {
+        db.rooms.insertRoom("Room 1");
+        db.products.insertProduct("Kaali", 1000, "KG", 1);
+        db.products.insertProduct("Porkkana", 2000, "KG", 1);
+        //-- SHOULD PASS --//
+        hubController.newDelivery("1", "1000", "100");
+        assertEquals(1, db.deliveries.size());
+        assertEquals(1, db.deliveries.numberOfDeliveries(1));
+        hubController.newDelivery("1", "2000", "100");
+        assertEquals(2, db.deliveries.size());
+        hubController.newDelivery("2", "1000", "100");
+        assertEquals(3, db.deliveries.size());
+
+        //-- SHOULD NOT PASS --//
+        //Invalid input: number
+        hubController.newDelivery("ABC", "1000", "100");
+        assertEquals(3, db.deliveries.size());
+        hubController.newDelivery("", "1000", "100");
+        assertEquals(3, db.deliveries.size());
+
+        //Invalid input: code
+        hubController.newDelivery("3", "ABC", "100");
+        assertEquals(3, db.deliveries.size());
+        hubController.newDelivery("3", "", "100");
+        assertEquals(3, db.deliveries.size());
+
+        //Invalid input: amount
+        hubController.newDelivery("3", "1000", "ABC");
+        assertEquals(3, db.deliveries.size());
+        hubController.newDelivery("3", "1000", "");
+        assertEquals(3, db.deliveries.size());
+    }
+
+    @Test
+    public void createTestShipment() throws SQLException {
         hubController.createTestData();
         assertEquals(10, db.products.size());
-        String ka = "SELECT COUNT(*) FROM products WHERE product='Kaali' AND code='1000' AND unit='KG' AND temperature='8' AND room_id=1";
-        String po = "SELECT COUNT(*) FROM products WHERE product='Porkkana' AND code='2000' AND unit='KG' AND temperature='8' AND room_id=1";
-        String pe = "SELECT COUNT(*) FROM products WHERE product='Peruna' AND code='3000' AND unit='KG' AND temperature='8' AND room_id=1";
-        String ku = "SELECT COUNT(*) FROM products WHERE product='Kurpitsa' AND code='4000' AND unit='KG' AND temperature='14' AND room_id=2";
-        String si = "SELECT COUNT(*) FROM products WHERE product='Sipuli' AND code='5000' AND unit='KG' AND temperature='14' AND room_id=2";
-        assertEquals(1, utils.getResultInt(ka, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(po, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(pe, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(ku, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(si, "COUNT(*)"));
+        String ka = "SELECT COUNT(*) FROM products WHERE product='Kaali' AND code=1000 AND unit='KG' AND temperature=8 AND room_id=1";
+        String po = "SELECT COUNT(*) FROM products WHERE product='Porkkana' AND code=2000 AND unit='KG' AND temperature=8 AND room_id=1";
+        String pe = "SELECT COUNT(*) FROM products WHERE product='Peruna' AND code=3000 AND unit='KG' AND temperature=8 AND room_id=1";
+        String ku = "SELECT COUNT(*) FROM products WHERE product='Kurpitsa' AND code=4000 AND unit='KG' AND temperature=14 AND room_id=2";
+        String si = "SELECT COUNT(*) FROM products WHERE product='Sipuli' AND code=5000 AND unit='KG' AND temperature=14 AND room_id=2";
+        assertEquals(1, db.customQuery(ka, "COUNT(*)"));
+        assertEquals(1, db.customQuery(po, "COUNT(*)"));
+        assertEquals(1, db.customQuery(pe, "COUNT(*)"));
+        assertEquals(1, db.customQuery(ku, "COUNT(*)"));
+        assertEquals(1, db.customQuery(si, "COUNT(*)"));
 
-        String ka1 = "SELECT COUNT(*) FROM products WHERE product='Kaalilaatikko' AND code='1100' AND unit='KG' AND temperature='4' AND room_id=3";
-        String po1 = "SELECT COUNT(*) FROM products WHERE product='Porkkanasuikaleet' AND code='2200' AND unit='KG' AND temperature='4' AND room_id=3";
-        String pe1 = "SELECT COUNT(*) FROM products WHERE product='Perunamuussi' AND code='3300' AND unit='KG' AND temperature='4' AND room_id=3";
-        String ku1 = "SELECT COUNT(*) FROM products WHERE product='Kurpitsapalat' AND code='4400' AND unit='KG' AND temperature='4' AND room_id=3";
-        String si1 = "SELECT COUNT(*) FROM products WHERE product='Sipulirenkaat' AND code='5500' AND unit='KG' AND temperature='4' AND room_id=3";
-        assertEquals(1, utils.getResultInt(ka1, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(po1, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(pe1, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(ku1, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(si1, "COUNT(*)"));
+        String ka1 = "SELECT COUNT(*) FROM products WHERE product='Kaalilaatikko' AND code=1100 AND unit='KG' AND temperature=4 AND room_id=3";
+        String po1 = "SELECT COUNT(*) FROM products WHERE product='Porkkanasuikaleet' AND code=2200 AND unit='KG' AND temperature=4 AND room_id=3";
+        String pe1 = "SELECT COUNT(*) FROM products WHERE product='Perunamuussi' AND code=3300 AND unit='KG' AND temperature=4 AND room_id=3";
+        String ku1 = "SELECT COUNT(*) FROM products WHERE product='Kurpitsapalat' AND code=4400 AND unit='KG' AND temperature=4 AND room_id=3";
+        String si1 = "SELECT COUNT(*) FROM products WHERE product='Sipulirenkaat' AND code=5500 AND unit='KG' AND temperature=4 AND room_id=3";
+        assertEquals(1, db.customQuery(ka1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(po1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(pe1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(ku1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(si1, "COUNT(*)"));
 
         String kaali = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=1 AND batch=1";
         String porkkana = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=2 AND batch=1";
         String peruna = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=3 AND batch=1";
         String kurpitsa = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=4 AND batch=1";
         String sipuli = "SELECT COUNT(*) FROM shipments WHERE number=1 AND product_id=5 AND batch=1";
-        assertEquals(1, utils.getResultInt(kaali, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(porkkana, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(peruna, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(kurpitsa, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(sipuli, "COUNT(*)"));
+        assertEquals(1, db.customQuery(kaali, "COUNT(*)"));
+        assertEquals(1, db.customQuery(porkkana, "COUNT(*)"));
+        assertEquals(1, db.customQuery(peruna, "COUNT(*)"));
+        assertEquals(1, db.customQuery(kurpitsa, "COUNT(*)"));
+        assertEquals(1, db.customQuery(sipuli, "COUNT(*)"));
 
         String kaali1 = "SELECT COUNT(*) FROM deliveries WHERE number=1 AND product_id=6 AND amount=5";
         String porkkana1 = "SELECT COUNT(*) FROM deliveries WHERE number=1 AND product_id=7 AND amount=20";
         String peruna1 = "SELECT COUNT(*) FROM deliveries WHERE number=1 AND product_id=8 AND amount=80";
         String kurpitsa1 = "SELECT COUNT(*) FROM deliveries WHERE number=1 AND product_id=9 AND amount=320";
         String sipuli1 = "SELECT COUNT(*) FROM deliveries WHERE number=1 AND product_id=10 AND amount=1280";
-        assertEquals(1, utils.getResultInt(kaali1, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(porkkana1, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(peruna1, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(kurpitsa1, "COUNT(*)"));
-        assertEquals(1, utils.getResultInt(sipuli1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(kaali1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(porkkana1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(peruna1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(kurpitsa1, "COUNT(*)"));
+        assertEquals(1, db.customQuery(sipuli1, "COUNT(*)"));
     }
 
     @Test
     public void sendDelivery() throws SQLException {
         //HUGE SET UP
         db.rooms.insertRoom("Room 3");
-        db.products.insertProduct("Kaalilaatikko", "1100","KG", 1);
-        db.products.insertProduct("Porkkanasuikaleet", "2200","KG", 1);
-        db.products.insertProduct("Perunamuussi", "3300","KG", 1);
-        db.products.insertProduct("Kurpitsapalat", "4400","KG", 1);
-        db.products.insertProduct("Sipulirenkaat", "5500","KG", 1);
+        db.products.insertProduct("Kaalilaatikko", 1100,"KG", 1);
+        db.products.insertProduct("Porkkanasuikaleet", 2200,"KG", 1);
+        db.products.insertProduct("Perunamuussi", 3300,"KG", 1);
+        db.products.insertProduct("Kurpitsapalat", 4400,"KG", 1);
+        db.products.insertProduct("Sipulirenkaat", 5500,"KG", 1);
         assertEquals(5, db.products.size());
 
         db.balance.insertBalance(1, 1, 1, 5);
@@ -333,7 +414,7 @@ public class HubControllerTest {
         delivery.collect("5500", "1", "1280", "Room 3");
         assertEquals(5, delivery.getLength());
 
-        assertEquals("1100", delivery.getDataPackage(0).getCode());
+        assertEquals(1100, delivery.getDataPackage(0).getCode());
         assertEquals(1, delivery.getDataPackage(0).getBatch());
         assertEquals(5, delivery.getDataPackage(0).getAmount(), 0);
         assertEquals("Room 3", delivery.getDataPackage(0).getFrom());

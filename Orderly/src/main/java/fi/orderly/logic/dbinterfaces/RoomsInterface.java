@@ -38,6 +38,18 @@ public class RoomsInterface {
         sql.executeUpdate();
     }
 
+    public String[] queryRoom(int id) throws SQLException {
+        String select = "SELECT name, temperature FROM rooms WHERE id=?";
+        PreparedStatement sql = connection.prepareStatement(select);
+        sql.setInt(1, id);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        String[] result = new String[2];
+        result[0] = resultSet.getString("name");
+        result[1] = String.valueOf(resultSet.getDouble("temperature"));
+        return result;
+    }
+
     public int countRoom(String room) throws SQLException {
         String query = "SELECT COUNT(*) FROM rooms WHERE room=?";
         PreparedStatement sql = connection.prepareStatement(query);

@@ -6,11 +6,9 @@ import fi.orderly.logic.dbinterfaces.RoomsInterface;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class SaldoOperations {
 
-    Statement statement;
     BalanceInterface balanceInterface;
     RoomsInterface roomsInterface;
     ProductsInterface productsInterface;
@@ -22,7 +20,7 @@ public class SaldoOperations {
     }
 
     //Add and subtract
-    public double subractBalance(String roomName, String productCode, int batch, double amount) throws SQLException {
+    public double subractBalance(String roomName, int productCode, int batch, double amount) throws SQLException {
         int roomId = roomsInterface.findIdByName(roomName);
         int productId = productsInterface.findIdByCode(productCode);
         double currentBalance = balanceInterface.queryBalance(roomId, productId, batch);
@@ -40,7 +38,7 @@ public class SaldoOperations {
 
         return newBalance;
     }
-    public double addBalance(String roomName, String productCode, int batch, double amount) throws SQLException {
+    public double addBalance(String roomName, int productCode, int batch, double amount) throws SQLException {
         int roomId = roomsInterface.findIdByName(roomName);
         int productId = productsInterface.findIdByCode(productCode);
         double currentBalance = balanceInterface.queryBalance(roomId, productId, batch);

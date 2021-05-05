@@ -143,8 +143,8 @@ public class Hub  extends Application {
         receive.setOnAction(event -> setWorkSpace(workSpaces.receiveWorkspace(this)));
         collectDelivery.setOnAction(event -> setWorkSpace(workSpaces.collectDeliveryWorkspace(this, connection)));
         sendDelivery.setOnAction(event -> setWorkSpace(workSpaces.sendDeliveryWorkspace(this)));
-        //newShipment.setOnAction(event -> );
-        //newDelivery.setOnAction(event -> );
+        newShipment.setOnAction(event -> setWorkSpace(workSpaces.newShipmentWorkspace()));
+        newDelivery.setOnAction(event -> setWorkSpace(workSpaces.newDeliveryWorkspace()));
 
         Scene scene = new Scene(borderPane, 800, 600);
         scene.getStylesheets().add("hub.css");

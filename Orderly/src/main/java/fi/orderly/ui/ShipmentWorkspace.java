@@ -2,6 +2,7 @@ package fi.orderly.ui;
 
 import fi.orderly.dao.Shipment;
 import fi.orderly.logic.HubController;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,11 +11,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import fi.orderly.logic.Utils;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ShipmentWorkspace {
 
     Connection connection;
     Utils utils;
+    DatabaseAccess db;
     HubController hubController;
     private Shipment shipment;
     final private Label errorMessage = new Label();
@@ -24,6 +27,7 @@ public class ShipmentWorkspace {
     public ShipmentWorkspace(Connection connection) {
         this.connection = connection;
         utils = new Utils(connection);
+        db = new DatabaseAccess(connection);
         hubController = new HubController(connection);
         errorMessage.setId("error");
     }
@@ -48,7 +52,7 @@ public class ShipmentWorkspace {
         header.setId("header");
 
         //2. Fetch data
-        shipment = new Shipment(shipmentNumber, connection);
+        shipment = new Shipment(Integer.parseInt(shipmentNumber), connection);
 
         //3. Put data to visual table rows
         for (int i = 0; i < shipment.getLength(); i++) {
@@ -85,11 +89,13 @@ public class ShipmentWorkspace {
     }
 
     public String validateInput(String input){
-        if (input.isEmpty() || !Utils.notInt(input)) return "Input needs to be integer";
-        String query = "SELECT COUNT(*) FROM shipments WHERE number=" + input;
-        int deliverySize = utils.getResultInt(query, "COUNT(*)");
-        if (deliverySize == 0) return "No shipments found";
-
+        try {
+            if (input.isEmpty() || !Utils.notInt(input)) return "Input needs to be integer";
+            int deliverySize = db.shipments.numberOfShipment(Integer.parseInt(input));
+            if (deliverySize == 0) return "No shipments found";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return "";
     }
 

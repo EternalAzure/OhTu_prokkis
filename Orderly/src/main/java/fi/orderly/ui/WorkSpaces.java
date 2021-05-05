@@ -302,31 +302,37 @@ public class WorkSpaces {
 
     public VBox newShipmentWorkspace() {
         VBox vBox = new VBox();
+        vBox.setId("workspace");
+        TextField number = new TextField();
         TextField code = new TextField();
         TextField batch = new TextField();
         TextField amount = new TextField();
         Button apply = new Button("Apply");
         Label message = new Label();
+        number.setPromptText("Shipment number");
         code.setPromptText("Product code");
         batch.setPromptText("Batch number");
         amount.setPromptText("Expected amount");
 
-        vBox.getChildren().addAll(code, batch, amount, apply, message);
-        apply.setOnAction(event -> System.out.println("pressed button"));
+        vBox.getChildren().addAll(number, code, batch, amount, apply, message);
+        apply.setOnAction(event -> message.setText(hubController.newShipment(number.getText(), code.getText(), batch.getText(), amount.getText())));
         return vBox;
     }
 
     public VBox newDeliveryWorkspace() {
         VBox vBox = new VBox();
+        vBox.setId("workspace");
+        TextField number = new TextField();
         TextField code = new TextField();
         TextField amount = new TextField();
         Button apply = new Button("Apply");
         Label message = new Label();
+        number.setPromptText("Delivery number");
         code.setPromptText("Product code");
         amount.setPromptText("Requested amount");
 
-        vBox.getChildren().addAll(code, amount, apply, message);
-        apply.setOnAction(event -> System.out.println("pressed button"));
+        vBox.getChildren().addAll(number, code, amount, apply, message);
+        apply.setOnAction(event -> message.setText(hubController.newDelivery(number.getText(), code.getText(), amount.getText())));
         return vBox;
     }
 }
