@@ -49,4 +49,5 @@ Ajat eivät sisällä laskareita.
 | 4.5         | 2           |Muutin loputkin SQL komennot turvallisempaan PreparedStatement muotoon|      
 | 4.5         | 0.5         |Tein virheitä SQL muutoksissa ja korjailin niitä yksikkötestien ohjaamana|
 | 4.5         | 2           |Lisään testikattavuutta|
-| yht.        | 107.34      |
+| 5.5         | 5.3         |Refaktorointia. Siirsin Utils metodeja DatabaseAcces luokkaan ja korjailen sen tuhoa.</br> Muuta refaktorointia ja testien duunaamista|
+| yht.        | 112.64      |
