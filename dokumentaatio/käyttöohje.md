@@ -73,8 +73,9 @@ Jotta lähetys voidaan lähettää täytyy se luoda. _New delivery_ vie näkymä
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/New delivery.PNG" width="500">
 
 ### Kerääminen
-_Collect delivery_ vie näkymään, joka kysyy lähetysnumeroa
+_Collect delivery_ vie näkymään, joka kysyy lähetysnumeroa. Annettuasi olemassa olevan lähetysnumeron, voit kerätä tuotteita, jotka ovat merkitty kyseiseen lähetykseen. Tuotteet ja niiden määrät tallennetaan lähetystä varten
 
-
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Collect delivery.PNG" width="500">
 
 ### Lähettäminen
+_Send delivery_ kysyy numeroa ja annettuasi numeron lähetys lähtee ja lähetykseen merkityt määrät poistetaan saldosta. Jos saldo ylittyy merkitään saldoksi nolla ja virhe kirjataan ylös. 
