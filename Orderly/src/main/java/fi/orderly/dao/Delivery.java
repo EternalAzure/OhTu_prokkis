@@ -60,7 +60,7 @@ public class Delivery {
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println("SQLException. \nContact your service provider");
+            System.out.println("SQLException. \nContact tech support");
         }
         return (Double.parseDouble(amount) < 0);
     }

@@ -141,8 +141,8 @@ public class Hub  extends Application {
         changeBalance.setOnAction(event -> setWorkSpace(workSpaces.changeBalanceWorkspace()));
         transfer.setOnAction(event -> setWorkSpace(workSpaces.transferWorkspace()));
         receive.setOnAction(event -> setWorkSpace(workSpaces.receiveWorkspace(this)));
-        collectDelivery.setOnAction(event -> setWorkSpace(workSpaces.collectDeliveryWorkspace(this, connection)));
-        sendDelivery.setOnAction(event -> setWorkSpace(workSpaces.sendDeliveryWorkspace(this)));
+        collectDelivery.setOnAction(event -> setWorkSpace(workSpaces.collectDeliveryWorkspace1(this)));
+        sendDelivery.setOnAction(event -> setWorkSpace(workSpaces.sendDeliveryWorkspace1(this)));
         newShipment.setOnAction(event -> setWorkSpace(workSpaces.newShipmentWorkspace()));
         newDelivery.setOnAction(event -> setWorkSpace(workSpaces.newDeliveryWorkspace()));
 

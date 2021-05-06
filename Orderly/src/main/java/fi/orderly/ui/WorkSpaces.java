@@ -18,8 +18,10 @@ public class WorkSpaces {
     Utils utils;
     HashMap<Integer, Delivery> deliveries;
     DatabaseAccess db;
+    Connection connection;
 
     public WorkSpaces(Connection connection) {
+        this.connection = connection;
         this.hubController = new HubController(connection);
          shipmentWorkspace = new ShipmentWorkspace(connection);
          utils = new Utils(connection);
@@ -217,7 +219,7 @@ public class WorkSpaces {
         return vBox;
     }
 
-    public VBox collectDeliveryWorkspace(Hub hub, Connection connection) {
+    public VBox collectDeliveryWorkspace1(Hub hub) {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField deliveryNumber = new TextField();
@@ -225,40 +227,34 @@ public class WorkSpaces {
         Button apply = new Button("Apply");
         Label message = new Label();
         message.setId("error");
-
         vBox.getChildren().addAll(deliveryNumber, apply, message);
-        apply.setOnAction(event -> chooseAction(deliveryNumber.getText(), message, connection, hub));
+        apply.setOnAction(event -> {
+            //1. Validate input
+            String delNum = deliveryNumber.getText();
+            if (delNum.isEmpty() || Utils.notInt(delNum)) {
+                message.setText("Integer needed");
+                return;
+            }
+            try {
+                //2. Set next workspace
+                if (db.deliveries.foundDelivery(Integer.parseInt(delNum))) {
+                    hub.setWorkSpace(collectDeliveryWorkspace2(Integer.parseInt(delNum)));
+                }
+                message.setText("Delivery was not found");
+            } catch (SQLException e) {
+                message.setText("SQLException. \nContact tech support");
+            }
+        });
         return vBox;
     }
 
-    private void chooseAction(String delNumb, Label message, Connection connection, Hub hub) {
-        //Non valid input
-        if (delNumb.isEmpty()) {
-            message.setText("Non allowed empty value");
-            return;
-        }
-        if (Utils.notInt(delNumb)) {
-            message.setText("Some values need to be integer");
-            return;
-        }
-        //Valid input
-        try {
-            if (db.deliveries.foundDelivery(Integer.parseInt(delNumb))) {
-                hub.setWorkSpace(collectDelivery(Integer.parseInt(delNumb), connection));
-                return;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        message.setText("delivery not found");
-    }
-
-    private VBox collectDelivery(int deliveryNumber, Connection connection) {
+    private VBox collectDeliveryWorkspace2(int deliveryNumber) {
         Delivery delivery;
         if (deliveries.containsKey(deliveryNumber)) {
+            System.out.println("Had key");
             delivery = deliveries.get(deliveryNumber);
         } else {
+            System.out.println("Hadn't key");
             delivery = new Delivery(deliveryNumber, connection);
         }
 
@@ -278,13 +274,28 @@ public class WorkSpaces {
 
         vBox.getChildren().addAll(code, batch, amount, from, apply, message);
         apply.setOnAction(event -> {
-            deliveries.put(deliveryNumber, delivery);
-            delivery.collect(code.getText(), batch.getText(), amount.getText(), from.getText());
+            try {
+                boolean p = db.products.foundProduct(Integer.parseInt(code.getText()));
+                boolean b = db.foundBatch(Integer.parseInt(batch.getText()));
+                boolean r = db.rooms.foundRoom(from.getText());
+                Double.parseDouble(amount.getText());
+                if (p && b && r) {
+                    deliveries.put(deliveryNumber, delivery);
+                    delivery.collect(code.getText(), batch.getText(), amount.getText(), from.getText());
+                    message.setId("success");
+                    message.setText("Success");
+                }
+            } catch (SQLException e) {
+                message.setText("SQLException. \nContact tech support");
+            } catch (NumberFormatException n) {
+                message.setText("Number format error");
+            }
+            code.clear(); batch.clear(); amount.clear(); from.clear();
         });
         return vBox;
     }
 
-    public VBox sendDeliveryWorkspace(Hub hub) {
+    public VBox sendDeliveryWorkspace1(Hub hub) {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField deliveryNumber = new TextField();
@@ -294,12 +305,26 @@ public class WorkSpaces {
         message.setId("error");
 
         vBox.getChildren().addAll(deliveryNumber, apply, message);
-        apply.setOnAction(event -> validate(deliveryNumber.getText(), message, hub));
+        apply.setOnAction(event -> {
+            //1. Validate Input
+            String delNum = deliveryNumber.getText();
+            if (Utils.notInt(delNum) || delNum.isEmpty()) {
+                message.setText("Integer needed");
+                return;
+            }
+            if (deliveries.containsKey(Integer.parseInt(delNum))) {
+                //Set next workspace
+                hub.setWorkSpace(sendDeliveryWorkspace2(Integer.parseInt(delNum)));
+            } else {
+                message.setText("Delivery not found");
+            }
+        });
         return vBox;
     }
 
-    public VBox sendDelivery(int deliveryNumber) {
+    public VBox sendDeliveryWorkspace2(int deliveryNumber) {
         VBox vBox = new VBox();
+        vBox.setId("workspace");
         TableView<Delivery.DataPackage> table = new TableView<>();
         ObservableList<Delivery.DataPackage> packageList = FXCollections.observableArrayList();
 
@@ -309,9 +334,16 @@ public class WorkSpaces {
         }
         table.setItems(packageList);
         Button apply = new Button("Apply");
+        Label message = new Label();
+        message.setId("error");
         vBox.getChildren().addAll(table, apply);
-        apply.setOnAction(event -> hubController.sendDelivery(delivery));
-
+        apply.setOnAction(event -> {
+            String feedback = hubController.sendDelivery(delivery);
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }
+            message.setText(feedback);
+        });
         return vBox;
     }
 
@@ -365,21 +397,5 @@ public class WorkSpaces {
             message.setText(feedback);
         });
         return vBox;
-    }
-
-    private void validate(String deliveryNumber, Label message, Hub hub) {
-        if (deliveryNumber.isEmpty()) {
-            message.setText("Non allowed empty value");
-            return;
-        }
-        if (Utils.notInt(deliveryNumber)) {
-            message.setText("Integer needed");
-            return;
-        }
-        if (deliveries.containsKey(Integer.parseInt(deliveryNumber))) {
-            hub.setWorkSpace(sendDelivery(Integer.parseInt(deliveryNumber)));
-        } else {
-            message.setText("delivery not found");
-        }
     }
 }

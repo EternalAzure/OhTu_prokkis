@@ -20,7 +20,7 @@ public class Utils {
     }
     public static boolean notInt(String input) {
         try {
-            Integer.parseInt(input); //int integer =
+            Integer.parseInt(input);
         } catch (NumberFormatException e) {
             return true;
         }

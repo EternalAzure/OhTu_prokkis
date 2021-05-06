@@ -51,6 +51,15 @@ public class RoomsInterface {
         return result;
     }
 
+    public boolean foundRoom(String name) throws SQLException {
+        String query = "SELECT COUNT(*) FROM rooms WHERE room=?";
+        PreparedStatement sql = connection.prepareStatement(query);
+        sql.setString(1, name);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("COUNT(*)") > 0;
+    }
+
     public int countRoom(String room) throws SQLException {
         String query = "SELECT COUNT(*) FROM rooms WHERE room=?";
         PreparedStatement sql = connection.prepareStatement(query);
