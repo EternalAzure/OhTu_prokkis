@@ -53,4 +53,5 @@ Ajat eivät sisällä laskareita.
 | 6.5         | 1           |Käyttöohjeet|
 | 6.5         | 1           |Testikattavuutta|
 | 6.5         | 4           |Bugien korjailua ja toimintavarmuuden lisäämistä|
-| yht.        | 119.14      |
+| 6.5         | 0.5         |Product table View bugi korjattu|
+| yht.        | 119.64      |
