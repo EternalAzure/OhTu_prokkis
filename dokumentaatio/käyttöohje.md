@@ -50,5 +50,4 @@ Tietokanta näyttää tältä kun olemme lisänneet toimitukseen viisi eri tuote
 
 ### Vastaanottaminen
 Valitse ensin valikosta _Receive shipment_ ja syötä jokin olemassa oleva toimitusnumero. Tämän jälkeen ohjelma näyttää tietokannasta toimituksen sekä muita hyödyllisiä tietoja, jotka auttavat käyttäjää. Syötä oikea ja määrä ja valitse oikea varasto.
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Receive shipment.PNG" width="500">
 
