@@ -50,4 +50,7 @@ Ajat eivät sisällä laskareita.
 | 4.5         | 0.5         |Tein virheitä SQL muutoksissa ja korjailin niitä yksikkötestien ohjaamana|
 | 4.5         | 2           |Lisään testikattavuutta|
 | 5.5         | 5.8         |Refaktorointia. Siirsin Utils metodeja DatabaseAcces luokkaan ja korjailen sen tuhoa.</br> Muuta refaktorointia ja testien duunaamista|
-| yht.        | 113.14      |
+| 6.5         | 1           |Käyttöohjeet|
+| 6.5         | 1           |Testikattavuutta|
+| 6.5         | 4           |Bugien korjailua ja toimintavarmuuden lisäämistä|
+| yht.        | 119.14      |
