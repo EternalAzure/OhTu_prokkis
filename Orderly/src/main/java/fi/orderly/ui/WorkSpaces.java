@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import fi.orderly.logic.HubController;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -37,11 +36,16 @@ public class WorkSpaces {
         roomName.setPromptText("Room name");
         Button apply = new Button("Apply");
         Label message = new Label();
-        message.setId("error");
 
         vBox.getChildren().addAll(roomName, temperature, apply, message);
         apply.setOnAction(event -> {
-            message.setText(hubController.addRoom(roomName.getText(), temperature.getText()));
+            String feedback = hubController.addRoom(roomName.getText(), temperature.getText());
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }else {
+                message.setId("error");
+            }
+            message.setText(feedback);
             roomName.clear(); temperature.clear();
         });
         return vBox;
@@ -66,7 +70,13 @@ public class WorkSpaces {
 
         vBox.getChildren().addAll(product, code, temperature, unit, storage, apply, message);
         apply.setOnAction(event -> {
-            message.setText(hubController.addProduct(product.getText(), code.getText(), unit.getText(), temperature.getText(), storage.getText()));
+            String feedback = hubController.addProduct(product.getText(), code.getText(), unit.getText(), temperature.getText(), storage.getText());
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }else {
+                message.setId("error");
+            }
+            message.setText(feedback);
             product.clear(); code.clear(); temperature.clear(); unit.clear(); storage.clear();
         });
 
@@ -80,11 +90,16 @@ public class WorkSpaces {
         roomName.setPromptText("Room name");
         Button apply = new Button("Apply");
         Label message = new Label();
-        message.setId("error");
 
         vBox.getChildren().addAll(roomName, apply, message);
         apply.setOnAction(event -> {
-            message.setText(hubController.removeRoom(roomName.getText()));
+            String feedback = hubController.removeRoom(roomName.getText());
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }else {
+                message.setId("error");
+            }
+            message.setText(feedback);
             roomName.clear();
         });
 
@@ -98,11 +113,16 @@ public class WorkSpaces {
         product.setPromptText("Product name");
         Button apply = new Button("Apply");
         Label message = new Label();
-        message.setId("error");
 
         vBox.getChildren().addAll(product, apply, message);
         apply.setOnAction(event -> {
-            message.setText(hubController.removeProduct(product.getText()));
+            String feedback = hubController.removeProduct(product.getText());
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }else {
+                message.setId("error");
+            }
+            message.setText(feedback);
             product.clear();
         });
 
@@ -122,11 +142,16 @@ public class WorkSpaces {
         newBalance.setPromptText("new balance");
         Button apply = new Button("Apply");
         Label message = new Label();
-        message.setId("error");
 
         vBox.getChildren().addAll(roomName, product, batch, newBalance, apply, message);
         apply.setOnAction(event -> {
-            message.setText(hubController.changeBalance(roomName.getText(), product.getText(), batch.getText(), newBalance.getText()));
+            String feedback = hubController.changeBalance(roomName.getText(), product.getText(), batch.getText(), newBalance.getText());
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }else {
+                message.setId("error");
+            }
+            message.setText(feedback);
             roomName.clear(); product.clear(); batch.clear(); newBalance.clear();
         });
 
@@ -148,11 +173,16 @@ public class WorkSpaces {
         batch.setPromptText("Batch number");
         Button apply = new Button("Apply");
         Label message = new Label();
-        message.setId("error");
 
         vBox.getChildren().addAll(from, to, amount, code, batch, apply, message);
         apply.setOnAction(event -> {
-            message.setText(hubController.transfer(from.getText(), to.getText(), code.getText(), batch.getText(),amount.getText()));
+            String feedback = hubController.transfer(from.getText(), to.getText(), code.getText(), batch.getText(),amount.getText());
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }else {
+                message.setId("error");
+            }
+            message.setText(feedback);
             from.clear(); to.clear(); code.clear(); batch.clear(); amount.clear();
         });
 
@@ -166,7 +196,6 @@ public class WorkSpaces {
         shipmentNumber.setPromptText("Shipment number");
         Button apply = new Button("Apply");
         Label message = new Label();
-        message.setId("error");
 
         vBox.getChildren().addAll(shipmentNumber, apply, message);
         apply.setOnAction(event -> {
@@ -177,7 +206,10 @@ public class WorkSpaces {
             }
             Button otherApply = new Button("Apply");
             VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
-            otherApply.setOnAction(event1 -> shipmentWorkspace.setErrorMessage(hubController.receiveShipment(shipmentWorkspace.getShipment())));
+            otherApply.setOnAction(event1 -> {
+
+                shipmentWorkspace.setErrorMessage(hubController.receiveShipment(shipmentWorkspace.getShipment()));
+            });
             SWSLayout.setId("workspace");
             hub.setWorkSpace(SWSLayout);
         });
@@ -244,7 +276,6 @@ public class WorkSpaces {
         Label message = new Label();
         message.setId("error");
 
-
         vBox.getChildren().addAll(code, batch, amount, from, apply, message);
         apply.setOnAction(event -> {
             deliveries.put(deliveryNumber, delivery);
@@ -299,7 +330,15 @@ public class WorkSpaces {
         amount.setPromptText("Expected amount");
 
         vBox.getChildren().addAll(number, code, batch, amount, apply, message);
-        apply.setOnAction(event -> message.setText(hubController.newShipment(number.getText(), code.getText(), batch.getText(), amount.getText())));
+        apply.setOnAction(event -> {
+            String feedback = hubController.newShipment(number.getText(), code.getText(), batch.getText(), amount.getText());
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }else {
+                message.setId("error");
+            }
+            message.setText(feedback);
+        });
         return vBox;
     }
 
@@ -316,13 +355,21 @@ public class WorkSpaces {
         amount.setPromptText("Requested amount");
 
         vBox.getChildren().addAll(number, code, amount, apply, message);
-        apply.setOnAction(event -> message.setText(hubController.newDelivery(number.getText(), code.getText(), amount.getText())));
+        apply.setOnAction(event -> {
+            String feedback = hubController.newDelivery(number.getText(), code.getText(), amount.getText());
+            if (feedback.equals("Success")) {
+                message.setId("success");
+            }else {
+                message.setId("error");
+            }
+            message.setText(feedback);
+        });
         return vBox;
     }
 
     private void validate(String deliveryNumber, Label message, Hub hub) {
         if (deliveryNumber.isEmpty()) {
-            message.setText("Non allowed empty field");
+            message.setText("Non allowed empty value");
             return;
         }
         if (Utils.notInt(deliveryNumber)) {

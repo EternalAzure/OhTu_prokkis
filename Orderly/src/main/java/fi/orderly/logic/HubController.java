@@ -6,7 +6,6 @@ import fi.orderly.logic.dbinterfaces.*;
 import fi.orderly.ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -14,13 +13,17 @@ import java.util.Random;
 
 public class HubController {
 
-    final private Utils utils;
     final private TestData testData;
     final private SaldoOperations engine;
     DatabaseAccess db;
 
+    String empty = "Non allowed empty values";
+    String integer = "Some values need to be integer";
+    String decimal = "Some values need to be decimal";
+    String duplicate = "Duplicates not allowed";
+    String sqlError = "SQLException. \nContact tech support";
+
     public HubController(Connection connection) {
-        utils = new Utils(connection);
         testData = new TestData(connection);
         engine = new SaldoOperations(connection);
         db = new DatabaseAccess(connection);
@@ -47,16 +50,16 @@ public class HubController {
     private String validate01(String name, String temperature) {
         try {
             if (name.isEmpty()) {
-                return "Non allowed empty values";
+                return empty;
             }
             if (db.rooms.countRoom(name) > 0) {
-                return "Duplicate. Not allowed";
+                return duplicate;
             }
             if (Utils.notDouble(temperature) && !temperature.isEmpty()) {
                 return "Temperature has to be \neither empty or decimal";
             }
         } catch (SQLException e) {
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         }
         return "";
     }
@@ -70,9 +73,9 @@ public class HubController {
         } catch (SQLException e) {
             e.printStackTrace();
             if (e.getErrorCode() == 1062) {
-                return "Duplicate. Not accepted";
+                return duplicate;
             }
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         }
         return "";
     }
@@ -88,13 +91,13 @@ public class HubController {
     }
     private String validate02(String product, String code, String unit, String temperature, String storage) {
         if (Utils.isEmpty(new String[] { product, code, unit, storage })) {
-            return "Non allowed empty values";
+            return empty;
         }
         if (Utils.notInt(code)) {
-            return "Code has to be integer";
+            return integer;
         }
         if (Utils.notDouble(temperature) && !temperature.isEmpty()) {
-            return "Temperature has to be decimal";
+            return decimal;
         }
         try {
             if (db.rooms.countRoom(storage) == 0) {
@@ -135,14 +138,14 @@ public class HubController {
     private String validate03(String room) {
         try {
             if (room.isEmpty()) {
-                return "Non allowed empty values";
+                return empty;
             }
             if (db.rooms.countRoom(room) == 0) {
                 return "Room not found";
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         }
         return "";
     }
@@ -151,7 +154,7 @@ public class HubController {
             db.rooms.deleteRoom(room);
         } catch (SQLException e) {
             e.printStackTrace();
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         }
         return "";
     }
@@ -168,7 +171,7 @@ public class HubController {
     private String validate04(String product) {
         try {
             if (product.isEmpty()) {
-                return "Non allowed empty values";
+                return empty;
             }
             if (db.products.countProductName(product) == 0) {
                 return "Product not found";
@@ -176,7 +179,7 @@ public class HubController {
         } catch (SQLException e) {
             e.getErrorCode();
             e.printStackTrace();
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         }
         return "";
     }
@@ -185,7 +188,7 @@ public class HubController {
             db.products.deleteProduct(product);
         } catch (SQLException e) {
             e.printStackTrace();
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         }
         return "";
     }
@@ -200,15 +203,15 @@ public class HubController {
                 return execute05(room, c, batch, newBalance);
             }
         } catch (SQLException e) {
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         } catch (NumberFormatException n) {
-            return "Wrong number format";
+            return "Number format error";
         }
         return "Success";
     }
     private String validate05(String room, String code, String batch, String newBalance) throws SQLException, NumberFormatException {
         if (Utils.notInt(new String[] { code, batch })) {
-            return "Non allowed empty values";
+            return integer;
         }
         if (db.rooms.countRoom(room) == 0) {
             return "Room not found";
@@ -250,35 +253,29 @@ public class HubController {
                 return execute06(from, to, c, b, a);
             }
         } catch (SQLException e) {
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         } catch (NumberFormatException n) {
-            return "Wrong number format";
+            return "Number format error";
         }
         return "Success";
     }
     private String validate06(String from, String to, String code, String batch, String amount) throws SQLException, NumberFormatException {
         if (Utils.isEmpty(new String[] { from, to, code, batch, amount })) {
-            System.out.println("empty");
-            return "Non allowed empty values";
+            return empty;
         }
         if (Utils.notInt(new String[] { code, batch })) {
-            System.out.println("integer");
-            return "Integer needed";
+            return integer;
         }
         if (!db.foundRooms(new String[] { from, to })) {
-            System.out.println("r not found");
             return "Room/s not found";
         }
         if (db.products.countProductCode(Integer.parseInt(code)) == 0) {
-            System.out.println("p not found");
             return "Product code not found";
         }
         if (!db.foundBatch(Integer.parseInt(batch))) {
-            System.out.println("batch not found");
             return "Batch number not found";
         }
         if (Double.parseDouble(amount) < 0) {
-            System.out.println("negative values not allowed");
             return "Negative values not allowed";
         }
         return "";
@@ -312,30 +309,32 @@ public class HubController {
         try {
             db.shipments.deleteShipment(shipment.getShipmentNumber());
         } catch (SQLException e) {
-            e.printStackTrace();
+            return sqlError;
         }
         return "Success";
     }
-    public void sendDelivery(Delivery delivery) {
+    public String sendDelivery(Delivery delivery) {
         try {
             for (int i = 0; i < delivery.getLength(); i++) {
                 int code = delivery.getDataPackage(i).getCode();
                 int batch = delivery.getDataPackage(i).getBatch();
                 double amount = delivery.getDataPackage(i).getAmount();
                 String room = delivery.getDataPackage(i).getFrom();
-
                 engine.subractBalance(room, code, batch, amount);
             }
             db.deliveries.deleteDelivery(delivery.getDeliveryNumber());
         } catch (SQLException e) {
             e.printStackTrace();
+            return sqlError;
         }
+        return "Success";
     }
 
     public String newShipment(String number, String productCode, String batchNumber, String expectedAmount) {
         if (!validate07(number, productCode, batchNumber, expectedAmount).isEmpty()) {
             return validate07(number, productCode, batchNumber, expectedAmount);
         }
+        //TODO limit to 15 per number
         try {
             int n = Integer.parseInt(number);
             int p = Integer.parseInt(productCode);
@@ -343,31 +342,30 @@ public class HubController {
             int b = Integer.parseInt(batchNumber);
             double a = Double.parseDouble(expectedAmount);
             if (db.shipments.foundShipment(n, id, b)) {
-                return "Would result in duplicate";
+                return duplicate;
             }
             db.shipments.insertShipment(n, id, b, a);
         } catch (SQLException e) {
-            e.printStackTrace();
+            return sqlError;
         }
         return "Success";
     }
     private String validate07(String number, String productCode, String batchNumber, String expectedAmount) {
         if (Utils.isEmpty(new String[] { number, productCode, batchNumber, expectedAmount })) {
-            return "Non allowed empty values";
+            return empty;
         }
         if (Utils.notInt(new String[] { number, productCode, batchNumber })) {
-            return "Integer value needed";
+            return integer;
         }
         if (Utils.notDouble(expectedAmount)) {
-            return "Decimal value needed";
+            return decimal;
         }
         try {
             if (!db.products.foundProduct(Integer.parseInt(productCode))) {
                 return "Product was not found";
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return "Product was not found";
+            return sqlError;
         }
         return "";
     }
@@ -383,24 +381,23 @@ public class HubController {
             double a = Double.parseDouble(expectedAmount);
             boolean b = db.deliveries.foundDelivery(n, id);
             if (db.deliveries.foundDelivery(n, id)) {
-                System.out.println("Would result in duplicate");
-                return "Would result in duplicate";
+                return duplicate;
             }
             db.deliveries.insertDelivery(n, id, a);
         } catch (SQLException e) {
-            e.printStackTrace();
+            return sqlError;
         }
         return "Success";
     }
     private String validate08(String number, String productCode, String expectedAmount) {
         if (Utils.isEmpty(new String[] { number, productCode, expectedAmount })) {
-            return "Non allowed empty values";
+            return empty;
         }
         if (Utils.notInt(new String[] { number, productCode })) {
-            return "Integer value needed";
+            return integer;
         }
         if (Utils.notDouble(new String[] { productCode, expectedAmount })) {
-            return "Decimal value needed";
+            return decimal;
         }
         return "";
     }
