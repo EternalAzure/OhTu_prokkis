@@ -45,4 +45,5 @@ Viimeinen askel on tilastoida raaka-aineita ja hävikkiä.
 Eräpäivä seuranta </br>
 Uudet käyttäjäprofiilit </br>
 Tapahtumalogi </br>
-Myynnin ja hankinnan työkalut
+Myynnin ja hankinnan työkalut </br>
+Tilastointi
