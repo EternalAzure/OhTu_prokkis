@@ -25,6 +25,7 @@ public class ShipmentTest {
         db.products.truncate();
         db.balance.truncate();
         db.shipments.truncate();
+        db.deliveries.truncate();
 
         hubController.createTestData();
     }
@@ -34,7 +35,6 @@ public class ShipmentTest {
 
         //-- SHOULD PASS --//
         //Right number of DataPackages (1 for each product)
-        shipment.forTestingOnly(1);
         assertEquals(5, shipment.getLength());
         //Shipment number is saved and can be accessed
         assertEquals(1, shipment.getShipmentNumber());

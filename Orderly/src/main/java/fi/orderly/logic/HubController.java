@@ -247,9 +247,8 @@ public class HubController {
             int b = Integer.parseInt(batch);
             double a = Double.parseDouble(amount);
             if (!execute06(from, to, c, b, a).isEmpty()) {
-                return validate06(from, to, code, batch, amount);
+                return execute06(from, to, c, b, a);
             }
-
         } catch (SQLException e) {
             return "SQLException. \nContact your service provider";
         } catch (NumberFormatException n) {
@@ -258,22 +257,28 @@ public class HubController {
         return "Success";
     }
     private String validate06(String from, String to, String code, String batch, String amount) throws SQLException, NumberFormatException {
-        if (Utils.notInt(new String[]{ from, to, code, batch, amount })) {
+        if (Utils.isEmpty(new String[] { from, to, code, batch, amount })) {
+            System.out.println("empty");
             return "Non allowed empty values";
         }
         if (Utils.notInt(new String[] { code, batch })) {
+            System.out.println("integer");
             return "Integer needed";
         }
         if (!db.foundRooms(new String[] { from, to })) {
+            System.out.println("r not found");
             return "Room/s not found";
         }
         if (db.products.countProductCode(Integer.parseInt(code)) == 0) {
+            System.out.println("p not found");
             return "Product code not found";
         }
         if (!db.foundBatch(Integer.parseInt(batch))) {
+            System.out.println("batch not found");
             return "Batch number not found";
         }
         if (Double.parseDouble(amount) < 0) {
+            System.out.println("negative values not allowed");
             return "Negative values not allowed";
         }
         return "";
@@ -281,12 +286,14 @@ public class HubController {
     private String execute06(String from, String to, int code, int batch, double amount) throws SQLException {
         double oldBalance = db.queryBalance(from, code, batch);
         double newBalance = oldBalance - amount;
-
         if (newBalance < 0) {
             return "Would result in negative";
         }
+        double targetOriginal = 0;
+        if (db.balance.foundRoom(db.rooms.findIdByName(to))) {
+            targetOriginal = db.queryBalance(to, code, batch);
+        }
 
-        double targetOriginal = db.queryBalance(to, code, batch);
         double targetNewBalance = targetOriginal + amount;
         changeBalance(from, Integer.toString(code), Integer.toString(batch), String.valueOf(newBalance));
         changeBalance(to, Integer.toString(code), Integer.toString(batch), String.valueOf(targetNewBalance));
@@ -329,13 +336,16 @@ public class HubController {
         if (!validate07(number, productCode, batchNumber, expectedAmount).isEmpty()) {
             return validate07(number, productCode, batchNumber, expectedAmount);
         }
-        System.out.println("Valid!!");
-        int n = Integer.parseInt(number);
-        int p = Integer.parseInt(productCode);
-        int b = Integer.parseInt(batchNumber);
-        double a = Double.parseDouble(expectedAmount);
         try {
-            db.shipments.insertShipment(n, db.products.findIdByCode(p), b, a);
+            int n = Integer.parseInt(number);
+            int p = Integer.parseInt(productCode);
+            int id = db.products.findIdByCode(p);
+            int b = Integer.parseInt(batchNumber);
+            double a = Double.parseDouble(expectedAmount);
+            if (db.shipments.foundShipment(n, id, b)) {
+                return "Would result in duplicate";
+            }
+            db.shipments.insertShipment(n, id, b, a);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -353,27 +363,30 @@ public class HubController {
         }
         try {
             if (!db.products.foundProduct(Integer.parseInt(productCode))) {
-                System.out.println("product not found");
                 return "Product was not found";
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("product not found!!!!");
             return "Product was not found";
         }
         return "";
     }
-    
 
     public String newDelivery(String number, String productCode, String expectedAmount) {
         if (!validate08(number, productCode, expectedAmount).isEmpty()) {
             return validate08(number, productCode, expectedAmount);
         }
-        int n = Integer.parseInt(number);
-        int p = Integer.parseInt(productCode);
-        double a = Double.parseDouble(expectedAmount);
         try {
-            db.deliveries.insertDelivery(n, p, a);
+            int n = Integer.parseInt(number);
+            int p = Integer.parseInt(productCode);
+            int id = db.products.findIdByCode(p);
+            double a = Double.parseDouble(expectedAmount);
+            boolean b = db.deliveries.foundDelivery(n, id);
+            if (db.deliveries.foundDelivery(n, id)) {
+                System.out.println("Would result in duplicate");
+                return "Would result in duplicate";
+            }
+            db.deliveries.insertDelivery(n, id, a);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -386,7 +399,7 @@ public class HubController {
         if (Utils.notInt(new String[] { number, productCode })) {
             return "Integer value needed";
         }
-        if (Utils.notDouble(productCode)) {
+        if (Utils.notDouble(new String[] { productCode, expectedAmount })) {
             return "Decimal value needed";
         }
         return "";

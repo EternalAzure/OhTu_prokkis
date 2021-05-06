@@ -32,9 +32,10 @@ public class TestData {
 
     private void addRooms() {
         try {
-            roomsInterface.insertRoom("Room 1", 8);
-            roomsInterface.insertRoom("Room 2");
-            roomsInterface.insertRoom("Room 3", 4);
+            roomsInterface.insertRoom("Raaka-ainevarasto 1", 4);
+            roomsInterface.insertRoom("Raaka-ainevarasto 2", 14);
+            roomsInterface.insertRoom("Tuotantotila 1", 14);
+            roomsInterface.insertRoom("Valmisvarasto 1", 4);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -42,17 +43,17 @@ public class TestData {
 
     private void addProducts() {
         try {
-            productsInterface.insertProduct("Kaali", 1000, "KG", 8, roomsInterface.findIdByName("Room 1"));
-            productsInterface.insertProduct("Porkkana", 2000, "KG", 8, roomsInterface.findIdByName("Room 1"));
-            productsInterface.insertProduct("Peruna", 3000, "KG", 8, roomsInterface.findIdByName("Room 1"));
-            productsInterface.insertProduct("Kurpitsa", 4000, "KG", 14, roomsInterface.findIdByName("Room 2"));
-            productsInterface.insertProduct("Sipuli", 5000, "KG", 14, roomsInterface.findIdByName("Room 2"));
+            productsInterface.insertProduct("Kaali", 1000, "KG", 4, 1);
+            productsInterface.insertProduct("Porkkana", 2000, "KG", 4, 1);
+            productsInterface.insertProduct("Peruna", 3000, "KG", 4, 1);
+            productsInterface.insertProduct("Kurpitsa", 4000, "KG", 14, 2);
+            productsInterface.insertProduct("Sipuli", 5000, "KG", 14, 2);
 
-            productsInterface.insertProduct("Kaalilaatikko", 1100, "KG", 4, roomsInterface.findIdByName("Room 3"));
-            productsInterface.insertProduct("Porkkanasuikaleet", 2200, "KG", 4, roomsInterface.findIdByName("Room 3"));
-            productsInterface.insertProduct("Perunamuussi", 3300, "KG", 4, roomsInterface.findIdByName("Room 3"));
-            productsInterface.insertProduct("Kurpitsapalat", 4400, "KG", 4, roomsInterface.findIdByName("Room 3"));
-            productsInterface.insertProduct("Sipulirenkaat", 5500, "KG", 4, roomsInterface.findIdByName("Room 3"));
+            productsInterface.insertProduct("Kaalilaatikko", 1100, "KG", 4, 4);
+            productsInterface.insertProduct("Porkkanasuikaleet", 2200, "KG", 4, 4);
+            productsInterface.insertProduct("Perunamuussi", 3300, "KG", 4, 4);
+            productsInterface.insertProduct("Kurpitsapalat", 4400, "KG", 4, 4);
+            productsInterface.insertProduct("Sipulirenkaat", 5500, "KG", 4, 4);
         } catch (SQLException e) {
             e.printStackTrace();
         }

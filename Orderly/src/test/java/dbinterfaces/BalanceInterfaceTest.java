@@ -50,6 +50,9 @@ public class BalanceInterfaceTest {
         PreparedStatement sql = connection.prepareStatement(insertBalance);
         sql.executeUpdate(insertBalance);
         assertEquals(2, db.balance.size());
+
+        db.balance.truncate();
+        assertEquals(0, db.balance.size());
     }
 
     @Test

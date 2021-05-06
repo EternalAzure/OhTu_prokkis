@@ -72,6 +72,15 @@ public class BalanceInterface {
         return resultSet.getInt("COUNT(*)") > 0;
     }
 
+    public boolean foundRoom(int id) throws SQLException {
+        String query = "SELECT COUNT(*) FROM balance WHERE room_id=?";
+        PreparedStatement sql = connection.prepareStatement(query);
+        sql.setInt(1, id);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("COUNT(*)") > 0;
+    }
+
     public boolean foundProduct(int productId) throws SQLException {
         String query = "SELECT COUNT(*) FROM balance WHERE product_id=?";
         PreparedStatement sql = connection.prepareStatement(query);

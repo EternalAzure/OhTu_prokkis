@@ -9,19 +9,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+/**
+ * This class tells what products are leaving the facility and
+ * how much of them should be collected from the shelves.
+ * This data will be used in Collect Delivery -workspace where
+ * collect() from this class is called. Collected items are stored
+ * in Array collected. Only products in will removed from balance
+ * when delivery is send in Send Delivery -workspace
+ */
+
 public class Delivery {
 
-    int index = 0;
+    int index;
     DataPackage[] collected;
     HashMap<Integer, Double> requested;
     Connection connection;
-    Utils utils;
     DatabaseAccess db;
     int deliveryNumber;
 
     public Delivery(int deliveryNumber, Connection connection) {
+        index = 0;
         this.connection = connection;
-        utils = new Utils(connection);
         db = new DatabaseAccess(connection);
         this.deliveryNumber = deliveryNumber;
         requested = new HashMap<>();
@@ -29,45 +37,41 @@ public class Delivery {
     }
 
     public void collect(String code, String batch, String amount, String room) {
-        if (!validateInput(code, batch, amount, room)) {
+        if (validateInput(code, batch, amount, room)) {
             return;
         }
-        requested.remove(code);
+        requested.remove(Integer.parseInt(code));
         collected[index] = new DataPackage(Integer.parseInt(code), Integer.parseInt(batch), Double.parseDouble(amount), room);
         index++;
     }
 
     private boolean validateInput(String code, String batch, String amount, String room) {
         if (Utils.isEmpty(new String[] { code, batch, amount, room})) {
-            return false;
+            return true;
         }
-        if (Utils.notInt(new String[] { code, batch })) {
-            return false;
+        if (Utils.notInt(new String[] { code, batch }) || Utils.notDouble(amount)) {
+            return true;
         }
-        if (Utils.notDouble(amount)) {
-            return false;
-        }
-        if (!requested.containsKey(code)) {
-            return false;
+        if (!requested.containsKey(Integer.parseInt(code))) {
+            return true;
         }
         try {
             if (!db.foundBatch(Integer.parseInt(batch))) {
-                return false;
+                return true;
             }
         } catch (SQLException e) {
             System.out.println("SQLException. \nContact your service provider");
         }
-
-        return !(Double.parseDouble(amount) < 0);
+        return (Double.parseDouble(amount) < 0);
     }
 
     public void fetchRequest(int deliveryNumber) {
         try {
             collected = new DataPackage[db.deliveries.numberOfDeliveries(deliveryNumber)];
-            String select = "SELECT products.code, deliveries.amount FROM deliveries, products WHERE deliveries.product_id=products.id AND number=" + deliveryNumber;
-            PreparedStatement sql = connection.prepareStatement(select);
-            ResultSet result = sql.executeQuery(select);
+            System.out.println(db.deliveries.numberOfDeliveries(deliveryNumber));
 
+            PreparedStatement sql = db.queryDelivery(deliveryNumber);
+            ResultSet result = sql.executeQuery();
             while (result.next()) {
                 int i = result.getInt("code");
                 double j = result.getDouble("amount");
@@ -118,5 +122,14 @@ public class Delivery {
         public String getFrom() {
             return from;
         }
+    }
+
+
+    //ONLY FOR TESTING
+    public HashMap<Integer, Double> getRequested() {
+        return requested;
+    }
+    public int getIndex() {
+        return index;
     }
 }

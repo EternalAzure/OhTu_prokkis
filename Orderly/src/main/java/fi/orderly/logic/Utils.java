@@ -44,7 +44,7 @@ public class Utils {
             return true;
         }
     }
-    public boolean notDouble(String[] input) {
+    public static boolean notDouble(String[] input) {
         for (String s: input) {
             try {
                 Double.parseDouble(s);

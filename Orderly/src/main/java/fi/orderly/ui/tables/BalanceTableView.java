@@ -21,7 +21,6 @@ public class BalanceTableView extends TableViewInfiniteScrolling {
             }
             items.add(b);
         }
-        System.out.println("Did add items");
     }
 
     @Override
@@ -42,6 +41,5 @@ public class BalanceTableView extends TableViewInfiniteScrolling {
         amount.setCellValueFactory(new PropertyValueFactory<>("productAmount"));
 
         table.getColumns().setAll(room, productName, code, batch, amount);
-        System.out.println("Did set up table");
     }
 }

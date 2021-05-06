@@ -26,6 +26,16 @@ public class ShipmentsInterface {
         sql.executeUpdate();
     }
 
+    public boolean foundShipment(int number, int productId, int batch) throws SQLException {
+        String query = "SELECT COUNT(*) FROM shipments WHERE number=? AND product_id=? AND batch=?";
+        PreparedStatement sql = connection.prepareStatement(query);
+        sql.setInt(1, number);
+        sql.setInt(2, productId);
+        sql.setInt(3, batch);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("COUNT(*)") > 0;
+    }
     public boolean foundShipment(int number) throws SQLException {
         String query = "SELECT COUNT(*) FROM shipments WHERE number=?";
         PreparedStatement sql = connection.prepareStatement(query);

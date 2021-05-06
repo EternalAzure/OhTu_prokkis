@@ -28,10 +28,21 @@ public class DatabaseAccess {
 
     public PreparedStatement queryShipment(int shipmentNumber) throws SQLException {
         //Returning ResultSet is not a good idea
-        String select = "SELECT products.product, products.code, shipments.batch, shipments.amount, products.unit, rooms.room FROM shipments, products, rooms " +
+        //Used in dao.Shipment fetchData()
+        String select = "SELECT product, code, batch, amount, unit, room FROM shipments, products, rooms " +
                 "WHERE number=? AND products.id=shipments.product_id AND rooms.id=products.room_id";
         PreparedStatement sql = connection.prepareStatement(select);
         sql.setInt(1, shipmentNumber);
+        return sql;
+    }
+
+    public PreparedStatement queryDelivery(int deliveryNumber) throws SQLException {
+        //Returning ResultSet is not a good idea
+        //Used in dao.Delivery fetchRequest()
+        String select = "SELECT code, amount FROM deliveries, products " +
+                "WHERE deliveries.product_id=products.id AND number=?";
+        PreparedStatement sql = connection.prepareStatement(select);
+        sql.setInt(1, deliveryNumber);
         return sql;
     }
 
@@ -43,8 +54,8 @@ public class DatabaseAccess {
         return sql;
     }
     public PreparedStatement tableProducts(int id) throws SQLException {
-        String select = "SELECT product, code, unit, temperature, room FROM products, rooms " +
-                "WHERE room.id=products.room_id AND products.id=?";
+        String select = "SELECT product, code, unit, products.temperature, room FROM products, rooms " +
+                "WHERE rooms.id=products.room_id AND products.id=?";
         PreparedStatement sql = connection.prepareStatement(select);
         sql.setInt(1, id);
         return sql;

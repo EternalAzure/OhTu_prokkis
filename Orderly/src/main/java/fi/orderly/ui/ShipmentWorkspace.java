@@ -90,7 +90,7 @@ public class ShipmentWorkspace {
 
     public String validateInput(String input){
         try {
-            if (input.isEmpty() || !Utils.notInt(input)) return "Input needs to be integer";
+            if (input.isEmpty() || Utils.notInt(input)) return "Input needs to be integer";
             int deliverySize = db.shipments.numberOfShipment(Integer.parseInt(input));
             if (deliverySize == 0) return "No shipments found";
         } catch (SQLException e) {

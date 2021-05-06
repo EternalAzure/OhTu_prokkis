@@ -1,6 +1,5 @@
 package fi.orderly.dao.tables;
 
-import fi.orderly.logic.Utils;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -103,7 +102,7 @@ public class BalanceTable implements ITable {
         try {
             PreparedStatement sql = db.tableBalance(id);
             ResultSet resultSet = sql.executeQuery();
-
+            resultSet.next();
             name = resultSet.getString("product");
             code = String.valueOf(resultSet.getInt("code"));
             batch = String.valueOf(resultSet.getInt("batch"));

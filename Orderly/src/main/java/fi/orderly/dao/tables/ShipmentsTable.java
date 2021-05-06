@@ -87,7 +87,7 @@ public class ShipmentsTable implements ITable {
         try {
             PreparedStatement sql = db.tableShipments(id);
             ResultSet resultSet = sql.executeQuery();
-
+            resultSet.next();
             number = String.valueOf(resultSet.getInt("number"));
             name = resultSet.getString("product");
             batch = String.valueOf(resultSet.getInt("batch"));

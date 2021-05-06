@@ -198,10 +198,8 @@ public class HubControllerTest {
         //-- SHOULD PASS --//
         //Valid input
         hubController.transfer("Room 1", "Room 2", "9920", "1", "30.0");
-        assertEquals(30, db.queryBalance("Room 2", 1, 1), 0);
-        assertEquals(15, db.queryBalance("Room 1", 1, 1), 0);
-        assertEquals(30, db.balance.queryBalance(2, 1, 1), 0);
         assertEquals(15, db.balance.queryBalance(1, 1, 1), 0);
+        assertEquals(30, db.balance.queryBalance(2, 1, 1), 0);
         //Valid input
         hubController.transfer("Room 2", "Room 1", "9920", "1", "5");
         assertEquals(25, db.balance.queryBalance(2, 1, 1), 0);
@@ -312,6 +310,10 @@ public class HubControllerTest {
         assertEquals(3, db.deliveries.size());
 
         //-- SHOULD NOT PASS --//
+        //Duplicate
+        hubController.newDelivery("2", "1000", "100");
+        assertEquals(3, db.deliveries.size());
+
         //Invalid input: number
         hubController.newDelivery("ABC", "1000", "100");
         assertEquals(3, db.deliveries.size());

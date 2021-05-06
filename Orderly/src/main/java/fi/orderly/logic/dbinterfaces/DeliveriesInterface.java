@@ -28,6 +28,16 @@ public class DeliveriesInterface {
         sql.executeUpdate();
     }
 
+    public boolean foundDelivery(int number, int productId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM deliveries WHERE number=? AND product_id=?";
+        PreparedStatement sql = connection.prepareStatement(query);
+        sql.setInt(1, number);
+        sql.setInt(2, productId);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("COUNT(*)") > 0;
+    }
+
     public boolean foundDelivery(int number) throws SQLException {
         String query = "SELECT COUNT(*) FROM deliveries WHERE number=?";
         PreparedStatement sql = connection.prepareStatement(query);

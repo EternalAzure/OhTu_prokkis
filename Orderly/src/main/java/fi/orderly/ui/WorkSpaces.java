@@ -34,7 +34,7 @@ public class WorkSpaces {
         TextField roomName = new TextField();
         TextField temperature = new TextField();
         temperature.setPromptText("Temperature(optional)");
-        roomName.setPromptText("Name of the room");
+        roomName.setPromptText("Room name");
         Button apply = new Button("Apply");
         Label message = new Label();
         message.setId("error");
@@ -205,7 +205,7 @@ public class WorkSpaces {
             message.setText("Non allowed empty value");
             return;
         }
-        if (!Utils.notInt(delNumb)) {
+        if (Utils.notInt(delNumb)) {
             message.setText("Some values need to be integer");
             return;
         }
@@ -257,7 +257,7 @@ public class WorkSpaces {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField deliveryNumber = new TextField();
-        deliveryNumber.setPromptText("Delivary number");
+        deliveryNumber.setPromptText("Delivery number");
         Button apply = new Button("Apply");
         Label message = new Label();
         message.setId("error");
@@ -265,22 +265,6 @@ public class WorkSpaces {
         vBox.getChildren().addAll(deliveryNumber, apply, message);
         apply.setOnAction(event -> validate(deliveryNumber.getText(), message, hub));
         return vBox;
-    }
-
-    private void validate(String deliveryNumber, Label message, Hub hub) {
-        if (deliveryNumber.isEmpty()) {
-            message.setText("Non allowed empty field");
-            return;
-        }
-        if (!Utils.notInt(deliveryNumber)) {
-            message.setText("Integer needed");
-            return;
-        }
-        if (deliveries.containsKey(Integer.parseInt(deliveryNumber))) {
-            hub.setWorkSpace(sendDelivery(Integer.parseInt(deliveryNumber)));
-        } else {
-            message.setText("delivery not found");
-        }
     }
 
     public VBox sendDelivery(int deliveryNumber) {
@@ -334,5 +318,21 @@ public class WorkSpaces {
         vBox.getChildren().addAll(number, code, amount, apply, message);
         apply.setOnAction(event -> message.setText(hubController.newDelivery(number.getText(), code.getText(), amount.getText())));
         return vBox;
+    }
+
+    private void validate(String deliveryNumber, Label message, Hub hub) {
+        if (deliveryNumber.isEmpty()) {
+            message.setText("Non allowed empty field");
+            return;
+        }
+        if (Utils.notInt(deliveryNumber)) {
+            message.setText("Integer needed");
+            return;
+        }
+        if (deliveries.containsKey(Integer.parseInt(deliveryNumber))) {
+            hub.setWorkSpace(sendDelivery(Integer.parseInt(deliveryNumber)));
+        } else {
+            message.setText("delivery not found");
+        }
     }
 }

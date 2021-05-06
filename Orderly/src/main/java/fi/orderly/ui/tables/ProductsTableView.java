@@ -11,7 +11,7 @@ public class ProductsTableView extends TableViewInfiniteScrolling {
     void addItems() {
         int limit = items.size() + 30;
         for (int i = items.size(); i < limit; i++) {
-            if (i >= db.products.size()) {
+            if (i >= db.products.size()) { //
                 break;
             }
             ProductsTable p = new ProductsTable(items.size() + 1, connection);

@@ -102,12 +102,12 @@ public class ProductsTable implements ITable {
         try {
             PreparedStatement sql = db.tableProducts(id);
             ResultSet resultSet = sql.executeQuery();
-
-            name = String.valueOf(resultSet.getInt("product"));
-            code = resultSet.getString("code");
-            unit = String.valueOf(resultSet.getInt("unit"));
+            resultSet.next();
+            name = String.valueOf(resultSet.getString("product"));
+            code = String.valueOf(resultSet.getInt("code"));
+            unit = String.valueOf(resultSet.getString("unit"));
             temperature = String.valueOf(resultSet.getDouble("temperature"));
-            room = String.valueOf(resultSet.getDouble("room_id"));
+            room = resultSet.getString("room");
         } catch (SQLException e) {
             e.printStackTrace();
         }

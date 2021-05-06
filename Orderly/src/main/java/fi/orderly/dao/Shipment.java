@@ -1,19 +1,22 @@
 package fi.orderly.dao;
 
-import fi.orderly.logic.Utils;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
-
 import java.sql.*;
+
+/**
+ * This class tells what products are arriving to the facility and
+ * what batch they are and how much of them should be expected.
+ * This data will be shown graphically in Receive shipment workspace
+ * where it might be altered before registering shipment.
+ */
 
 public class Shipment {
 
-    final private Connection connection;
     final private DatabaseAccess db;
     private DataPackage[] list;
     final private int shipmentNumber;
 
     public Shipment(int shipmentNumber, Connection connection) {
-        this.connection = connection;
         db = new DatabaseAccess(connection);
         this.shipmentNumber = shipmentNumber;
         fetchData(shipmentNumber);

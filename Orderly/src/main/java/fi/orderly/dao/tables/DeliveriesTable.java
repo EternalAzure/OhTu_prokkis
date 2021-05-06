@@ -70,7 +70,7 @@ public class DeliveriesTable implements ITable {
         try {
             PreparedStatement sql = db.tableDeliveries(id);
             ResultSet resultSet = sql.executeQuery();
-
+            resultSet.next();
             number = String.valueOf(resultSet.getInt("number"));
             product = resultSet.getString("product");
             amount = String.valueOf(resultSet.getDouble("amount"));
