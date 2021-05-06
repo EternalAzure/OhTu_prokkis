@@ -1,5 +1,10 @@
 # Käyttöohjeet
 
+[Laitoksen esittely](#grafiikan-hakeminen-ja-esittäminen) </br>
+[Huoneet](#huoneiden-lisääminen-ja-poistaminen) </br>
+[Tuotteet](#tuotteiden-lisääminen-ja-poistaminen) </br>
+[jotain](#sekvenssikaavioita-grafiikasta) </br>
+
 ## Laitoksen esittely 
 
 Esimerkki laitoksessa on 4 huonetta
@@ -23,7 +28,22 @@ __Tavaran liikkeeseen liittyy 8 vaihetta:__
 
 ## Ohjelman toiminnallisuudet
 
+### Huoneiden lisääminen ja poistaminen
+Ennen kuin laitos voi aloittaa toimintansa tulee sinne lisätä huoneet. Huoneen lisäämisen yhteydessä huoneelle voi määrittää lämpötilan. Jos tuotetta jonka lämpötila alittaa huoneenlämmön ohjelma varoittaa siitä käyttäjää. Tämä ominaisuus odotta yhä toteuttamista. Huoneita voi lisätä vain yhden samaa nimeä. Poistettaessa huonetta kaikki viittaukset huoneeseen poistuvat tietokannasta. Tämä voi aiheuttaa suurta harmia. Lisääminen ja poistaminen tapahtuvat sinisestä valikosta valitun työtilan kautta. _Add new room_ ja _Remove room_
+
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Add new room.PNG" width="500">
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Remove room.PNG" width="500">
+
+### Tuotteiden lisääminen ja poistaminen
+Seuraavaksi lisätään tuotteet, sillä tuotteen lisääminen vaatii ensin huoneen, joka asetetaan oletus varastohuoneeksi tuotteelle. Oletus huone helpottaa tavaran vastaanottoa ja pitää huolen, että tavara ei jää vastaanottamatta. Poistettaessa kaikki viitteet katoavat tietokannasta.
+
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Add new product.PNG" width="500">
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Remove product.PNG" width="500">
+
 ### Saapuvan toimituksen luominen
 Tilaus jää ohjelman ulkopuolelle, mutta tilauksen yhteydessä luodaan tilausta vastaava uusi saapuva toimitus. Sinisestä valikosta löytyy _New shipment_, jota painamalla aukeaa oikealle sitä vastaava työtila. Toimitukset tallennetaan rivi kerrallaan tietokantaan. Toimituksen luomisen yhteydessä tuotteeseen liitetään eränumero (eng. _batch/batch number_) Tuotteiden ja erien suhde on monen suhde moneen. Tietokantaan ei kuitenkaan voi syöttää kahta kertaa samaa tuote-erä yhdistelmää. viimeisenä toimitukseen liitetään tilattu määrä. Tämä auttaa terminaalityöntekijää sekä vastaanottamaan toimituksen sekä nopeasti tarkistamaan jos jotain puuttuu.
 
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Hub.PNG" width="500">
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/New shipment.PNG" width="500">
+
+### Vastaanottaminen
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/shipments data.PNG" width="500">
