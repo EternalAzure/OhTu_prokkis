@@ -75,7 +75,6 @@ Jotta lähetys voidaan lähettää täytyy se luoda. _New delivery_ vie näkymä
 ### Kerääminen
 _Collect delivery_ vie näkymään, joka kysyy lähetysnumeroa
 
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Collect delivery.PNG" width="500">
 
 
 ### Lähettäminen
