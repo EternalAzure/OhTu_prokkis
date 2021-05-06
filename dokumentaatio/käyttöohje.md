@@ -1,10 +1,14 @@
 # Käyttöohjeet
 
-[Laitoksen esittely](#grafiikan-hakeminen-ja-esittäminen) </br>
+[Laitoksen esittely](#laitoksen-esitely) </br>
 [Huoneet](#huoneiden-lisääminen-ja-poistaminen) </br>
 [Tuotteet](#tuotteiden-lisääminen-ja-poistaminen) </br>
 [Toimitus](#saapuvan-toimituksen-luominen) </br>
 [Vastaanottaminen](#vastaanottaminen) </br>
+[Saldo](#saldon-muuttaminen) </br>
+[Siirtäminen](#siirtäminen) </br>
+[Kerääminen](#kerääminen) </br>
+[Lähettäminen](#lähettäminen) </br>
 
 
 ## Laitoksen esittely 
@@ -18,15 +22,14 @@ Esimerkki laitoksessa on 4 huonetta
 Sekä lisäksi vastaanottoterminaali ja lähtöterminaali
 </br>
 </br>
-__Tavaran liikkeeseen liittyy 8 vaihetta:__
+__Tavaran liikkeeseen liittyy 7 vaihetta:__
 1. Tilaus
 2. Vastaanotto
 3. Säilytys
-4. Liikutus
+4. Siirtäminen
 5. Valmistus
-6. Liikutus
-7. Keräys
-8. Lähetys
+6. Keräys
+7. Lähetys
 
 ## Ohjelman toiminnallisuudet
 
@@ -49,5 +52,30 @@ Tietokanta näyttää tältä kun olemme lisänneet toimitukseen viisi eri tuote
 
 
 ### Vastaanottaminen
-Valitse ensin valikosta _Receive shipment_ ja syötä jokin olemassa oleva toimitusnumero. Tämän jälkeen ohjelma näyttää tietokannasta toimituksen sekä muita hyödyllisiä tietoja, jotka auttavat käyttäjää. Syötä oikea ja määrä ja valitse oikea varasto.
+Valitse ensin valikosta _Receive shipment_ ja syötä jokin olemassa oleva toimitusnumero. Tämän jälkeen ohjelma näyttää tietokannasta toimituksen sekä muita hyödyllisiä tietoja, jotka auttavat käyttäjää. Syötä määrä ja valitse oikea varasto.
 
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Receive shipment.PNG" width="500">
+
+### Saldon muuttaminen
+Aina välillä sattuu virheitä ja saldoa pitää muuttaa. _Change balance_ sallii muuttaa saldoa kunhan täyttää tiedot. Toistaiseksi ei ole mahdollisuutta kumulatiiviseen saldon muuttamiseen.
+
+### Siirtäminen
+Siirtäminen tarkoittaa tavaran siirtämistä huoneesta toiseen. Tämä tapahtuu ainakin kerran esimerkki laitoksessa, kun raaka-aineet siirretään tuotantoon. Pääset siirtämään valitsemalla _Transfer_
+
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Transfer.PNG" width="500">
+
+### Valmistus
+Valmistuksessa valitaan kuinka monta valmista tuotetta luodaan. Luomisen jälkeen tuotantotilasta poistetaan vastaavamäärä raaka-aineita. Myöhemmin on tarkoitus tilastoida tätä tapahtumaa. Valmiit tuotteet lisätään esimerkkilaitoksessamme _Valmisvarastoon_. Ominaisuus työn alla.
+
+### Lähetyksen luominen
+Jotta lähetys voidaan lähettää täytyy se luoda. _New delivery_ vie näkymään, jossa voi toimituksen tapaan luoda uusia rivejä lähetykset tauluun tietokannassa.
+
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/New delivery.PNG" width="500">
+
+### Kerääminen
+_Collect delivery_ vie näkymään, joka kysyy lähetysnumeroa
+
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Collect delivery.PNG" width="500">
+
+
+### Lähettäminen
