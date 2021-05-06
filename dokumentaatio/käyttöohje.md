@@ -1,6 +1,6 @@
 # Käyttöohjeet
 
-[Laitoksen esittely](#laitoksen-esitely) </br>
+[Laitoksen esittely](#laitoksen-esittely) </br>
 [Huoneet](#huoneiden-lisääminen-ja-poistaminen) </br>
 [Tuotteet](#tuotteiden-lisääminen-ja-poistaminen) </br>
 [Toimitus](#saapuvan-toimituksen-luominen) </br>
@@ -9,6 +9,7 @@
 [Siirtäminen](#siirtäminen) </br>
 [Kerääminen](#kerääminen) </br>
 [Lähettäminen](#lähettäminen) </br>
+[Testaaminen](#testaaminen) </br>
 
 
 ## Laitoksen esittely 
@@ -79,3 +80,42 @@ _Collect delivery_ vie näkymään, joka kysyy lähetysnumeroa. Annettuasi olema
 
 ### Lähettäminen
 _Send delivery_ kysyy numeroa ja annettuasi numeron lähetys lähtee ja lähetykseen merkityt määrät poistetaan saldosta. Jos saldo ylittyy merkitään saldoksi nolla ja virhe kirjataan ylös. 
+
+## Testaaminen
+Ylhäällä on harmaa valikkopalkki josta löytyy _Populate_. Se 'kansoittaa' tietokanta taulut testidatalla.</br>
+
+| Huone             | Lämpö|
+|-------            |------|
+|Raaka-ainevarasto 1|4|
+|Raaka-ainevarasto 2|14|
+|Tuotantotila 1     |14|
+|Valmisvarasto 1    |4|
+
+| Tuotenimi       | Lämpö| Huone id| koodi| yksikkö|
+|-------          |------| --      |  --- |    --- |
+|Kaali            |4     |1        | 1000 |KG|
+|Porkkana         |4     |1        | 2000 |KG|
+|Peruna           |4     |1        | 3000 |KG|
+|Kurpitsa         |14    |2        | 4000 |KG|
+|Sipuli           |14    |2        | 5000 |KG|
+|Kaalilaatikko    |4     |4        | 1100 |KG|
+|Porkkanasuikaleet|4     |4        | 2200 |KG|
+|Perunamuussi     |4     |4        | 3300 |KG|
+|Kurpitsapalat    |4     |4        | 4400 |KG|
+|Sipulirenkaat    |4     |4        | 5500 |KG|
+
+|Saapuva toimitus| tuote id | erä | määrä |
+|----------------|----------|-----|-------|
+|1               | 1        |  1  | 10    |
+|1               | 2        |  1  | 40    |
+|1               | 3        |  1  | 160   |
+|1               | 4        |  1  | 640   |
+|1               | 5        |  1  | 2560  |
+
+|Lähtevä toimitus| tuote id | määrä |
+|----------------|----------|-------|
+|1               | 1        | 5     |
+|1               | 2        | 20    |
+|1               | 3        | 80    |
+|1               | 4        | 320   |
+|1               | 5        | 1280  |
