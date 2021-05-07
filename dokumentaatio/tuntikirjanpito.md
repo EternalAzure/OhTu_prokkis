@@ -56,4 +56,5 @@ Ajat eivät sisällä laskareita.
 | 6.5         | 0.5         |Product table View bugi korjattu|
 | 6.5         | 1           |Käyttäjä palautteen parantaminen|
 | 6.5         | 1.6         |Workspaces luokan ehostusta|
-| yht.        | 122.24      |
+| 7.5         | 0.16       |Checkstyle korjauksia|
+| yht.        | 122.4      |
