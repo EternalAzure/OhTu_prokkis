@@ -56,5 +56,6 @@ Ajat eivät sisällä laskareita.
 | 6.5         | 0.5         |Product table View bugi korjattu|
 | 6.5         | 1           |Käyttäjä palautteen parantaminen|
 | 6.5         | 1.6         |Workspaces luokan ehostusta|
-| 7.5         | 0.16       |Checkstyle korjauksia|
-| yht.        | 122.4      |
+| 7.5         | 0.16        |Checkstyle korjauksia|
+| 8.5         | 4.3         |Terminaalissa sql komennot kestävät millisekunteja. Ohjelman kautta ne vievät sekunnin. En vieläkään ymmärrä|
+| yht.        | 126.7       |
