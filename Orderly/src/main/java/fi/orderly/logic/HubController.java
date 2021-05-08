@@ -12,6 +12,29 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Random;
 
 public class HubController {
+    /**
+     * LISÄÄ TIETOKANTAAN DELETE ON CASCADE
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * WCNLKEJRJortbirsNK
+     *
+     *
+     *
+     *
+     *
+     * WÖKVRNJBPKRTIÄ
+     *
+     *
+     *
+     *
+     *
+     * WKVNWLKERÄVJEB
+     */
 
     final private TestData testData;
     final private SaldoOperations engine;

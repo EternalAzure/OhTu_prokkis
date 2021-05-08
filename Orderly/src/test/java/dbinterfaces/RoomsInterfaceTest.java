@@ -6,9 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
+import java.sql.*;
 
 public class RoomsInterfaceTest {
 
@@ -34,6 +33,9 @@ public class RoomsInterfaceTest {
 
         db.rooms.insertRoom("Room 3");
         assertEquals(3, db.rooms.size());
+
+        db.rooms.insertRoom("Room 4", 8);
+        assertEquals(4, db.rooms.size());
     }
 
     @Test
@@ -42,5 +44,13 @@ public class RoomsInterfaceTest {
 
         db.rooms.deleteRoom("Room 1");
         assertEquals(0, db.rooms.size());
+    }
+
+    @Test
+    public void queryRoom() throws SQLException {
+        String name = db.rooms.queryRoom(1)[0];
+        String temperature = db.rooms.queryRoom(1)[1];
+        assertEquals("Room 1", name);
+        assertEquals("-", temperature);
     }
 }

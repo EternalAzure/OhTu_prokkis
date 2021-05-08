@@ -9,7 +9,6 @@ public class RoomsTableView extends TableViewInfiniteScrolling {
 
     @Override
      void addItems() {
-        System.out.println(items.size());
         int limit = items.size() + 30;
         for (int i = items.size(); i < limit; i++) {
             if (i >= db.rooms.size()) {

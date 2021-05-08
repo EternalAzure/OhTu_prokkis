@@ -17,7 +17,6 @@ public class HubControllerTest {
     final String database = ServerConnection.TEST_DATABASE;
     Connection connection = ServerConnection.createConnection(database);
     HubController hubController = new HubController(connection);
-    Utils utils = new Utils(connection);
     DatabaseAccess db = new DatabaseAccess(connection);
     //BE SURE TO USE TEST DATABASE IN EVERY STEP
     //Methods outside of test class will have their own dependencies!!!
@@ -35,6 +34,39 @@ public class HubControllerTest {
         sql3.executeUpdate();
         sql4.executeUpdate();
         sql5.executeUpdate();
+    }
+
+    @Test
+    public void sqlSpeed() throws SQLException {
+        System.out.println("3.. 2.. 1.. GO!!");
+        long start = System.nanoTime();
+        for (int i = 1; i <= 100; i++) {
+            db.rooms.insertRoom(""+i);
+        }
+        long time = System.nanoTime() - start;
+        System.out.println("Insert time: " + time/1000000000);
+        assertEquals(100, db.rooms.size());
+
+        long start1 = System.nanoTime();
+        for (int i = 1; i <= 100; i++) {
+            db.rooms.queryRoom(i);
+        }
+        long time1 = System.nanoTime() - start1;
+        System.out.println("Query time: " + time1/1000000000);
+
+        long start2 = System.nanoTime();
+        for (int i = 1; i <= 100; i++) {
+            db.rooms.foundRoom("50");
+        }
+        long time2 = System.nanoTime() - start2;
+        System.out.println("foundRoom(50) time: " + time2/1000000000);
+
+        long start3 = System.nanoTime();
+        for (int i = 1; i <= 100; i++) {
+            db.rooms.foundRoom("100");
+        }
+        long time3 = System.nanoTime() - start3;
+        System.out.println("foundRoom(100) time: " + time3/1000000000);
     }
 
     @Test
@@ -231,11 +263,11 @@ public class HubControllerTest {
         hubController.createTestData();
         hubController.receiveShipment(new Shipment(1, connection));
 
-        assertEquals(10, db.queryBalance("Room 1", 1000, 1), 0);
-        assertEquals(40, db.queryBalance("Room 1", 2000, 1), 0);
-        assertEquals(160, db.queryBalance("Room 1", 3000, 1), 0);
-        assertEquals(640, db.queryBalance("Room 2", 4000, 1), 0);
-        assertEquals(2560, db.queryBalance("Room 2", 5000, 1), 0);
+        assertEquals(10, db.queryBalance("Raaka-ainevarasto 1", 1000, 1), 0);
+        assertEquals(40, db.queryBalance("Raaka-ainevarasto 1", 2000, 1), 0);
+        assertEquals(160, db.queryBalance("Raaka-ainevarasto 1", 3000, 1), 0);
+        assertEquals(640, db.queryBalance("Raaka-ainevarasto 2", 4000, 1), 0);
+        assertEquals(2560, db.queryBalance("Raaka-ainevarasto 2", 5000, 1), 0);
 
         //Receiving shipment destroys it, thus stopping it being received again
         assertFalse(db.shipments.foundShipment(1));
@@ -337,9 +369,9 @@ public class HubControllerTest {
     public void createTestShipment() throws SQLException {
         hubController.createTestData();
         assertEquals(10, db.products.size());
-        String ka = "SELECT COUNT(*) FROM products WHERE product='Kaali' AND code=1000 AND unit='KG' AND temperature=8 AND room_id=1";
-        String po = "SELECT COUNT(*) FROM products WHERE product='Porkkana' AND code=2000 AND unit='KG' AND temperature=8 AND room_id=1";
-        String pe = "SELECT COUNT(*) FROM products WHERE product='Peruna' AND code=3000 AND unit='KG' AND temperature=8 AND room_id=1";
+        String ka = "SELECT COUNT(*) FROM products WHERE product='Kaali' AND code=1000 AND unit='KG' AND temperature=4 AND room_id=1";
+        String po = "SELECT COUNT(*) FROM products WHERE product='Porkkana' AND code=2000 AND unit='KG' AND temperature=4 AND room_id=1";
+        String pe = "SELECT COUNT(*) FROM products WHERE product='Peruna' AND code=3000 AND unit='KG' AND temperature=4 AND room_id=1";
         String ku = "SELECT COUNT(*) FROM products WHERE product='Kurpitsa' AND code=4000 AND unit='KG' AND temperature=14 AND room_id=2";
         String si = "SELECT COUNT(*) FROM products WHERE product='Sipuli' AND code=5000 AND unit='KG' AND temperature=14 AND room_id=2";
         assertEquals(1, db.customQuery(ka, "COUNT(*)"));
@@ -348,11 +380,11 @@ public class HubControllerTest {
         assertEquals(1, db.customQuery(ku, "COUNT(*)"));
         assertEquals(1, db.customQuery(si, "COUNT(*)"));
 
-        String ka1 = "SELECT COUNT(*) FROM products WHERE product='Kaalilaatikko' AND code=1100 AND unit='KG' AND temperature=4 AND room_id=3";
-        String po1 = "SELECT COUNT(*) FROM products WHERE product='Porkkanasuikaleet' AND code=2200 AND unit='KG' AND temperature=4 AND room_id=3";
-        String pe1 = "SELECT COUNT(*) FROM products WHERE product='Perunamuussi' AND code=3300 AND unit='KG' AND temperature=4 AND room_id=3";
-        String ku1 = "SELECT COUNT(*) FROM products WHERE product='Kurpitsapalat' AND code=4400 AND unit='KG' AND temperature=4 AND room_id=3";
-        String si1 = "SELECT COUNT(*) FROM products WHERE product='Sipulirenkaat' AND code=5500 AND unit='KG' AND temperature=4 AND room_id=3";
+        String ka1 = "SELECT COUNT(*) FROM products WHERE product='Kaalilaatikko' AND code=1100 AND unit='KG' AND temperature=4 AND room_id=4";
+        String po1 = "SELECT COUNT(*) FROM products WHERE product='Porkkanasuikaleet' AND code=2200 AND unit='KG' AND temperature=4 AND room_id=4";
+        String pe1 = "SELECT COUNT(*) FROM products WHERE product='Perunamuussi' AND code=3300 AND unit='KG' AND temperature=4 AND room_id=4";
+        String ku1 = "SELECT COUNT(*) FROM products WHERE product='Kurpitsapalat' AND code=4400 AND unit='KG' AND temperature=4 AND room_id=4";
+        String si1 = "SELECT COUNT(*) FROM products WHERE product='Sipulirenkaat' AND code=5500 AND unit='KG' AND temperature=4 AND room_id=4";
         assertEquals(1, db.customQuery(ka1, "COUNT(*)"));
         assertEquals(1, db.customQuery(po1, "COUNT(*)"));
         assertEquals(1, db.customQuery(pe1, "COUNT(*)"));

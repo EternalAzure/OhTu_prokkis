@@ -65,7 +65,7 @@ public class DeliveriesInterface {
     }
 
     public int size() {
-        try{
+        try {
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM deliveries");
             ResultSet resultSet = sql.executeQuery();
             resultSet.next();

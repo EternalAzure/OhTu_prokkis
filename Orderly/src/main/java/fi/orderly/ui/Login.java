@@ -49,10 +49,9 @@ public class Login extends Application {
         TextField username = new TextField();
         PasswordField password = new PasswordField();
         Button login = new Button("login");
-        Hyperlink credit = new Hyperlink("Link for fun");
 
         leftPane.getChildren().addAll(logoView);
-        rightPane.getChildren().addAll(exit, username, password, login, credit, userIconView);
+        rightPane.getChildren().addAll(exit, username, password, login, userIconView);
 
         userIconView.setLayoutX(125);
         userIconView.setLayoutY(50);
@@ -61,9 +60,6 @@ public class Login extends Application {
 
         login.setLayoutX(120);
         login.setLayoutY(270);
-
-        credit.setLayoutX(107);
-        credit.setLayoutY(300);
 
         exit.setLayoutX(260);
         exit.setLayoutY(10);
@@ -89,9 +85,8 @@ public class Login extends Application {
         //endregion
 
         //Actions
-        login.setOnAction(event -> loginCont.passwordlessLogin()); // login(username.getText(), password.getText()));
+        login.setOnAction(event -> loginCont.passwordlessLogin()); // login(username.getText(), password.getText())
         exit.setOnAction(event -> loginCont.exit());
-        credit.setOnAction(event -> loginCont.link());
 
         Scene scene = new Scene(layout, 600, 400);
         scene.getStylesheets().add("login.css");

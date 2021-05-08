@@ -69,7 +69,9 @@ public class BalanceInterface {
         sql.setInt(1, batchNumber);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("COUNT(*)") > 0;
+        boolean result = resultSet.getInt("COUNT(*)") > 0;
+        resultSet.close();
+        return result;
     }
 
     public boolean foundRoom(int id) throws SQLException {
@@ -78,7 +80,9 @@ public class BalanceInterface {
         sql.setInt(1, id);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("COUNT(*)") > 0;
+        boolean result = resultSet.getInt("COUNT(*)") > 0;
+        resultSet.close();
+        return result;
     }
 
     public boolean foundProduct(int productId) throws SQLException {
@@ -87,7 +91,9 @@ public class BalanceInterface {
         sql.setInt(1, productId);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("COUNT(*)") > 0;
+        boolean result = resultSet.getInt("COUNT(*)") > 0;
+        resultSet.close();
+        return result;
     }
 
     public int numberOfRoom(int roomId) throws SQLException {
@@ -96,7 +102,9 @@ public class BalanceInterface {
         sql.setInt(1, roomId);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("COUNT(*)");
+        int result = resultSet.getInt("COUNT(*)");
+        resultSet.close();
+        return result;
     }
 
     public int numberOfProduct(int productId) throws SQLException {
@@ -105,7 +113,9 @@ public class BalanceInterface {
         sql.setInt(1, productId);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("COUNT(*)");
+        int result = resultSet.getInt("COUNT(*)");
+        resultSet.close();
+        return result;
     }
 
     public int numberOfBatch(int batch) throws SQLException {
@@ -114,29 +124,49 @@ public class BalanceInterface {
         sql.setInt(1, batch);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("COUNT(*)");
+        int result = resultSet.getInt("COUNT(*)");
+        resultSet.close();
+        return result;
     }
 
     public int numberOfZero() {
+        ResultSet resultSet = null;
         try {
             String query = "SELECT COUNT(*) FROM balance WHERE amount=0";
             PreparedStatement sql = connection.prepareStatement(query);
-            ResultSet resultSet = sql.executeQuery();
+            resultSet = sql.executeQuery();
             resultSet.next();
             return resultSet.getInt("COUNT(*)");
         } catch (SQLException e) {
             return 0;
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                //ignore
+            }
         }
     }
 
     public int size() {
-        try{
+        ResultSet resultSet = null;
+        try {
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM balance");
-            ResultSet resultSet = sql.executeQuery();
+            resultSet = sql.executeQuery();
             resultSet.next();
             return resultSet.getInt("COUNT(*)");
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                //ignore
+            }
         }
         return 0;
     }
@@ -145,6 +175,7 @@ public class BalanceInterface {
         try {
             PreparedStatement sql = connection.prepareStatement("TRUNCATE TABLE balance;");
             sql.execute();
+            sql.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

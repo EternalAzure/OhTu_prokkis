@@ -16,6 +16,7 @@ public class RoomsInterface {
         sql.setString(1, room);
         sql.setDouble(2, temperature);
         sql.executeUpdate();
+        sql.close();
     }
 
     public void insertRoom(String room) throws SQLException {
@@ -23,6 +24,7 @@ public class RoomsInterface {
         PreparedStatement sql = connection.prepareStatement(insert);
         sql.setString(1, room);
         sql.executeUpdate();
+        sql.close();
     }
 
     public void deleteRoom(String room) throws SQLException {
@@ -30,13 +32,15 @@ public class RoomsInterface {
         PreparedStatement sql = connection.prepareStatement(delete);
         sql.setString(1, room);
         sql.executeUpdate();
+        sql.close();
     }
 
     public void deleteRoom(int room) throws SQLException {
-        String delete = "DELETE FROM rooms WHERE id=" + room;
+        String delete = "DELETE FROM rooms WHERE id=?";
         PreparedStatement sql = connection.prepareStatement(delete);
         sql.setInt(1, room);
         sql.executeUpdate();
+        sql.close();
     }
 
     public String[] queryRoom(int id) throws SQLException {
@@ -45,10 +49,16 @@ public class RoomsInterface {
         sql.setInt(1, id);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
+
         String[] result = new String[2];
+        result[1] = Double.toString(resultSet.getDouble("temperature"));
+        if (resultSet.wasNull()) {
+            result[1] = "-";
+        }
         result[0] = resultSet.getString("room");
-        result[1] = String.valueOf(resultSet.getDouble("temperature"));
+        sql.close();
         return result;
+
     }
 
     public boolean foundRoom(String name) throws SQLException {
@@ -57,7 +67,9 @@ public class RoomsInterface {
         sql.setString(1, name);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("COUNT(*)") > 0;
+        boolean result = resultSet.getInt("COUNT(*)") > 0;
+        sql.close();
+        return result;
     }
 
     public int countRoom(String room) throws SQLException {
@@ -66,7 +78,9 @@ public class RoomsInterface {
         sql.setString(1, room);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("COUNT(*)");
+        int result = resultSet.getInt("COUNT(*)");
+        sql.close();
+        return result;
     }
 
     public int findIdByName(String room) throws SQLException {
@@ -75,7 +89,9 @@ public class RoomsInterface {
         sql.setString(1, room);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getInt("id");
+        int result = resultSet.getInt("id");
+        sql.close();
+        return result;
     }
 
     public String findRoomById(int id) throws SQLException {
@@ -84,15 +100,19 @@ public class RoomsInterface {
         sql.setInt(1, id);
         ResultSet resultSet = sql.executeQuery();
         resultSet.next();
-        return resultSet.getString("room");
+        String result = resultSet.getString("room");
+        sql.close();
+        return result;
     }
 
     public int size() {
-        try{
+        try {
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM rooms");
             ResultSet resultSet = sql.executeQuery();
             resultSet.next();
-            return resultSet.getInt("COUNT(*)");
+            int result = resultSet.getInt("COUNT(*)");
+            sql.close();
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
         }

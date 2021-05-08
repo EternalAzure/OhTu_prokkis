@@ -117,7 +117,7 @@ public class ProductsInterface {
     }
 
     public int size() {
-        try{
+        try {
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM products");
             ResultSet resultSet = sql.executeQuery();
             resultSet.next();

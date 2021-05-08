@@ -4,7 +4,6 @@ import fi.orderly.logic.dbinterfaces.DeliveriesInterface;
 import fi.orderly.logic.dbinterfaces.ProductsInterface;
 import fi.orderly.logic.dbinterfaces.RoomsInterface;
 import fi.orderly.logic.dbinterfaces.ShipmentsInterface;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 

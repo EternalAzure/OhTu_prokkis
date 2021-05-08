@@ -73,7 +73,7 @@ public class ShipmentsInterface {
     }
 
     public int size() {
-        try{
+        try {
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM shipments");
             ResultSet resultSet = sql.executeQuery();
             resultSet.next();

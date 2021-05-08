@@ -1,0 +1,73 @@
+CREATE DATABASE `warehouse` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_swedish_ci */;
+
+CREATE TABLE `balance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `room_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `batch` int(11) NOT NULL,
+  `amount` double DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product` varchar(45) NOT NULL,
+  `code` varchar(45) NOT NULL,
+  `unit` varchar(45) NOT NULL DEFAULT 'KG',
+  `temperature` double DEFAULT NULL,
+  `room_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_UNIQUE` (`product`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `rooms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `room` varchar(45) NOT NULL,
+  `temperature` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `room_UNIQUE` (`room`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `shipments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `batch` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+CREATE TABLE `deliveries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `number_UNIQUE` (`number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+CREATE TABLE `log` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(45) NOT NULL,
+  `value` VARCHAR(45) NOT NULL,
+  `time` DATE NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin;
+
+CREATE DATABASE `login` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_swedish_ci */;
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `role` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
