@@ -60,4 +60,5 @@ Ajat eivät sisällä laskareita.
 | 8.5         | 4.3         |Terminaalissa sql komennot kestävät millisekunteja. Ohjelman kautta ne vievät sekunnin. En vieläkään ymmärrä|
 | 9.5         | 1           |Tietokannassa oli viittauksia taulujen kesken. Nyt ne on muutettu oikeaoppisesti Foreign key mallisiksi.|
 | 9.5         | 2           |Aiheuttaa ongelmia ihan kaikkialla. Kaikki palaa ja pidän listaa ongelmista. Uusi tietokantaan liittymättömiä ongelmia nousee esiin|
-| yht.        | 129.7       |
+| 9.5         | 3           |Lisäsin testikattavuutta DataAccess luokalle. Tuhlasin aikaa muuttamalla truncate käskyt deleteiksi ja takaisin|
+| yht.        | 132.7       |
