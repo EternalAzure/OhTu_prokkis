@@ -61,4 +61,5 @@ Ajat eivät sisällä laskareita.
 | 9.5         | 1           |Tietokannassa oli viittauksia taulujen kesken. Nyt ne on muutettu oikeaoppisesti Foreign key mallisiksi.|
 | 9.5         | 2           |Aiheuttaa ongelmia ihan kaikkialla. Kaikki palaa ja pidän listaa ongelmista. Uusi tietokantaan liittymättömiä ongelmia nousee esiin|
 | 9.5         | 3           |Lisäsin testikattavuutta DataAccess luokalle. Tuhlasin aikaa muuttamalla truncate käskyt deleteiksi ja takaisin|
+| 10.5        | 0.6         |Testit testaa ON DELETE CASCADE ja toimii. |
 | yht.        | 132.7       |
