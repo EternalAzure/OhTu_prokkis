@@ -62,4 +62,5 @@ Ajat eivät sisällä laskareita.
 | 9.5         | 2           |Aiheuttaa ongelmia ihan kaikkialla. Kaikki palaa ja pidän listaa ongelmista. Uusi tietokantaan liittymättömiä ongelmia nousee esiin|
 | 9.5         | 3           |Lisäsin testikattavuutta DataAccess luokalle. Tuhlasin aikaa muuttamalla truncate käskyt deleteiksi ja takaisin|
 | 10.5        | 0.6         |Testit testaa ON DELETE CASCADE ja toimii. |
-| yht.        | 132.7       |
+| 10.5        | 1           |Jacoco ei ole toiminut moneen päivään. Compiler source ja target versiot olivat väärät. En tiedä miksi tai miten. Ratkaisin?|
+| yht.        | 133.7       |
