@@ -19,9 +19,7 @@ public class UtilsTest {
     @Before
     public void setUp() throws SQLException{
         assert connection != null;
-        db.rooms.truncate();
-        db.products.truncate();
-        db.balance.truncate();
+        db.truncateAll();
     }
 
     @Test
@@ -46,6 +44,16 @@ public class UtilsTest {
         assertTrue(Utils.isEmpty(new String[]{"", "ABC"}));
         //Not empty
         assertFalse(Utils.isEmpty(new String[]{"ABC", "123"}));
+    }
+
+    @Test
+    public void notInt() {
+        //TODO
+    }
+
+    @Test
+    public void notDouble() {
+        //TODO
     }
 
 }

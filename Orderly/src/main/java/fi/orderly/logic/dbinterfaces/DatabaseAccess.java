@@ -96,4 +96,12 @@ public class DatabaseAccess {
         resultSet.next();
         return resultSet.getInt(column);
     }
+
+    public void truncateAll() {
+        rooms.truncate();
+        products.truncate();
+        balance.truncate();
+        shipments.truncate();
+        deliveries.truncate();
+    }
 }

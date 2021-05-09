@@ -18,12 +18,11 @@ public class RoomsInterfaceTest {
     @Before
     public void setUp() throws SQLException {
         assert connection != null;
-        PreparedStatement sql1 = connection.prepareStatement("TRUNCATE TABLE rooms");
-        sql1.executeUpdate();
+        db.truncateAll();
 
         String insertRooms = "INSERT INTO rooms (room) VALUES ('Room 1')";
-        PreparedStatement sql2 = connection.prepareStatement(insertRooms);
-        sql2.executeUpdate();
+        PreparedStatement sql = connection.prepareStatement(insertRooms);
+        sql.executeUpdate();
     }
 
     @Test
@@ -44,6 +43,31 @@ public class RoomsInterfaceTest {
 
         db.rooms.deleteRoom("Room 1");
         assertEquals(0, db.rooms.size());
+
+        db.rooms.truncate();
+        //Test ON DELETE CASCADE
+        db.rooms.insertRoom("Room 1");
+        db.rooms.insertRoom("Room 2");
+        db.products.insertProduct("Nauris", 6000, "KG", 1);
+        db.products.insertProduct("Lehtikaali", 7000, "KG", 1);
+        db.products.insertProduct("Etiketti", 9000, "KPL", 2);
+        assertEquals(3, db.products.size());
+
+        db.rooms.deleteRoom("Room 1");
+        assertEquals(1, db.products.size());
+    }
+
+    @Test
+    public void truncate() throws SQLException {
+        //Test ON DELETE CASCADE
+        db.rooms.insertRoom("Room 2");
+        db.products.insertProduct("Nauris", 6000, "KG", 1);
+        db.products.insertProduct("Lehtikaali", 7000, "KG", 1);
+        db.products.insertProduct("Etiketti", 9000, "KPL", 2);
+        assertEquals(3, db.products.size());
+
+        db.rooms.truncate();
+        assertEquals(0, db.products.size());
     }
 
     @Test

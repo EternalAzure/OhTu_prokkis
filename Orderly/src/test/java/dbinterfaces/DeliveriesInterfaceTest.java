@@ -18,13 +18,7 @@ public class DeliveriesInterfaceTest {
     @Before
     public void setUp() throws SQLException {
         assert connection != null;
-        PreparedStatement sql1 = connection.prepareStatement("TRUNCATE TABLE products");
-        PreparedStatement sql2 = connection.prepareStatement("TRUNCATE TABLE rooms");
-        PreparedStatement sql3 = connection.prepareStatement("TRUNCATE TABLE deliveries");
-
-        sql1.executeUpdate();
-        sql2.executeUpdate();
-        sql3.executeUpdate();
+        db.truncateAll();
     }
 
     @Test
@@ -76,7 +70,9 @@ public class DeliveriesInterfaceTest {
 
     @Test
     public void deleteDelivery() throws  SQLException {
-        db.deliveries.insertDelivery(1, 1, 200);
+        db.rooms.insertRoom("Room");
+        db.products.insertProduct("Etiketti", 9000, "KPL", 1);
+        db.deliveries.insertDelivery(1, 1, 20000);
         assertEquals(1, db.deliveries.size());
 
         db.deliveries.deleteDelivery(1);

@@ -130,10 +130,30 @@ public class ProductsInterface {
 
     public void truncate() {
         try {
-            PreparedStatement sql = connection.prepareStatement("TRUNCATE TABLE products");
-            sql.executeUpdate();
+            PreparedStatement a = connection.prepareStatement("BEGIN;");
+            PreparedStatement b = connection.prepareStatement("DELETE FROM rooms;");
+            PreparedStatement c = connection.prepareStatement("SET FOREIGN_KEY_CHECKS = 0;");
+            PreparedStatement d = connection.prepareStatement("TRUNCATE TABLE products;");
+            PreparedStatement e = connection.prepareStatement("SET FOREIGN_KEY_CHECKS = 1;");
+            PreparedStatement f = connection.prepareStatement("COMMIT;");
+            a.execute();
+            b.executeUpdate();
+            c.execute();
+            d.execute();
+            e.execute();
+            f.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void deleteAll() {
+        try {
+            String delete = "DELETE FROM products";
+            PreparedStatement sql = connection.prepareStatement(delete);
+            sql.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Didn't delete rows in products");
         }
     }
 }

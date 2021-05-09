@@ -18,28 +18,18 @@ public class BalanceInterfaceTest {
     @Before
     public void setUp() throws SQLException {
         assert connection != null;
-        PreparedStatement sql1 = connection.prepareStatement("TRUNCATE TABLE products");
-        PreparedStatement sql2 = connection.prepareStatement("TRUNCATE TABLE rooms");
-        PreparedStatement sql3 = connection.prepareStatement("TRUNCATE TABLE balance");
-        PreparedStatement sql4 = connection.prepareStatement("TRUNCATE TABLE shipments");
-        PreparedStatement sql5 = connection.prepareStatement("TRUNCATE TABLE deliveries");
+        db.truncateAll();
+
+        String insertRooms = "INSERT INTO rooms (room) VALUES ('Room 1')";
+        String insertProducts = "INSERT INTO products (product, code, unit, room_id) VALUES ('Nauris', 1000, 'KG', 1)";
+        String insertBalance = "INSERT INTO balance (room_id, product_id, batch, amount) VALUES (1, 1, 1, 100.0)";
+        PreparedStatement sql1 = connection.prepareStatement(insertRooms);
+        PreparedStatement sql2 = connection.prepareStatement(insertProducts);
+        PreparedStatement sql3 = connection.prepareStatement(insertBalance);
 
         sql1.executeUpdate();
         sql2.executeUpdate();
         sql3.executeUpdate();
-        sql4.executeUpdate();
-        sql5.executeUpdate();
-
-        String insertRooms = "INSERT INTO rooms (room) VALUES ('Room 1')";
-        String insertProducts = "INSERT INTO products (product, code, unit, room_id) VALUES ('Nauris', '1000', 'KG', 1)";
-        String insertBalance = "INSERT INTO balance (room_id, product_id, batch, amount) VALUES (1, 1, 1, 100.0)";
-        PreparedStatement sql6 = connection.prepareStatement(insertRooms);
-        PreparedStatement sql7 = connection.prepareStatement(insertProducts);
-        PreparedStatement sql8 = connection.prepareStatement(insertBalance);
-
-        sql6.executeUpdate(insertRooms);
-        sql7.executeUpdate(insertProducts);
-        sql8.executeUpdate(insertBalance);
     }
 
     @Test
@@ -70,7 +60,7 @@ public class BalanceInterfaceTest {
 
         String select = "SELECT amount FROM balance WHERE room_id=1 AND product_id=1 AND batch=1";
         PreparedStatement sql = connection.prepareStatement(select);
-        ResultSet resultSet = sql.executeQuery(select);
+        ResultSet resultSet = sql.executeQuery();
         resultSet.next();
         double saldo = resultSet.getDouble("amount");
 

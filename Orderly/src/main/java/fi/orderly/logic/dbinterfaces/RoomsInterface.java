@@ -35,14 +35,6 @@ public class RoomsInterface {
         sql.close();
     }
 
-    public void deleteRoom(int room) throws SQLException {
-        String delete = "DELETE FROM rooms WHERE id=?";
-        PreparedStatement sql = connection.prepareStatement(delete);
-        sql.setInt(1, room);
-        sql.executeUpdate();
-        sql.close();
-    }
-
     public String[] queryRoom(int id) throws SQLException {
         String select = "SELECT room, temperature FROM rooms WHERE id=?";
         PreparedStatement sql = connection.prepareStatement(select);
@@ -94,17 +86,6 @@ public class RoomsInterface {
         return result;
     }
 
-    public String findRoomById(int id) throws SQLException {
-        String select = "SELECT room FROM rooms WHERE id=?";
-        PreparedStatement sql = connection.prepareStatement(select);
-        sql.setInt(1, id);
-        ResultSet resultSet = sql.executeQuery();
-        resultSet.next();
-        String result = resultSet.getString("room");
-        sql.close();
-        return result;
-    }
-
     public int size() {
         try {
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM rooms");
@@ -121,8 +102,18 @@ public class RoomsInterface {
 
     public void truncate() {
         try {
-            PreparedStatement sql = connection.prepareStatement("TRUNCATE TABLE rooms");
-            sql.executeUpdate();
+            PreparedStatement a = connection.prepareStatement("BEGIN;");
+            PreparedStatement b = connection.prepareStatement("DELETE FROM rooms;");
+            PreparedStatement c = connection.prepareStatement("SET FOREIGN_KEY_CHECKS = 0;");
+            PreparedStatement d = connection.prepareStatement("TRUNCATE TABLE rooms;");
+            PreparedStatement e = connection.prepareStatement("SET FOREIGN_KEY_CHECKS = 1;");
+            PreparedStatement f = connection.prepareStatement("COMMIT;");
+            a.execute();
+            b.executeUpdate();
+            c.execute();
+            d.execute();
+            e.execute();
+            f.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }

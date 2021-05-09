@@ -21,14 +21,10 @@ public class ShipmentTest {
     @Before
     public void setUp() throws SQLException {
         assert connection != null;
-        db.rooms.truncate();
-        db.products.truncate();
-        db.balance.truncate();
-        db.shipments.truncate();
-        db.deliveries.truncate();
-
+        db.truncateAll();
         hubController.createTestData();
     }
+
     @Test
     public void fetchData() {
         shipment = new Shipment(1, connection);
@@ -45,7 +41,7 @@ public class ShipmentTest {
         assertEquals("1", data.getBatch());
         assertEquals("10.0", data.getAmount());
         assertEquals("KG", data.getUnit());
-        assertEquals("Room 1", data.getStorageRoom());
+        assertEquals("Raaka-ainevarasto 1", data.getStorageRoom());
 
         //-- SHOULD NOT PASS --//
         //Input validation is done in ShipmentWorkspace.validateInput(String shipmentNumber)

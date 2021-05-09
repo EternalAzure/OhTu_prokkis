@@ -24,49 +24,45 @@ public class HubControllerTest {
     @Before
     public void setUp() throws SQLException{
         assert connection != null;
-        PreparedStatement sql1 = connection.prepareStatement("TRUNCATE TABLE products");
-        PreparedStatement sql2 = connection.prepareStatement("TRUNCATE TABLE rooms");
-        PreparedStatement sql3 = connection.prepareStatement("TRUNCATE TABLE balance");
-        PreparedStatement sql4 = connection.prepareStatement("TRUNCATE TABLE shipments");
-        PreparedStatement sql5 = connection.prepareStatement("TRUNCATE TABLE deliveries");
-        sql1.executeUpdate();
-        sql2.executeUpdate();
-        sql3.executeUpdate();
-        sql4.executeUpdate();
-        sql5.executeUpdate();
+        db.truncateAll();
     }
 
-    @Test
+
     public void sqlSpeed() throws SQLException {
-        System.out.println("3.. 2.. 1.. GO!!");
         long start = System.nanoTime();
         for (int i = 1; i <= 100; i++) {
-            db.rooms.insertRoom(""+i);
+            //db.rooms.insertRoom(""+i);
+            connection.createStatement().execute("INSERT INTO rooms (room) VALUES ("+i+")");
         }
         long time = System.nanoTime() - start;
-        System.out.println("Insert time: " + time/1000000000);
+        System.out.println("Insert time: " + time/100/1000000 + " millis");
+        System.out.println("Sum: " + time/1000000000);
         assertEquals(100, db.rooms.size());
 
-        long start1 = System.nanoTime();
-        for (int i = 1; i <= 100; i++) {
-            db.rooms.queryRoom(i);
-        }
-        long time1 = System.nanoTime() - start1;
-        System.out.println("Query time: " + time1/1000000000);
 
         long start2 = System.nanoTime();
         for (int i = 1; i <= 100; i++) {
-            db.rooms.foundRoom("50");
+            db.rooms.queryRoom(i);
         }
         long time2 = System.nanoTime() - start2;
-        System.out.println("foundRoom(50) time: " + time2/1000000000);
+        System.out.println("Query time: " + time2/100/1000000 + " millis");
+        System.out.println("Sum: " + time2/1000000000);
 
         long start3 = System.nanoTime();
         for (int i = 1; i <= 100; i++) {
-            db.rooms.foundRoom("100");
+            db.rooms.foundRoom("50");
         }
         long time3 = System.nanoTime() - start3;
-        System.out.println("foundRoom(100) time: " + time3/1000000000);
+        System.out.println("foundRoom(50) time: " + time3/100/1000000 + " millis");
+        System.out.println("Sum: " + time3/1000000000);
+
+        long start4 = System.nanoTime();
+        for (int i = 1; i <= 100; i++) {
+            db.rooms.foundRoom("100");
+        }
+        long time4 = System.nanoTime() - start4;
+        System.out.println("foundRoom(100) time: " + time4/100/1000000 + " millis");
+        System.out.println("Sum: " + time4/1000000000);
     }
 
     @Test

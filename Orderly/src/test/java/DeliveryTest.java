@@ -19,11 +19,7 @@ public class DeliveryTest {
     @Before
     public void setUp() throws SQLException {
         assert connection != null;
-        db.rooms.truncate();
-        db.products.truncate();
-        db.balance.truncate();
-        db.shipments.truncate();
-        db.deliveries.truncate();
+        db.truncateAll();
 
         hubController.createTestData();
         delivery = new Delivery(1, connection);

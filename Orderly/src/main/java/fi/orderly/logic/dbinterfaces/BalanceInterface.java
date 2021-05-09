@@ -173,11 +173,28 @@ public class BalanceInterface {
 
     public void truncate() {
         try {
-            PreparedStatement sql = connection.prepareStatement("TRUNCATE TABLE balance;");
-            sql.execute();
-            sql.close();
+            PreparedStatement a = connection.prepareStatement("BEGIN;");
+            PreparedStatement b = connection.prepareStatement("SET FOREIGN_KEY_CHECKS = 0;");
+            PreparedStatement c = connection.prepareStatement("TRUNCATE TABLE balance;");
+            PreparedStatement d = connection.prepareStatement("SET FOREIGN_KEY_CHECKS = 1;");
+            PreparedStatement e = connection.prepareStatement("COMMIT;");
+            a.execute();
+            b.execute();
+            c.executeUpdate();
+            d.execute();
+            e.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void deleteAll() {
+        try {
+            String delete = "DELETE FROM balance";
+            PreparedStatement sql = connection.prepareStatement(delete);
+            sql.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Didn't delete rows in balance");
         }
     }
 }

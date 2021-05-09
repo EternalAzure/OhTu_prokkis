@@ -19,13 +19,7 @@ public class ShipmentInterfaceTest {
     @Before
     public void setUp() throws SQLException {
         assert connection != null;
-        PreparedStatement sql1 = connection.prepareStatement("TRUNCATE TABLE products");
-        PreparedStatement sql2 = connection.prepareStatement("TRUNCATE TABLE rooms");
-        PreparedStatement sql3 = connection.prepareStatement("TRUNCATE TABLE shipments");
-
-        sql1.executeUpdate();
-        sql2.executeUpdate();
-        sql3.executeUpdate();
+        db.truncateAll();
 
         Statement statement = connection.createStatement();
         statement.executeUpdate("INSERT INTO rooms (room) VALUES ('Room 1')");

@@ -19,11 +19,7 @@ public class ProductsInterfaceTest {
     @Before
     public void setUp() throws SQLException {
         assert connection != null;
-        PreparedStatement sql1 = connection.prepareStatement("TRUNCATE TABLE products");
-        PreparedStatement sql2 = connection.prepareStatement("TRUNCATE TABLE rooms");
-
-        sql1.executeUpdate();
-        sql2.executeUpdate();
+        db.truncateAll();
 
         String insertRooms = "INSERT INTO rooms (room) VALUES ('Room 1')";
         String insertProducts = "INSERT INTO products (product, code, unit, room_id) VALUES ('Nauris', '1000', 'KG', 1)";
@@ -55,6 +51,26 @@ public class ProductsInterfaceTest {
         db.products.insertProduct("Kaali", 1000, "KG", 1);
         db.products.deleteProduct(1000);
         assertEquals(0, db.products.size());
+
+        //Test ON DELETE CASCADE
+        db.truncateAll();
+        db.rooms.insertRoom("Room 1");
+        db.rooms.insertRoom("Room 2");
+        db.products.insertProduct("Kaali", 1000, "KG", 1);
+        db.products.insertProduct("Porkkana", 2000, "KG", 1);
+        db.products.insertProduct("Peruna", 3000, "KG", 2);
+        db.balance.insertBalance(1, 1, 1, 1);
+        db.balance.insertBalance(1, 2, 1, 1);
+        db.balance.insertBalance(2, 3, 1, 1);
+
+        db.products.deleteProduct(1000);
+        db.products.deleteProduct(3000);
+        //Rooms don't disappear
+        assertEquals(2, db.rooms.size());
+        //Products were indeed deleted
+        assertEquals(1, db.products.size());
+        //Did cascade
+        assertEquals(1, db.balance.size());
     }
 
     @Test
