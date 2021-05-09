@@ -58,4 +58,6 @@ Ajat eivät sisällä laskareita.
 | 6.5         | 1.6         |Workspaces luokan ehostusta|
 | 7.5         | 0.16        |Checkstyle korjauksia|
 | 8.5         | 4.3         |Terminaalissa sql komennot kestävät millisekunteja. Ohjelman kautta ne vievät sekunnin. En vieläkään ymmärrä|
-| yht.        | 126.7       |
+| 9.5         | 1           |Tietokannassa oli viittauksia taulujen kesken. Nyt ne on muutettu oikeaoppisesti Foreign key mallisiksi.|
+| 9.5         | 2           |Aiheuttaa ongelmia ihan kaikkialla. Kaikki palaa ja pidän listaa ongelmista. Uusi tietokantaan liittymättömiä ongelmia nousee esiin|
+| yht.        | 129.7       |
