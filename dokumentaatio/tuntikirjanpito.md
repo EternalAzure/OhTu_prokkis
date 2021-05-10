@@ -66,4 +66,5 @@ Ajat eivät sisällä laskareita.
 | 10.5        | 0.0         |Okei Jacoco toimii jos käyttää 1.8 pom.xml:ssä mutta eikö se ole java? Mallisovellus käyttää 1.8 joten sillä mennään|
 | 10.5        | 0.5         |Lisäsin HubController testikattavuutta|
 | 10.5        | 0.5         |Kertasin *.tables.* luokkien toiminnan ja suhteen. Luin PropertyValueFactory:n Java dokumentaation. Jätin kommentin koodiin|
-| yht.        | 134.7       |
+| 10.5        | 0.3         |Lisäsin testit viidelle dao luokalle|
+| yht.        | 135       |
