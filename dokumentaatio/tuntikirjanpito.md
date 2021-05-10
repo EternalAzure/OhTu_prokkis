@@ -65,4 +65,5 @@ Ajat eivät sisällä laskareita.
 | 10.5        | 1           |Jacoco ei ole toiminut moneen päivään. Compiler source ja target versiot olivat väärät. En tiedä miksi tai miten. Ratkaisin?|
 | 10.5        | 0.0         |Okei Jacoco toimii jos käyttää 1.8 pom.xml:ssä mutta eikö se ole java? Mallisovellus käyttää 1.8 joten sillä mennään|
 | 10.5        | 0.5         |Lisäsin HubController testikattavuutta|
-| yht.        | 134.2       |
+| 10.5        | 0.5         |Kertasin *.tables.* luokkien toiminnan ja suhteen. Luin PropertyValueFactory:n Java dokumentaation. Jätin kommentin koodiin|
+| yht.        | 134.7       |
