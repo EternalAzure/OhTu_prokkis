@@ -63,4 +63,5 @@ Ajat eivät sisällä laskareita.
 | 9.5         | 3           |Lisäsin testikattavuutta DataAccess luokalle. Tuhlasin aikaa muuttamalla truncate käskyt deleteiksi ja takaisin|
 | 10.5        | 0.6         |Testit testaa ON DELETE CASCADE ja toimii. |
 | 10.5        | 1           |Jacoco ei ole toiminut moneen päivään. Compiler source ja target versiot olivat väärät. En tiedä miksi tai miten. Ratkaisin?|
+| 10.5        | 0           |Okei Jacoco toimii jos käyttää 1.8 pom.xml:ssä mutta eikö se ole java? Mallisovellus käyttää 1.8 joten sillä mennään|
 | yht.        | 133.7       |
