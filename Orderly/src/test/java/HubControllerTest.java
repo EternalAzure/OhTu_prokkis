@@ -480,5 +480,64 @@ public class HubControllerTest {
         assertEquals(30, db.rooms.size());
     }
 
+    @Test
+    public void truncateAll() throws SQLException {
+        db.rooms.insertRoom("Room 1");
+        db.rooms.insertRoom("Room 2");
+        db.products.insertProduct("Etiketti", 9000, "KPL", 1);
+        db.products.insertProduct("Kaali", 1000, "KG", 1);
+        db.products.insertProduct("Porkkana", 2000, "KG", 1);
+        db.products.insertProduct("Peruna", 3000, "KG", 2);
+        db.balance.insertBalance(1, 1, 1, 1);
+        db.balance.insertBalance(2, 2, 2, 2);
+        db.balance.insertBalance(2, 3, 3, 3);
+        db.shipments.insertShipment(1, 1, 1, 1);
+        db.shipments.insertShipment(2, 2, 2, 2);
+        db.shipments.insertShipment(3, 3, 3, 3);
+        db.deliveries.insertDelivery(1, 1, 1);
+        db.deliveries.insertDelivery(2, 2, 2);
+        db.deliveries.insertDelivery(3, 3, 3);
+
+        assertEquals(2, db.rooms.size());
+        assertEquals(4, db.products.size());
+        assertEquals(3, db.balance.size());
+        assertEquals(3, db.shipments.size());
+        assertEquals(3, db.deliveries.size());
+
+        //TEST
+        db.truncateAll();
+        assertEquals(0, db.rooms.size());
+        assertEquals(0, db.products.size());
+        assertEquals(0, db.balance.size());
+        assertEquals(0, db.shipments.size());
+        assertEquals(0, db.deliveries.size());
+
+        //id starts at zero again
+        db.rooms.insertRoom("Room");
+        assertEquals(1, db.rooms.findIdByName("Room"));
+        db.products.insertProduct("Kaali", 1000, "KG", 1);
+        assertEquals(1, db.products.findIdByCode(1000));
+        db.balance.insertBalance(1, 1, 1, 1);
+        String balance = "SELECT id FROM balance LIMIT 1";
+        PreparedStatement sql1 = connection.prepareStatement(balance);
+        ResultSet r1 = sql1.executeQuery();
+        r1.next();
+        assertEquals(1, r1.getInt(1));
+        //Shipments
+        db.shipments.insertShipment(1, 1, 1, 1);
+        String shipment = "SELECT id FROM shipments LIMIT 1";
+        PreparedStatement sql2 = connection.prepareStatement(shipment);
+        ResultSet r2 = sql2.executeQuery();
+        r2.next();
+        assertEquals(1, r2.getInt(1));
+        //Deliveries
+        db.deliveries.insertDelivery(1, 1, 1);
+        String delivery = "SELECT id FROM deliveries LIMIT 1";
+        PreparedStatement sql3 = connection.prepareStatement(delivery);
+        ResultSet r3 = sql3.executeQuery();
+        r3.next();
+        assertEquals(1, r3.getInt(1));
+    }
+
 }
 

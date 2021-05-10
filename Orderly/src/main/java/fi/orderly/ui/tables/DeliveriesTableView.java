@@ -5,7 +5,7 @@ import fi.orderly.dao.tables.ITable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class DeliveriesTableView extends TableViewInfiniteScrolling{
+public class DeliveriesTableView extends TableViewInfiniteScrolling {
 
     @Override
     void addItems() {
@@ -21,6 +21,19 @@ public class DeliveriesTableView extends TableViewInfiniteScrolling{
             items.add(s);
         }
     }
+
+    /**
+     * PropertyValueFactory() is convenience implementation of Callback interface,
+     * designed specifically for use within the TableColumn cell value factory.
+     * In this case 'deliveryNumber' string is used as a reference to an assumed
+     * deliveryNumberProperty() method in the ITable interface type
+     * (which is the interface type of the TableView items list. Defined in
+     * TableViewInfiniteScrolling parent class).
+     * deliveryNumberProperty() is found in dao.tables.DeliveriesTable.
+     *
+     * This implementation is found in all *.tables.* classes
+     * Author: EternalAzure 10.5.2021
+     */
 
     @Override
     void setUp() {

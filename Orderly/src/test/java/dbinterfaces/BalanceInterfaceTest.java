@@ -94,4 +94,9 @@ public class BalanceInterfaceTest {
         assertFalse(db.balance.foundBalance(1, 1, 2));
     }
 
+    @Test
+    public void foundProduct() throws SQLException {
+
+    }
+
 }

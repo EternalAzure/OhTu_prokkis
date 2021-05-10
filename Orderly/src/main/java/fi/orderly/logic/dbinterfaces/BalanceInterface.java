@@ -85,50 +85,6 @@ public class BalanceInterface {
         return result;
     }
 
-    public boolean foundProduct(int productId) throws SQLException {
-        String query = "SELECT COUNT(*) FROM balance WHERE product_id=?";
-        PreparedStatement sql = connection.prepareStatement(query);
-        sql.setInt(1, productId);
-        ResultSet resultSet = sql.executeQuery();
-        resultSet.next();
-        boolean result = resultSet.getInt("COUNT(*)") > 0;
-        resultSet.close();
-        return result;
-    }
-
-    public int numberOfRoom(int roomId) throws SQLException {
-        String query = "SELECT COUNT(*) FROM balance WHERE room_id=?";
-        PreparedStatement sql = connection.prepareStatement(query);
-        sql.setInt(1, roomId);
-        ResultSet resultSet = sql.executeQuery();
-        resultSet.next();
-        int result = resultSet.getInt("COUNT(*)");
-        resultSet.close();
-        return result;
-    }
-
-    public int numberOfProduct(int productId) throws SQLException {
-        String query = "SELECT COUNT(*) FROM balance WHERE product_id=?";
-        PreparedStatement sql = connection.prepareStatement(query);
-        sql.setInt(1, productId);
-        ResultSet resultSet = sql.executeQuery();
-        resultSet.next();
-        int result = resultSet.getInt("COUNT(*)");
-        resultSet.close();
-        return result;
-    }
-
-    public int numberOfBatch(int batch) throws SQLException {
-        String query = "SELECT COUNT(*) FROM balance WHERE batch=?";
-        PreparedStatement sql = connection.prepareStatement(query);
-        sql.setInt(1, batch);
-        ResultSet resultSet = sql.executeQuery();
-        resultSet.next();
-        int result = resultSet.getInt("COUNT(*)");
-        resultSet.close();
-        return result;
-    }
-
     public int numberOfZero() {
         ResultSet resultSet = null;
         try {

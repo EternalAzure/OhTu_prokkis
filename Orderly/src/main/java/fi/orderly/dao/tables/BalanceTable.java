@@ -87,9 +87,6 @@ public class BalanceTable implements ITable {
     public void setProductAmount(String value) {
         productAmountProperty().set(value);
     }
-    public String getProductAmount() {
-        return productAmountProperty().get();
-    }
     public StringProperty productAmountProperty() {
         if (productAmount == null) {
             productAmount = new SimpleStringProperty(this, "0");
