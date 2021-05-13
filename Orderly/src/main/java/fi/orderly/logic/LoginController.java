@@ -1,7 +1,5 @@
 package fi.orderly.logic;
 
-import fi.orderly.ui.AlertWindow;
-import fi.orderly.ui.ConfirmWindow;
 import fi.orderly.ui.Hub;
 import fi.orderly.ui.Login;
 import javafx.application.Platform;
