@@ -90,6 +90,12 @@ $ mvn clean
 ```
 IDE kannattaa myös sulkea eikä jättää päälle yöksi.
 
+### JavaDoc
+Dokumentaation luominen
+```
+$ mvn javadoc:javadoc
+```
+
 ### Uusimmat julkaisut
 
 [Linux](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/viikko5)
