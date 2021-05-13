@@ -5,6 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Sisältää SQL komentoja. Metodit, jotka ottavat parametreja eivät käsittele virheitä.
+ * Käsittelee taulua deliveries.
+ */
 public class DeliveriesInterface {
 
     Connection connection;
@@ -12,6 +16,13 @@ public class DeliveriesInterface {
         this.connection = connection;
     }
 
+    /**
+     * Yrittää lisätä tauluun rivin.
+     * @param number toimitusnumero
+     * @param productId tuotteen id (vierasavain)
+     * @param amount määrä
+     * @throws SQLException annettu parametri on virheellinen
+     */
     public void insertDelivery(int number, int productId, double amount) throws SQLException {
         String insert = "INSERT INTO deliveries (number, product_id, amount) VALUES (?, ?, ?)";
         PreparedStatement sql = connection.prepareStatement(insert);
@@ -21,6 +32,11 @@ public class DeliveriesInterface {
         sql.executeUpdate();
     }
 
+    /**
+     * Yrittää poistaa taulusta rivin.
+     * @param number toimitusnumero
+     * @throws SQLException annettu parametri on virheellinen
+     */
     public void deleteDelivery(int number) throws SQLException {
         String delete = "DELETE FROM deliveries WHERE number=?";
         PreparedStatement sql = connection.prepareStatement(delete);
@@ -28,6 +44,13 @@ public class DeliveriesInterface {
         sql.executeUpdate();
     }
 
+    /**
+     * Yrittää kysellä löytyykö taulusta rivi.
+     * @param number toimitusnumero
+     * @param productId tuotteen id (vierasavain)
+     * @return löytyikö rivi
+     * @throws SQLException annettu parametri on virheellinen
+     */
     public boolean foundDelivery(int number, int productId) throws SQLException {
         String query = "SELECT COUNT(*) FROM deliveries WHERE number=? AND product_id=?";
         PreparedStatement sql = connection.prepareStatement(query);
@@ -38,6 +61,12 @@ public class DeliveriesInterface {
         return resultSet.getInt("COUNT(*)") > 0;
     }
 
+    /**
+     * Yrittää kysellä löytyykö taulusta toimitusnumero.
+     * @param number toimitusnumero
+     * @return löytyikö toimitusnumero
+     * @throws SQLException annettu parametri on virheellinen
+     */
     public boolean foundDelivery(int number) throws SQLException {
         String query = "SELECT COUNT(*) FROM deliveries WHERE number=?";
         PreparedStatement sql = connection.prepareStatement(query);
@@ -47,6 +76,13 @@ public class DeliveriesInterface {
         return resultSet.getInt("COUNT(*)") > 0;
     }
 
+    /**
+     * Yrittää kysellä rivien lukumäärää annetulla toimitusnumerolla.
+     * Käytetään vain yksikkötestauksessa. Muuten käytössä foundDelivery().
+     * @param number toimitusnumero
+     * @return lukumäärä
+     * @throws SQLException annettu parametri on virheellinen
+     */
     public int numberOfDeliveries(int number) throws SQLException {
         String query = "SELECT COUNT(*) FROM deliveries WHERE number=?";
         PreparedStatement sql = connection.prepareStatement(query);
@@ -56,14 +92,10 @@ public class DeliveriesInterface {
         return resultSet.getInt("COUNT(*)");
     }
 
-    public ResultSet queryDelivery(int deliveryNumber) throws SQLException {
-        String select = "SELECT product_id, amount FROM deliveries WHERE number=?";
-        PreparedStatement sql = connection.prepareStatement(select);
-        sql.setInt(1, deliveryNumber);
-        ResultSet resultSet = sql.executeQuery();
-        return resultSet;
-    }
-
+    /**
+     * Palauttaa taulun rivien lukumäärän.
+     * @return lukumäärä
+     */
     public int size() {
         try {
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM deliveries");

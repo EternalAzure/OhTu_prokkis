@@ -16,7 +16,6 @@ import java.sql.SQLException;
 public class ShipmentWorkspace {
 
     Connection connection;
-    Utils utils;
     DatabaseAccess db;
     HubController hubController;
     private Shipment shipment;
@@ -26,12 +25,17 @@ public class ShipmentWorkspace {
 
     public ShipmentWorkspace(Connection connection) {
         this.connection = connection;
-        utils = new Utils(connection);
         db = new DatabaseAccess(connection);
         hubController = new HubController(connection);
         errorMessage.setId("error");
     }
 
+    /**
+     * Rakentaa ja palauttaa työtilan, joka on taulukko vastaanotettavasta toimituksesta.
+     * @param shipmentNumber toimitusnumero
+     * @param applyButton nappi
+     * @return taulukko vastaanotettavasta toimituksesta
+     */
     public VBox getShipmentWorkspace(String shipmentNumber, Button applyButton){
         if (!validateInput(shipmentNumber).isEmpty()) return null;
 

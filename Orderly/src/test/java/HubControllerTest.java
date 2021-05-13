@@ -451,7 +451,6 @@ public class HubControllerTest {
 
         //ACTUAL TEST
         hubController.sendDelivery(delivery);
-        System.out.println(db.deliveries.numberOfDeliveries(1));
         assertEquals(0, db.deliveries.numberOfDeliveries(1));
         assertEquals(5, db.balance.numberOfZero());
     }

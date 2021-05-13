@@ -4,10 +4,9 @@ import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import java.sql.*;
 
 /**
- * This class tells what products are arriving to the facility and
- * what batch they are and how much of them should be expected.
- * This data will be shown graphically in Receive shipment workspace
- * where it might be altered before registering shipment.
+ * Luokka sisältää DataPackage[] taulun, jossa jokainen DataPackage vastaa yhtä riviä käyttäjälle
+ * esitettävästä taulukosta. Lista muodostetaan luokan luomisen yhteydessä hakemalla toimitusnumeroa
+ * vastaavat rivit taulusta shipments ja hakemalla vierasavainten kautta muu oleellinen tieto.
  */
 
 public class Shipment {

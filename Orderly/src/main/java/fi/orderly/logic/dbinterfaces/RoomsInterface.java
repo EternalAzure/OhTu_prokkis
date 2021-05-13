@@ -1,7 +1,10 @@
 package fi.orderly.logic.dbinterfaces;
-
 import java.sql.*;
 
+/**
+ * Sisältää SQL komentoja. Metodit, jotka ottavat parametreja eivät käsittele virheitä.
+ * Käsittelee taulua rooms.
+ */
 public class RoomsInterface {
 
     Connection connection;
@@ -10,6 +13,12 @@ public class RoomsInterface {
         this.connection = connection;
     }
 
+    /**
+     * Yrittää lisätä tauluun rivin.
+     * @param room huoneen nimi
+     * @param temperature lämpötila
+     * @throws SQLException annettu parametri on väärä
+     */
     public void insertRoom(String room, double temperature) throws SQLException {
         String insert = "INSERT INTO rooms (room, temperature) VALUES (?, ?)";
         PreparedStatement sql = connection.prepareStatement(insert);
@@ -19,6 +28,11 @@ public class RoomsInterface {
         sql.close();
     }
 
+    /**
+     * Yrittää lisätä tauluun rivin.
+     * @param room huoneen nimi
+     * @throws SQLException annettu parametri on väärä
+     */
     public void insertRoom(String room) throws SQLException {
         String insert = "INSERT INTO rooms (room) VALUES (?)";
         PreparedStatement sql = connection.prepareStatement(insert);
@@ -27,6 +41,11 @@ public class RoomsInterface {
         sql.close();
     }
 
+    /**
+     * Yrittää poistaa taulusta rivin.
+     * @param room huoneen nimi
+     * @throws SQLException annettu parametri on väärä
+     */
     public void deleteRoom(String room) throws SQLException {
         String delete = "DELETE FROM rooms WHERE room=?";
         PreparedStatement sql = connection.prepareStatement(delete);
@@ -35,6 +54,12 @@ public class RoomsInterface {
         sql.close();
     }
 
+    /**
+     * Yrittää palauttaa nimen ja lämpötilan annetulta riviltä
+     * @param id rivi
+     * @return taulukko, jossa result[0] = nimi ja result[1] = lämpötila
+     * @throws SQLException annettu parametri on väärä
+     */
     public String[] queryRoom(int id) throws SQLException {
         String select = "SELECT room, temperature FROM rooms WHERE id=?";
         PreparedStatement sql = connection.prepareStatement(select);
@@ -53,6 +78,12 @@ public class RoomsInterface {
 
     }
 
+    /**
+     * Yrittää kysellö löytyykö huonetta.
+     * @param name huoneen rivi
+     * @return löytyikö huonetta
+     * @throws SQLException annettu parametri on väärä
+     */
     public boolean foundRoom(String name) throws SQLException {
         String query = "SELECT COUNT(*) FROM rooms WHERE room=?";
         PreparedStatement sql = connection.prepareStatement(query);
@@ -64,6 +95,12 @@ public class RoomsInterface {
         return result;
     }
 
+    /**
+     * Yrittää palauttaa id annetulla nimellä
+     * @param room huoneen nimi
+     * @return id
+     * @throws SQLException annettu parametri on väärä
+     */
     public int findIdByName(String room) throws SQLException {
         String select = "SELECT id FROM rooms WHERE room=?";
         PreparedStatement sql = connection.prepareStatement(select);
@@ -75,6 +112,10 @@ public class RoomsInterface {
         return result;
     }
 
+    /**
+     * Palauttaa taulun rivien lukumäärän.
+     * @return lukumäärä
+     */
     public int size() {
         try {
             PreparedStatement sql = connection.prepareStatement("SELECT COUNT(*) FROM rooms");
@@ -89,6 +130,9 @@ public class RoomsInterface {
         return 0;
     }
 
+    /**
+     * Tyhjentää taulun ja nollaa indeksit.
+     */
     public void truncate() {
         try {
             PreparedStatement a = connection.prepareStatement("BEGIN;");

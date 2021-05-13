@@ -12,7 +12,6 @@ import static org.junit.Assert.*;
 public class UtilsTest {
     final String database = ServerConnection.TEST_DATABASE;
     Connection connection = ServerConnection.createConnection(database);
-    Utils utils = new Utils(connection);
     DatabaseAccess db = new DatabaseAccess(connection);
     //Be sure to use test database when using methods outside of test class
 
@@ -48,7 +47,15 @@ public class UtilsTest {
 
     @Test
     public void notInt() {
-        //TODO
+        assertTrue(Utils.notInt("abc"));
+        assertTrue(Utils.notInt("a1"));
+        assertTrue(Utils.notInt("0.1"));
+        assertFalse(Utils.notInt("5"));
+
+        assertTrue(Utils.notInt(new String[] { "abc", "1.0", "#4" }));
+        assertTrue(Utils.notInt(new String[] { "5", "1.0", "4" }));
+        assertFalse(Utils.notInt(new String[] { "5" }));
+        assertFalse(Utils.notInt(new String[] { "1", "2", "3" }));
     }
 
     @Test

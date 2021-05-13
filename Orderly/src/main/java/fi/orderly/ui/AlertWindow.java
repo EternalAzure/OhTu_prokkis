@@ -11,8 +11,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Tekee saman kuin JavaFX oma Alert-luokka, mutta noudattaa sovelluksen visuaalista ilmettä.
+ */
 public class AlertWindow {
 
+    /**
+     * Luo varoitusikkunan, jossa näytetään annettu viesti.
+     * @param message viesti
+     */
     public static void display(String message) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);

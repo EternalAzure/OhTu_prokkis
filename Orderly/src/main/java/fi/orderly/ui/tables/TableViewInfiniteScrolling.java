@@ -29,7 +29,11 @@ public class TableViewInfiniteScrolling {
 
     }
 
-
+    /**
+     * Luo ikkunan, jossa näytetään jokin tietokantataulu.
+     * Jos ikkuna on jo avattu, päivittää tiedot.
+     * @param connection yhteys tietokantaan
+     */
     public void display(Connection connection) {
         this.connection = connection;
         db = new DatabaseAccess(connection);

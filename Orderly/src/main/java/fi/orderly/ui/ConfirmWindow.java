@@ -12,10 +12,18 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Tekee saman kuin JavaFX oma Alert-luokka, mutta noudattaa sovelluksen visuaalista ilmettä.
+ */
 public class ConfirmWindow {
 
     static Boolean answer;
 
+    /**
+     * Luo vahvistusikkunan, jossa näytetään annettu viesti.
+     * @param message viesti
+     * @return vahvistus
+     */
     public static boolean display(String message) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);

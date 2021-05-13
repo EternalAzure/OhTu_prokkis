@@ -1,14 +1,11 @@
 package fi.orderly.logic;
 
-import java.sql.*;
 import java.util.regex.Pattern;
 
+/**
+ * Luokka tarjoaa työkaluja syötteiden validointiin.
+ */
 public class Utils {
-
-    final private Connection connection;
-    public Utils(Connection connection) {
-        this.connection = connection;
-    }
 
     public static boolean isEmpty(String[] input) {
         for (String string: input) {
@@ -51,13 +48,6 @@ public class Utils {
             } catch (NumberFormatException e) {
                 return true;
             }
-        }
-        return false;
-    }
-    public static boolean isNumeric(String value) {
-        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-        if (pattern.matcher(value).matches()) {
-            return true;
         }
         return false;
     }

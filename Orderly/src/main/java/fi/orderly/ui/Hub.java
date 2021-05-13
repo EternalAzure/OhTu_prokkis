@@ -163,18 +163,24 @@ public class Hub  extends Application {
     }
 
 
+    /**
+     * Asettaa VBox olion workspaceParent nimisen BorderPane olion keskelle.
+     * Näin saadaan valittu työtila näkymään käyttäjälle.
+     * @param workSpaceLayout työtila
+     */
     public void setWorkSpace(VBox workSpaceLayout){
         workspaceParent.getChildren().clear();
         workspaceParent.setCenter(workSpaceLayout);
     }
 
-    public void changeDatabase(String database, String dbUrl, String user, String password) {
+    private void changeDatabase(String database, String dbUrl, String user, String password) {
         Connection c = ServerConnection.customConnection(database, dbUrl, user, password);
         workSpaces = new WorkSpaces(c);
         hubController = new HubController(c);
     }
 
-    public VBox setDatabaseWorkspace() {
+    private VBox setDatabaseWorkspace() {
+        AlertWindow.display("This is not well tested! \nBe sure to use schema at \n resources/skeema.txt");
         VBox vBox = new VBox();
         vBox.setId("workspace");
         Label note = new Label("DriverManager.getConnection(url, user, pw);");

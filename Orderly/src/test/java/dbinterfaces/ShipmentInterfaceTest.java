@@ -59,8 +59,5 @@ public class ShipmentInterfaceTest {
         assertTrue(db.shipments.foundBatch(1));
     }
 
-    @Test
-    public void countBatch() throws SQLException {
-        assertEquals(1, db.shipments.countBatch(1));
-    }
+
 }

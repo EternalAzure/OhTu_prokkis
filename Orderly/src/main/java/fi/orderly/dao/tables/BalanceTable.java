@@ -94,7 +94,6 @@ public class BalanceTable implements ITable {
         return productAmount;
     }
 
-
     private void fetchData(int id) {
         try {
             PreparedStatement sql = db.tableBalance(id);

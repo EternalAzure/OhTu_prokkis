@@ -10,12 +10,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
- * This class tells what products are leaving the facility and
- * how much of them should be collected from the shelves.
- * This data will be used in Collect Delivery -workspace where
- * collect() from this class is called. Collected items are stored
- * in Array collected. Only products in will removed from balance
- * when delivery is send in Send Delivery -workspace
+ * Luokka säilyttää tiedon siitä mitä pitää vielä kerätä ja mitä on jo kerätty.
+ * Luomisen yhteydessä haetaan tietokannasta tieto kerättävistä tuotteista
+ * toimitusnumeron perusteella.
  */
 
 public class Delivery {
@@ -36,6 +33,14 @@ public class Delivery {
         fetchRequest(deliveryNumber);
     }
 
+    /**
+     * Käytetään, kun keräilijä ottaa tuotteen hyllystä ja lisää sen lähetykseen.
+     * Poistaa tuotteen kerättävien listasta ja lisää sen kerättyjen listaan.
+     * @param code tuotteen koodi
+     * @param batch eränumero
+     * @param amount kerätty määrä
+     * @param room huoneen nimi
+     */
     public void collect(String code, String batch, String amount, String room) {
         if (validateInput(code, batch, amount, room)) {
             return;
@@ -65,7 +70,7 @@ public class Delivery {
         return (Double.parseDouble(amount) < 0);
     }
 
-    public void fetchRequest(int deliveryNumber) {
+    private void fetchRequest(int deliveryNumber) {
         try {
             collected = new DataPackage[db.deliveries.numberOfDeliveries(deliveryNumber)];
             System.out.println(db.deliveries.numberOfDeliveries(deliveryNumber));

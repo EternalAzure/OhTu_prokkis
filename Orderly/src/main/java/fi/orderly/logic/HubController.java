@@ -12,6 +12,12 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Random;
 
+/**
+ * HubController tarjoaa toiminnallisuuden Luokalle Hub.
+ * Checkstyle rajoitteiden vuoksi metodit on jaettu kolmeen osaan:
+ * Emometodi, validaatio ja toteutus. Myös lyhyet metodit toteuttavat
+ * tätä rakennetta yhdenmukaisuuden vuoksi.
+ */
 public class HubController {
 
     final private TestData testData;
@@ -38,7 +44,14 @@ public class HubController {
         Platform.exit();
     }
 
-
+    /**
+     * Lisää huoneen tauluun rooms.
+     * Kutsuu dbinterfaces.RoomsInterface.insertRoom().
+     * Validoi syötteen ja antaa palautetta käyttäjälle.
+     * @param name huoneen nimi
+     * @param temperature huoneen lämpötila
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String addRoom(String name, String temperature) {
         if (validate01(name, temperature).equals("Aborted")) {
             if (!ConfirmWindow.display("Temperature out of usual range of -22 - 22.\nWant to continue?")) {
@@ -90,6 +103,16 @@ public class HubController {
         return "";
     }
 
+    /**
+     * Lisää tuotteen tauluun products.
+     * Kutsuu dbinterfaces.ProductsInterface.insertProduct()
+     * @param product tuotteen nimi
+     * @param code tuotteen koodi
+     * @param unit mittayksikkö
+     * @param temperature tavoite lämpö
+     * @param storage oletussijainti
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String addProduct(String product, String code, String unit, String temperature, String storage) {
         if (!validate02(product, code, unit, temperature, storage).isEmpty()) {
             return validate02(product, code, unit, temperature, storage);
@@ -136,6 +159,12 @@ public class HubController {
         return "";
     }
 
+    /**
+     * Poistaa huoneen taulusta rooms.
+     * Kutsuu dbinterfaces.RoomsInterface.removeRoom().
+     * @param room huoneen nimi
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String removeRoom(String room) {
         if (!validate03(room).isEmpty()) {
             return validate03(room);
@@ -169,6 +198,12 @@ public class HubController {
         return "";
     }
 
+    /**
+     * Poistaa tuotteen taulusta products.
+     * Kutsuu dbinterfaces.ProductsInterface.removeProduct().
+     * @param product tuotteen nimi
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String removeProduct(String product) {
         if (!validate04(product).isEmpty()) {
             return validate04(product);
@@ -183,7 +218,7 @@ public class HubController {
             if (product.isEmpty()) {
                 return empty;
             }
-            if (db.products.countProductName(product) == 0) {
+            if (!db.products.foundProduct(product)) {
                 return "Product not found";
             }
         } catch (SQLException e) {
@@ -203,6 +238,16 @@ public class HubController {
         return "";
     }
 
+    /**
+     * Lisää rivin tauluun balance.
+     * Kutsuu joko dbinterfaces.BalanceInterface.insertBalance()
+     * tai dbinterfaces.BalanceInterface.updateBalance()
+     * @param room huoneen nimi, jossa muutos tapahtuu
+     * @param code tuotteen, jota muutetaan, koodi
+     * @param batch tuotteen, jota muutetaan, erä
+     * @param newBalance uusi saldo
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String changeBalance(String room, String code, String batch, String newBalance) {
         try {
             if (!validate05(room, code, batch, newBalance).isEmpty()) {
@@ -226,7 +271,7 @@ public class HubController {
         if (!db.rooms.foundRoom(room)) {
             return "Room not found";
         }
-        if (db.products.countProductCode(Integer.parseInt(code)) == 0) {
+        if (!db.products.foundProduct(Integer.parseInt(code))) {
             return "Product code not found";
         }
         if (!db.foundBatch(Integer.parseInt(batch))) {
@@ -251,6 +296,15 @@ public class HubController {
         return "";
     }
 
+    /**
+     *
+     * @param from huoneen nimi, josta siirretään
+     * @param to huoneen nimi, johon siirretään
+     * @param code tuotteen, jota siirretään, koodi
+     * @param batch tuotteen, jota siirretään, erä
+     * @param amount määrä, joka siirretään
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String transfer(String from, String to, String code, String batch, String amount) {
         try {
             if (!validate06(from, to, code, batch, amount).isEmpty()) {
@@ -279,7 +333,7 @@ public class HubController {
         if (!db.foundRooms(new String[] { from, to })) {
             return "Room/s not found";
         }
-        if (db.products.countProductCode(Integer.parseInt(code)) == 0) {
+        if (!db.products.foundProduct(Integer.parseInt(code))) {
             return "Product code not found";
         }
         if (!db.foundBatch(Integer.parseInt(batch))) {
@@ -308,6 +362,13 @@ public class HubController {
     }
 
 
+    /**
+     * Lisää rivejä tauluun balance.
+     * Iteroi toimimuksen läpi ja kutsuu changeBalance().
+     * Lopuksi poistaa toimituksen.
+     * @param shipment saapuva toimitus
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String receiveShipment(Shipment shipment) {
         for (int i = 0; i < shipment.getLength(); i++) {
             String room = shipment.getDataPackage(i).getStorageRoom();
@@ -324,6 +385,13 @@ public class HubController {
         return "Success";
     }
 
+    /**
+     * Vähentää saldoa taulusta balance rivikerrallaan.
+     * Iteroi lähetyksen läpi ja kutsuu SaldoOperation.subtractBalance().
+     * Negatiivinen saldo on sallittu.
+     * @param delivery lähtevä toimitus
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String sendDelivery(Delivery delivery) {
         try {
             for (int i = 0; i < delivery.getLength(); i++) {
@@ -341,11 +409,21 @@ public class HubController {
         return "Success";
     }
 
+    /**
+     * Luo uuden saapuvan toimituksen tauluun shipments.
+     * Kutsuu dbinterfaces.ShipmentsInterface.insertShipment().
+     * @param number toimitusnumero
+     * @param productCode vastaanotettavan tuotteen koodi
+     * @param batchNumber vastaanotettavan tuotteen erä
+     * @param expectedAmount tilattu määrä
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String newShipment(String number, String productCode, String batchNumber, String expectedAmount) {
         if (!validate07(number, productCode, batchNumber, expectedAmount).isEmpty()) {
             return validate07(number, productCode, batchNumber, expectedAmount);
         }
         //TODO limit to 15 per number
+        //tai lisää scrollbar
         try {
             int n = Integer.parseInt(number);
             int p = Integer.parseInt(productCode);
@@ -381,6 +459,14 @@ public class HubController {
         return "";
     }
 
+    /**
+     * Luo uuden lähtevän toimituksen tauluun deliveries.
+     * Kutsuu dbinterfaces.DeliveriesInterface.insertDelivery().
+     * @param number toimitusnumero
+     * @param productCode lähetettävän tuotteen koodi
+     * @param expectedAmount tilattu määrä
+     * @return viesti onnistumisesta tai epäonnistumisesta
+     */
     public String newDelivery(String number, String productCode, String expectedAmount) {
         if (!validate08(number, productCode, expectedAmount).isEmpty()) {
             return validate08(number, productCode, expectedAmount);
@@ -410,11 +496,6 @@ public class HubController {
             return decimal;
         }
         return "";
-    }
-
-    //MENUBAR SET DATABASE
-    public void setDatabase() {
-
     }
 
     // MENUBAR TRUNCATE

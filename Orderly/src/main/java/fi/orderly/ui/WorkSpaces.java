@@ -15,7 +15,6 @@ public class WorkSpaces {
 
     ShipmentWorkspace shipmentWorkspace;
     HubController hubController;
-    Utils utils;
     HashMap<Integer, Delivery> deliveries;
     DatabaseAccess db;
     Connection connection;
@@ -24,7 +23,6 @@ public class WorkSpaces {
         this.connection = connection;
         this.hubController = new HubController(connection);
          shipmentWorkspace = new ShipmentWorkspace(connection);
-         utils = new Utils(connection);
          deliveries = new HashMap<>();
          db = new DatabaseAccess(connection);
     }
@@ -208,10 +206,7 @@ public class WorkSpaces {
             }
             Button otherApply = new Button("Apply");
             VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
-            otherApply.setOnAction(event1 -> {
-
-                shipmentWorkspace.setErrorMessage(hubController.receiveShipment(shipmentWorkspace.getShipment()));
-            });
+            otherApply.setOnAction(event1 -> shipmentWorkspace.setErrorMessage(hubController.receiveShipment(shipmentWorkspace.getShipment())));
             SWSLayout.setId("workspace");
             hub.setWorkSpace(SWSLayout);
         });
