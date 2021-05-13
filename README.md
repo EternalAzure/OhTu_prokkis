@@ -83,6 +83,12 @@ Checkstyle raportin luominen
 ```
 $ mvn jxr:jxr checkstyle:checkstyle
 ```
+Jos testien ajamisessa on ongelmia, aja
+```
+$ mvn clean
+```
+IDE kannattaa myös sulkea eikä jättää päälle yöksi.
+
 ### Uusimmat julkaisut
 
 [Linux](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/viikko5)
