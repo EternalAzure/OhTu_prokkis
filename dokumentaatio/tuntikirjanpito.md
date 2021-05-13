@@ -68,4 +68,5 @@ Ajat eivät sisällä laskareita.
 | 10.5        | 0.5         |Kertasin *.tables.* luokkien toiminnan ja suhteen. Luin PropertyValueFactory:n Java dokumentaation. Jätin kommentin koodiin|
 | 10.5        | 0.3         |Lisäsin testit viidelle dao luokalle|
 | 10.5        | 3           |Vituttaa maven, vituttaa pom.xml, vituttaa jacoco, vituttaa... no siinä se oli muuten menee tosi hyvin :D|
-| yht.        | 138         |
+| 13.5        | 1.75        |Lisätty mahdollisuus vaihtaa toiseen MySQL tietokantaan. Päivitetty tietokantaskeematiedostoa|
+| yht.        | 139.75         |
