@@ -33,6 +33,8 @@ inhimmillisten virheiden minimointi. Tulee vähemmän sekaannuksia, kun kutsuu g
 
 ### Tietokannan taulut
 
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Tauluikkunat.PNG" width="800">
+
 Harmaasta valikkopalkista on valittavissa näyttää 5 eri taulua tietokannasta _warehouse_. Jokainen taulu saa oman ikkunansa, jota on mahdollista liikuttaa ja jonka kokoa on mahdollista muuttaa. Jokaisesta taulusta voi olla yhdenaikaisesti vain yksi ikkuna. </br>
 </br>
 #### Toteutus
