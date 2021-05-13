@@ -39,6 +39,7 @@ Kuvassa otetaan vastaan saapuvaa lähetystä.
 [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md) </br>
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md) </br>
 [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md) </br>
+[Tietokanta](dokumentaatio/skeema.txt)
 
 ### Ohjelman ajaminen:
 __Tapa 1: Käynnistä projektikansiosta main metodi__
