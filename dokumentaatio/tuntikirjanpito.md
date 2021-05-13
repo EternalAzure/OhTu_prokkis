@@ -70,4 +70,5 @@ Ajat eivät sisällä laskareita.
 | 10.5        | 3           |Vituttaa maven, vituttaa pom.xml, vituttaa jacoco, vituttaa... no siinä se oli muuten menee tosi hyvin :D|
 | 13.5        | 1.75        |Lisätty mahdollisuus vaihtaa toiseen MySQL tietokantaan. Päivitetty tietokantaskeematiedostoa|
 | 13.5        | 0.25        |Dokumentaation päivitys|
-| yht.        | 140         |
+| 13.5        | 4           |JavaDoc|
+| yht.        | 144         |
