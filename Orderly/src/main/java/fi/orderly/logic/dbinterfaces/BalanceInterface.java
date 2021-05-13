@@ -143,14 +143,4 @@ public class BalanceInterface {
             e.printStackTrace();
         }
     }
-
-    public void deleteAll() {
-        try {
-            String delete = "DELETE FROM balance";
-            PreparedStatement sql = connection.prepareStatement(delete);
-            sql.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Didn't delete rows in balance");
-        }
-    }
 }

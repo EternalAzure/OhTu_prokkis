@@ -77,4 +77,13 @@ public class RoomsInterfaceTest {
         assertEquals("Room 1", name);
         assertEquals("-", temperature);
     }
+
+    @Test
+    public void foundRoom() throws SQLException {
+        assertTrue(db.rooms.foundRoom("Room 1"));
+        assertFalse(db.rooms.foundRoom("Room 2"));
+
+        db.rooms.insertRoom("Room 2");
+        assertTrue(db.rooms.foundRoom("Room 2"));
+    }
 }

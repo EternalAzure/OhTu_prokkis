@@ -19,8 +19,8 @@ public class Hub  extends Application {
     final private Connection connection = ServerConnection.createConnection(ServerConnection.DATABASE);
     final private BorderPane workspaceParent = new BorderPane();
 
-    final private WorkSpaces workSpaces = new WorkSpaces(connection);
-    final private HubController hubController = new HubController(connection);
+    private WorkSpaces workSpaces = new WorkSpaces(connection);
+    private HubController hubController = new HubController(connection);
     final private TableViewInfiniteScrolling roomsView = new RoomsTableView();
     final private TableViewInfiniteScrolling productView = new ProductsTableView();
     final private TableViewInfiniteScrolling balanceView = new BalanceTableView();
@@ -74,6 +74,12 @@ public class Hub  extends Application {
         MenuItem showDeliveries = new MenuItem("Show deliveries");
         showTables.getItems().addAll(showRooms, showProducts, showBalance, showShipments, showDeliveries);
 
+        //DATABASE MENU
+        Menu databaseSettings = new Menu("Database");
+        MenuItem changeDb = new MenuItem("Change database (experimental)");
+        databaseSettings.getItems().add(changeDb);
+        changeDb.setOnAction(event -> setWorkSpace(setDatabaseWorkspace()));
+
         borderPane.setLeft(leftMenu);
         borderPane.setTop(hBox);
         borderPane.setRight(workspaceParent);
@@ -94,7 +100,7 @@ public class Hub  extends Application {
         Hyperlink newShipment = new Hyperlink("New shipment");
         Hyperlink newDelivery = new Hyperlink("New delivery");
 
-        menuBar.getMenus().addAll(testing, dataBase, showTables); //MENUBAR
+        menuBar.getMenus().addAll(testing, dataBase, showTables, databaseSettings); //MENUBAR
         leftMenu.getChildren().addAll(
                 addRoom,
                 addProduct,
@@ -160,5 +166,39 @@ public class Hub  extends Application {
     public void setWorkSpace(VBox workSpaceLayout){
         workspaceParent.getChildren().clear();
         workspaceParent.setCenter(workSpaceLayout);
+    }
+
+    public void changeDatabase(String database, String dbUrl, String user, String password) {
+        Connection c = ServerConnection.customConnection(database, dbUrl, user, password);
+        workSpaces = new WorkSpaces(c);
+        hubController = new HubController(c);
+    }
+
+    public VBox setDatabaseWorkspace() {
+        VBox vBox = new VBox();
+        vBox.setId("workspace");
+        Label note = new Label("DriverManager.getConnection(url, user, pw);");
+        note.setId("instruction");
+        Label urlNote = new Label("jdbc:mysql://<your url>");
+        urlNote.setId("instruction");
+
+        TextField url = new TextField();
+        url.setPromptText("url");
+
+        TextField user = new TextField();
+        user.setPromptText("user");
+        TextField pw = new TextField();
+        pw.setPromptText("password");
+
+        Label db = new Label("sql: USE <database>;");
+        db.setId("instruction");
+
+        TextField database = new TextField();
+        database.setPromptText("database");
+        Button apply = new Button("Apply");
+
+        vBox.getChildren().addAll(note, urlNote, url, user, pw, db, database, apply);
+        apply.setOnAction(event -> changeDatabase(database.getText(), url.getText(), user.getText(), pw.getText()));
+        return vBox;
     }
 }

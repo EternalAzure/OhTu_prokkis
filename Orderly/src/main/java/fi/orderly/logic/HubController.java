@@ -3,6 +3,7 @@ package fi.orderly.logic;
 import fi.orderly.dao.Delivery;
 import fi.orderly.dao.Shipment;
 import fi.orderly.logic.dbinterfaces.*;
+import fi.orderly.ui.ConfirmWindow;
 import fi.orderly.ui.Login;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -12,32 +13,9 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Random;
 
 public class HubController {
-    /**
-     * LISÄÄ TIETOKANTAAN DELETE ON CASCADE
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     * WCNLKEJRJortbirsNK
-     *
-     *
-     *
-     *
-     *
-     * WÖKVRNJBPKRTIÄ
-     *
-     *
-     *
-     *
-     *
-     * WKVNWLKERÄVJEB
-     */
 
     final private TestData testData;
-    final private SaldoOperations engine;
+    final private SaldoOperations calculator;
     DatabaseAccess db;
 
     String empty = "Non allowed empty values";
@@ -48,7 +26,7 @@ public class HubController {
 
     public HubController(Connection connection) {
         testData = new TestData(connection);
-        engine = new SaldoOperations(connection);
+        calculator = new SaldoOperations(connection);
         db = new DatabaseAccess(connection);
     }
 
@@ -62,9 +40,14 @@ public class HubController {
 
 
     public String addRoom(String name, String temperature) {
-        if (!validate01(name, temperature).isEmpty()) {
+        if (validate01(name, temperature).equals("Aborted")) {
+            if (!ConfirmWindow.display("Temperature out of usual range of -22 - 22.\nWant to continue?")) {
+                return "Aborted";
+            }
+        } else if (!validate01(name, temperature).isEmpty()) {
             return validate01(name, temperature);
         }
+
         if (!execute01(name, temperature).isEmpty()) {
             return execute01(name, temperature);
         }
@@ -74,12 +57,16 @@ public class HubController {
         try {
             if (name.isEmpty()) {
                 return empty;
-            }
-            if (db.rooms.countRoom(name) > 0) {
+            } else if (db.rooms.foundRoom(name)) {
                 return duplicate;
+            } else if (temperature.isEmpty()) {
+                return "";
             }
-            if (Utils.notDouble(temperature) && !temperature.isEmpty()) {
+
+            if (Utils.notDouble(temperature)) {
                 return "Temperature has to be \neither empty or decimal";
+            } else if (Double.parseDouble(temperature) > 22 || Double.parseDouble(temperature) < -22) {
+                return "Aborted";
             }
         } catch (SQLException e) {
             return sqlError;
@@ -123,12 +110,12 @@ public class HubController {
             return decimal;
         }
         try {
-            if (db.rooms.countRoom(storage) == 0) {
+            if (!db.rooms.foundRoom(storage)) {
                 return "Room not found";
             }
-        } catch (NumberFormatException n) {
-            return "Temperature has to be \neither empty or decimal";
-        } catch (SQLException e) { }
+        } catch (SQLException e) {
+            return sqlError;
+        }
         return "";
     }
     private String execute02(String product, String code, String unit, String storage, String temperature) {
@@ -141,10 +128,10 @@ public class HubController {
                 db.products.insertProduct(product, c, unit, Double.parseDouble(temperature), roomId);
             }
         } catch (SQLIntegrityConstraintViolationException e) {
-            return "Would result in duplicate";
+            return duplicate;
         } catch (SQLException e) {
             e.printStackTrace();
-            return "SQLException. \nContact your service provider";
+            return sqlError;
         }
         return "";
     }
@@ -163,7 +150,7 @@ public class HubController {
             if (room.isEmpty()) {
                 return empty;
             }
-            if (db.rooms.countRoom(room) == 0) {
+            if (!db.rooms.foundRoom(room)) {
                 return "Room not found";
             }
         } catch (SQLException e) {
@@ -236,7 +223,7 @@ public class HubController {
         if (Utils.notInt(new String[] { code, batch })) {
             return integer;
         }
-        if (db.rooms.countRoom(room) == 0) {
+        if (!db.rooms.foundRoom(room)) {
             return "Room not found";
         }
         if (db.products.countProductCode(Integer.parseInt(code)) == 0) {
@@ -344,7 +331,7 @@ public class HubController {
                 int batch = delivery.getDataPackage(i).getBatch();
                 double amount = delivery.getDataPackage(i).getAmount();
                 String room = delivery.getDataPackage(i).getFrom();
-                engine.subractBalance(room, code, batch, amount);
+                calculator.subtractBalance(room, code, batch, amount);
             }
             db.deliveries.deleteDelivery(delivery.getDeliveryNumber());
         } catch (SQLException e) {
@@ -403,7 +390,6 @@ public class HubController {
             int p = Integer.parseInt(productCode);
             int id = db.products.findIdByCode(p);
             double a = Double.parseDouble(expectedAmount);
-            boolean b = db.deliveries.foundDelivery(n, id);
             if (db.deliveries.foundDelivery(n, id)) {
                 return duplicate;
             }
@@ -426,7 +412,10 @@ public class HubController {
         return "";
     }
 
+    //MENUBAR SET DATABASE
+    public void setDatabase() {
 
+    }
 
     // MENUBAR TRUNCATE
     public void truncateRooms() {

@@ -89,15 +89,6 @@ public class ProductsInterface {
         return resultSet.getInt("code");
     }
 
-    public ResultSet queryProduct(int id) throws SQLException {
-        String query = "SELECT * FROM products WHERE id=?";
-        PreparedStatement sql = connection.prepareStatement(query);
-        sql.setInt(1, id);
-        ResultSet resultSet = sql.executeQuery();
-        resultSet.next();
-        return resultSet;
-    }
-
     public int countProductName(String name) throws SQLException {
         String query = "SELECT COUNT(*) FROM products WHERE product=?";
         PreparedStatement sql = connection.prepareStatement(query);
@@ -144,16 +135,6 @@ public class ProductsInterface {
             f.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void deleteAll() {
-        try {
-            String delete = "DELETE FROM products";
-            PreparedStatement sql = connection.prepareStatement(delete);
-            sql.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Didn't delete rows in products");
         }
     }
 }

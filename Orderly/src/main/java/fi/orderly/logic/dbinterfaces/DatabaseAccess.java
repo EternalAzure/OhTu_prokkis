@@ -79,7 +79,7 @@ public class DatabaseAccess {
 
     public boolean foundRooms(String[] list) throws SQLException {
         for (String room: list) {
-            if (rooms.countRoom(room) == 0) {
+            if (!rooms.foundRoom(room)) {
                 return false;
             }
         }

@@ -26,4 +26,21 @@ public class ServerConnection {
         }
         return null;
     }
+
+    public static Connection customConnection(String database, String dbUrl, String user, String password) {
+        String driver = "jdbc:mysql://";
+        String url = driver + dbUrl;
+        try {
+            Connection connection = DriverManager.getConnection(url, user, password);
+            Statement statement = connection.createStatement();
+            statement.execute("USE " + database);
+            System.out.println("Connection created");
+            return connection;
+
+        } catch (SQLException exception) {
+            AlertWindow.display("Could not establish connection\n" +
+                    "to SQL database.");
+        }
+        return null;
+    }
 }

@@ -5,7 +5,6 @@ import fi.orderly.ui.ConfirmWindow;
 import fi.orderly.ui.Hub;
 import fi.orderly.ui.Login;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import java.sql.*;
 
@@ -20,20 +19,18 @@ public class LoginController {
 
     public void login(String username, String password) {
         try {
-            PreparedStatement sql = connection.prepareStatement("SELECT name, password, role FROM users WHERE name=?");
+            PreparedStatement sql = connection.prepareStatement("SELECT password FROM users WHERE BINARY name=?");
             sql.setString(1, username);
             ResultSet resultSet = sql.executeQuery();
             resultSet.next();
-            String name = resultSet.getString("name");
             String pw = resultSet.getString("password");
-            String role = resultSet.getString("role"); //waits to be implemented
 
             if (pw.equals(password)) {
                 hub.start(new Stage());
                 Login.window.close();
             }
         } catch (SQLException e) {
-            System.out.println("Empty credentials");
+            //ignore
         }
     }
 

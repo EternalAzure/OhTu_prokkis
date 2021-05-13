@@ -1,6 +1,5 @@
 package fi.orderly.dao.tables;
 
-import fi.orderly.logic.Utils;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

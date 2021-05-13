@@ -19,6 +19,15 @@
     -fx-max-width: 400px;
     -fx-pref-height: 50px;
     -fx-font-size: 20px;
+    -fx-alignment: center;
+}
+#instruction{
+    -fx-max-width: 400px;
+    -fx-pref-height: 50px;
+    -fx-font-size: 15px;
+    -fx-background-color: LightGrey;
+    -fx-font-family: Consolas;
+    -fx-alignment: center;
 }
 .button{
     -fx-max-width: 80px;
