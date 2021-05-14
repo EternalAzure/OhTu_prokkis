@@ -1,10 +1,13 @@
 package fi.orderly.ui;
 import fi.orderly.dao.Delivery;
+import fi.orderly.dao.Shipment;
 import fi.orderly.logic.Utils;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import fi.orderly.logic.HubController;
 import java.sql.Connection;
@@ -199,19 +202,66 @@ public class WorkSpaces {
 
         vBox.getChildren().addAll(shipmentNumber, apply, message);
         apply.setOnAction(event -> {
-            String validationMessage = shipmentWorkspace.validateInput(shipmentNumber.getText());
-            if (!validationMessage.isEmpty()) {
-                message.setText(validationMessage);
+            //Set new workspace OR give error message
+            int number = 0;
+            try {
+                number = Integer.parseInt(shipmentNumber.getText());
+            } catch (NumberFormatException e) {
+                message.setText("Input needs to be integer");
                 return;
             }
-            Button otherApply = new Button("Apply");
-            VBox SWSLayout = shipmentWorkspace.getShipmentWorkspace(shipmentNumber.getText(), otherApply);
-            otherApply.setOnAction(event1 -> shipmentWorkspace.setErrorMessage(hubController.receiveShipment(shipmentWorkspace.getShipment())));
-            SWSLayout.setId("workspace");
-            hub.setWorkSpace(SWSLayout);
+            ScrollPane workspace = receiveWorkspace2(number);
+            if (workspace == null) {
+                message.setText("Shipment was not found");
+                return;
+            }
+            hub.setWorkSpace(workspace);
         });
 
         return vBox;
+    }
+    public ScrollPane receiveWorkspace2(int shipmentNumber) {
+        //1. Validate
+        try {
+            if (!db.shipments.foundShipment(shipmentNumber)) return null;
+        } catch (SQLException e) {
+            //ignore
+        }
+
+        //2. Start building table (VBox layout)
+        VBox layout = new VBox();
+        layout.setId("workspace");
+        HBox header = new HBox(new Label("Name"),
+                new Label("Code"),
+                new Label("Batch"),
+                new Label("Amount"),
+                new Label("Unit"),
+                new Label("Room"));
+        for (Node node: header.getChildren()
+        ) {
+            node.setId("small-field");
+        }
+        layout.getChildren().add(header);
+        header.setPrefWidth(400);
+        header.setId("header");
+
+        //3. Fetch data
+        Shipment shipment = new Shipment(shipmentNumber, connection);
+
+        //4. Set data as content row by row
+        for (int i = 0; i < shipment.getLength(); i++) {
+            HBox tableRow = shipmentWorkspace.addRow(shipment.getDataPackage(i));
+            layout.getChildren().add(tableRow);
+        }
+
+        //4. Finish up building table (VBox layout)
+        Button apply = new Button("Apply");
+        Label message = new Label();
+        layout.getChildren().addAll(apply, message);
+
+        //5. Set button onAction
+        apply.setOnAction(event -> message.setText(hubController.receiveShipment(shipment)));
+        return new ScrollPane(layout);
     }
 
     public VBox collectDeliveryWorkspace1(Hub hub) {
@@ -246,10 +296,8 @@ public class WorkSpaces {
     private VBox collectDeliveryWorkspace2(int deliveryNumber) {
         Delivery delivery;
         if (deliveries.containsKey(deliveryNumber)) {
-            System.out.println("Had key");
             delivery = deliveries.get(deliveryNumber);
         } else {
-            System.out.println("Hadn't key");
             delivery = new Delivery(deliveryNumber, connection);
         }
 

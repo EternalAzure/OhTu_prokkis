@@ -6,6 +6,7 @@ import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -68,7 +69,7 @@ public class ShipmentWorkspace {
         return vBox;
     }
 
-    private HBox addRow(Shipment.DataPackage data){
+    public HBox addRow(Shipment.DataPackage data){
         HBox row = new HBox();
         Label productName = new Label(data.getName());
         Label productCode = new Label(data.getCode());
@@ -95,8 +96,7 @@ public class ShipmentWorkspace {
     public String validateInput(String input){
         try {
             if (input.isEmpty() || Utils.notInt(input)) return "Input needs to be integer";
-            int deliverySize = db.shipments.numberOfShipment(Integer.parseInt(input));
-            if (deliverySize == 0) return "No shipments found";
+            if (!db.shipments.foundShipment(Integer.parseInt(input))) return "No shipments found";
         } catch (SQLException e) {
             e.printStackTrace();
         }

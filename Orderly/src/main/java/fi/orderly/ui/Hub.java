@@ -168,10 +168,16 @@ public class Hub  extends Application {
      * Näin saadaan valittu työtila näkymään käyttäjälle.
      * @param workSpaceLayout työtila
      */
-    public void setWorkSpace(VBox workSpaceLayout){
+    public void setWorkSpace(VBox workSpaceLayout) {
         workspaceParent.getChildren().clear();
         workspaceParent.setCenter(workSpaceLayout);
     }
+    public void setWorkSpace(ScrollPane workSpaceLayout) {
+        workspaceParent.getChildren().clear();
+        workspaceParent.setCenter(workSpaceLayout);
+    }
+
+
 
     private void changeDatabase(String database, String dbUrl, String user, String password) {
         Connection c = ServerConnection.customConnection(database, dbUrl, user, password);
