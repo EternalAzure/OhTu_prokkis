@@ -23,8 +23,6 @@ public class Login extends Application {
     public void start(Stage loginWindow){
         window = loginWindow;
         window.getIcons().add(new Image("Orderly_icon_bw.png"));
-        //Code below may come handy. It does same as above but when app is run as .jar (Maybe)
-        //window.getIcons().add(new Image(Login.class.getResourceAsStream("ORDERLY_Logo_fix.png")));
         window.setResizable(false);
         window.setTitle("Orderly");
         window.initStyle(StageStyle.UNDECORATED);
@@ -85,7 +83,7 @@ public class Login extends Application {
         //endregion
 
         //Actions
-        login.setOnAction(event -> loginCont.login(username.getText(), password.getText())); //passwordlessLogin()
+        login.setOnAction(event -> loginCont.passwordlessLogin()); //login(username.getText(), password.getText())
         exit.setOnAction(event -> loginCont.exit());
 
         Scene scene = new Scene(layout, 600, 400);

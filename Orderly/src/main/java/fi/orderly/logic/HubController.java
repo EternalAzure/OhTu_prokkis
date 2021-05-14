@@ -361,7 +361,6 @@ public class HubController {
         return "";
     }
 
-
     /**
      * Lisää rivejä tauluun balance.
      * Iteroi toimimuksen läpi ja kutsuu changeBalance().

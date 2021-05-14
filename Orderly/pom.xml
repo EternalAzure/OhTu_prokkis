@@ -24,6 +24,8 @@
             <version>12.0.2</version>
         </dependency>
     </dependencies>
+
+
     <build>
         <plugins>
             <plugin>
@@ -50,7 +52,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>
                 <configuration>
-                    <mainClass>fi.orderly.ui.Main</mainClass>
+                    <mainClass>org.openjfx.App</mainClass>
                     <launcher>launcher</launcher>
                 </configuration>
             </plugin>
