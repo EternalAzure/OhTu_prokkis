@@ -98,5 +98,5 @@ $ mvn javadoc:javadoc
 
 ### Uusimmat julkaisut
 
-[Linux](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/viikko5)
-[Windows](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/viikko5-win)
+[Linux](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/v1.0.0-linux)
+[Windows](https://github.com/EternalAzure/ot-harjoitustyo/releases/tag/v1.0.0-windows)
