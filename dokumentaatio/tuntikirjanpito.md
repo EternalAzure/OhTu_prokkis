@@ -71,5 +71,6 @@ Ajat eivät sisällä laskareita.
 | 13.5        | 1.75        |Lisätty mahdollisuus vaihtaa toiseen MySQL tietokantaan. Päivitetty tietokantaskeematiedostoa|
 | 13.5        | 0.25        |Dokumentaation päivitys|
 | 13.5        | 4           |JavaDoc|
-| 14.5        | 3           |Epäonnistuin tekemään cross-platform julkaisun. mvn package -komennon ajamiseen meni 10 min joka kerta. 
-| yht.        | 148.1       |
+| 14.5        | 3           |Epäonnistuin tekemään cross-platform julkaisun. mvn package -komennon ajamiseen meni 10 min joka kerta.
+| 14.5        | 0.2         |README päivitys ja julkaisuiden esittelyiden muuttaminen|
+| yht.        | 148.3       |
