@@ -15,7 +15,7 @@
 
 _Hub_-luokka on ainoa luokka, joka näyttää käyttäjälle grafiikkaa. Hub sisältää UI elementit harmaaseen</br> 
 yläpalkkiin ja siniseen valikkoon. Päätin eriyttää valkoisen työtilan grafiikan omaksi luokakseen _Workspaces._ </br>
-Luokassa Workspaces on yksi metodia jokaista työtilaa kohti joka on valittavissa valikosta. Jokainen metodi </br>
+Luokassa Workspaces on yksi metodia jokaista työtilaa kohti, jotka ovat valittavissa valikosta. Jokainen metodi </br>
 palauttaa VBox olion. Tämä VBox olio asetetaan Hubissa olevan _workspaceParent_ nimisen BorderPane olion keskelle, </br>
 jolloin se näkyy käyttäjälle. </br>
 Jokaisella valikon hyperlinkillä on lambda joka asettaa setWorkspace() parametriksi sopivan metodin kuten </br>
@@ -35,8 +35,8 @@ inhimmillisten virheiden minimointi. Tulee vähemmän sekaannuksia, kun kutsuu g
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Tauluikkunat.PNG" width="800">
 
-Harmaasta valikkopalkista on valittavissa näyttää 5 eri taulua tietokannasta _warehouse_. Jokainen taulu saa oman ikkunansa, jota on mahdollista liikuttaa ja jonka kokoa on mahdollista muuttaa. Jokaisesta taulusta voi olla yhdenaikaisesti vain yksi ikkuna. </br>
-</br>
+Harmaasta valikkopalkista on valittavissa näyttää 5 eri taulua tietokannasta _warehouse_. Jokainen taulu saa oman ikkunansa, jota on mahdollista liikuttaa, ja jonka kokoa on mahdollista muuttaa. Jokaisesta taulusta voi olla yhdenaikaisesti auki vain yksi ikkuna. </br>
+
 #### Toteutus
 Kaksi osaa: _dao.tables_ ja _ui.tables_
 ##### ui.tables
