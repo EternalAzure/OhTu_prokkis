@@ -199,6 +199,7 @@ public class WorkSpaces {
         shipmentNumber.setPromptText("Shipment number");
         Button apply = new Button("Apply");
         Label message = new Label();
+        message.setId("error");
 
         vBox.getChildren().addAll(shipmentNumber, apply, message);
         apply.setOnAction(event -> {
@@ -257,10 +258,17 @@ public class WorkSpaces {
         //4. Finish up building table (VBox layout)
         Button apply = new Button("Apply");
         Label message = new Label();
+        message.setId("error");
         layout.getChildren().addAll(apply, message);
 
         //5. Set button onAction
-        apply.setOnAction(event -> message.setText(hubController.receiveShipment(shipment)));
+        apply.setOnAction(event -> {
+            String feedback = hubController.receiveShipment(shipment);
+            if (feedback.equals("Success")) {
+                message.setId("Success");
+            }
+            message.setText(feedback);
+        });
         return new ScrollPane(layout);
     }
 

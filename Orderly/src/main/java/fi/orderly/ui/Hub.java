@@ -174,7 +174,10 @@ public class Hub  extends Application {
     }
     public void setWorkSpace(ScrollPane workSpaceLayout) {
         workspaceParent.getChildren().clear();
-        workspaceParent.setCenter(workSpaceLayout);
+        VBox vBox = new VBox();
+        vBox.setId("workspace");
+        vBox.getChildren().add(workSpaceLayout);
+        workspaceParent.setCenter(vBox);
     }
 
 
