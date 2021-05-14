@@ -74,4 +74,5 @@ Ajat eivät sisällä laskareita.
 | 14.5        | 3           |Epäonnistuin tekemään cross-platform julkaisun. mvn package -komennon ajamiseen meni 10 min joka kerta.
 | 14.5        | 0.2         |README päivitys ja julkaisuiden esittelyiden muuttaminen|
 | 14.5        | 1.7         |Muiden töihin tutustumista, vaatimuksien kertaamista, ohjeiden lukemista, oman dokumentin lukua. Miettimistä|
-| yht.        | 150         |
+| 14.5        | 1           |Refaktoroin toimituksen vastaan ottamisen. Siirsin ShipmentWorkspace ui osan Workspace luokkaan ja dao osan dao pakettiin.
+| yht.        | 151         |
