@@ -21,7 +21,6 @@ import java.util.Random;
 public class HubController {
 
     final private TestData testData;
-    final private SaldoOperations calculator;
     DatabaseAccess db;
 
     String empty = "Non allowed empty values";
@@ -32,7 +31,6 @@ public class HubController {
 
     public HubController(Connection connection) {
         testData = new TestData(connection);
-        calculator = new SaldoOperations(connection);
         db = new DatabaseAccess(connection);
     }
 
@@ -398,7 +396,8 @@ public class HubController {
                 int batch = delivery.getDataPackage(i).getBatch();
                 double amount = delivery.getDataPackage(i).getAmount();
                 String room = delivery.getDataPackage(i).getFrom();
-                calculator.subtractBalance(room, code, batch, amount);
+                //TODO mark down inconsistencies
+                subtractBalance(room, code, batch, amount);
             }
             db.deliveries.deleteDelivery(delivery.getDeliveryNumber());
         } catch (SQLException e) {
@@ -406,6 +405,15 @@ public class HubController {
             return sqlError;
         }
         return "Success";
+    }
+    private double subtractBalance(String roomName, int productCode, int batch, double amount) throws SQLException {
+        int roomId = db.rooms.findIdByName(roomName);
+        int productId = db.products.findIdByCode(productCode);
+        double currentBalance = db.balance.queryBalance(roomId, productId, batch);
+        double newBalance = currentBalance - amount;
+
+        db.balance.updateBalance(roomId, productId, batch, newBalance);
+        return newBalance;
     }
 
     /**

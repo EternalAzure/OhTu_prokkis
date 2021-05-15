@@ -107,20 +107,4 @@ public class Shipment {
             this.storageRoom = storageRoom;
         }
     }
-
-    public void updateAmounts(Double[] amounts) {
-        if (amounts.length == list.length) {
-            for (int i = 0; i < amounts.length; i++) {
-                list[i].setAmount(amounts[i].toString());
-            }
-        }
-    }
-
-    public void updateRooms(String[] rooms) {
-        if (rooms.length == list.length) {
-            for (int i = 0; i < rooms.length; i++) {
-                list[i].setStorageRoom(rooms[i]);
-            }
-        }
-    }
 }

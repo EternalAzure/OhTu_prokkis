@@ -22,21 +22,6 @@ public class UtilsTest {
     }
 
     @Test
-    public void isNumeric(){
-        //Normal numbers
-        assertTrue(Utils.isNumeric(new String[]{"1","22","3.3","33.3"}));
-
-        //Still numeric
-        assertTrue(Utils.isNumeric(new String[]{"0001","002.2",""}));
-
-        //Not numeric
-        assertFalse(Utils.isNumeric(new String[]{"A1"}));
-        assertFalse(Utils.isNumeric(new String[]{"A.1"}));
-        assertFalse(Utils.isNumeric(new String[]{"ABC"}));
-        assertFalse(Utils.isNumeric(new String[]{"123","ABC"}));
-    }
-
-    @Test
     public void isEmpty(){
         //Empty
         assertTrue(Utils.isEmpty(new String[]{"",""}));

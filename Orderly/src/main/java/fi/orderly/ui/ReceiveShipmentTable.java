@@ -15,11 +15,10 @@ import java.sql.SQLException;
 
 public class ReceiveShipmentTable {
     DatabaseAccess db;
-
-    Button apply;
-    Label message;
-    TextField[] amounts;
-    TextField[] rooms;
+    private Button apply;
+    private Label message;
+    private TextField[] amounts;
+    private TextField[] rooms;
     Shipment shipment;
     public ReceiveShipmentTable(Shipment shipment, Connection connection) {
         this.shipment = shipment;
@@ -75,7 +74,7 @@ public class ReceiveShipmentTable {
             layout.getChildren().add(tableRow);
         }
 
-        //3.Add button and
+        //3.Add button and label
         apply = new Button("Apply");
         message = new Label();
         message.setId("error");
