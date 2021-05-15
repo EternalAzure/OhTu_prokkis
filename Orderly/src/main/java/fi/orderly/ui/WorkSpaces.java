@@ -5,9 +5,7 @@ import fi.orderly.logic.Utils;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import fi.orderly.logic.HubController;
 import java.sql.Connection;
@@ -16,16 +14,15 @@ import java.util.HashMap;
 
 public class WorkSpaces {
 
-    ShipmentWorkspace shipmentWorkspace;
     HubController hubController;
     HashMap<Integer, Delivery> deliveries;
     DatabaseAccess db;
     Connection connection;
+    ReceiveShipmentTable receiveShipmentTable;
 
     public WorkSpaces(Connection connection) {
         this.connection = connection;
         this.hubController = new HubController(connection);
-         shipmentWorkspace = new ShipmentWorkspace(connection);
          deliveries = new HashMap<>();
          db = new DatabaseAccess(connection);
     }
@@ -192,7 +189,7 @@ public class WorkSpaces {
         return vBox;
     }
 
-    public VBox receiveWorkspace(Hub hub) {
+    public VBox receiveWorkspace1(Hub hub) {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField shipmentNumber = new TextField();
@@ -221,6 +218,7 @@ public class WorkSpaces {
 
         return vBox;
     }
+
     public ScrollPane receiveWorkspace2(int shipmentNumber) {
         //1. Validate
         try {
@@ -228,47 +226,25 @@ public class WorkSpaces {
         } catch (SQLException e) {
             //ignore
         }
-
-        //2. Start building table (VBox layout)
-        VBox layout = new VBox();
-        layout.setId("workspace");
-        HBox header = new HBox(new Label("Name"),
-                new Label("Code"),
-                new Label("Batch"),
-                new Label("Amount"),
-                new Label("Unit"),
-                new Label("Room"));
-        for (Node node: header.getChildren()
-        ) {
-            node.setId("small-field");
-        }
-        layout.getChildren().add(header);
-        header.setPrefWidth(400);
-        header.setId("header");
-
-        //3. Fetch data
+        //2. Fetch data
         Shipment shipment = new Shipment(shipmentNumber, connection);
 
-        //4. Set data as content row by row
-        for (int i = 0; i < shipment.getLength(); i++) {
-            HBox tableRow = shipmentWorkspace.addRow(shipment.getDataPackage(i));
-            layout.getChildren().add(tableRow);
-        }
+        //3. Build table
+        receiveShipmentTable = new ReceiveShipmentTable(shipment, connection);
+        VBox layout = receiveShipmentTable.getTable();
 
-        //4. Finish up building table (VBox layout)
-        Button apply = new Button("Apply");
-        Label message = new Label();
-        message.setId("error");
-        layout.getChildren().addAll(apply, message);
-
-        //5. Set button onAction
-        apply.setOnAction(event -> {
-            String feedback = hubController.receiveShipment(shipment);
-            if (feedback.equals("Success")) {
-                message.setId("Success");
+        //4. Set button onAction
+        // 1.Take data, 2.Validate data, 3.Update shipment with data, 3.Give data to HubController as shipment
+        receiveShipmentTable.getApply().setOnAction(event -> {
+            if (receiveShipmentTable.updateShipment()) {
+                String feedback = hubController.receiveShipment(shipment);
+                if (feedback.equals("Success")) {
+                    receiveShipmentTable.getMessage().setId("success");
+                }
+                receiveShipmentTable.getMessage().setText(feedback);
             }
-            message.setText(feedback);
         });
+
         return new ScrollPane(layout);
     }
 

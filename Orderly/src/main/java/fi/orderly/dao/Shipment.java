@@ -22,7 +22,7 @@ public class Shipment {
     }
 
     public DataPackage getDataPackage(int index) {
-        if (index < 0 || index > list.length) {
+        if (index < 0 || index >= list.length) {
             return null;
         }
         return list[index];
@@ -55,11 +55,6 @@ public class Shipment {
 
     public int getShipmentNumber() {
         return shipmentNumber;
-    }
-
-    public void forTestingOnly(int shipmentNumber) {
-        //Use only to gain access from test class
-        fetchData(shipmentNumber);
     }
 
     public static class DataPackage {
@@ -102,6 +97,30 @@ public class Shipment {
 
         public String getStorageRoom() {
             return storageRoom;
+        }
+
+        public void setAmount(String amount) {
+            this.amount = amount;
+        }
+
+        public void setStorageRoom(String storageRoom) {
+            this.storageRoom = storageRoom;
+        }
+    }
+
+    public void updateAmounts(Double[] amounts) {
+        if (amounts.length == list.length) {
+            for (int i = 0; i < amounts.length; i++) {
+                list[i].setAmount(amounts[i].toString());
+            }
+        }
+    }
+
+    public void updateRooms(String[] rooms) {
+        if (rooms.length == list.length) {
+            for (int i = 0; i < rooms.length; i++) {
+                list[i].setStorageRoom(rooms[i]);
+            }
         }
     }
 }

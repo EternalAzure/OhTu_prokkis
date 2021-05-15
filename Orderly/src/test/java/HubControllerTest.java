@@ -267,6 +267,9 @@ public class HubControllerTest {
 
         //Receiving shipment destroys it, thus stopping it being received again
         assertFalse(db.shipments.foundShipment(1));
+
+        //TODO Test something else than default values
+
     }
 
     @Test
