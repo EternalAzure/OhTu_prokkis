@@ -10,7 +10,7 @@
 
 ## Grafiikan hakeminen ja esittäminen
 
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/GettingLayout.PNG" width="500">
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Get workspace.PNG" width="1000">
 </br>
 
 _Hub_-luokka on ainoa luokka, joka näyttää käyttäjälle grafiikkaa. Hub sisältää UI elementit harmaaseen</br> 
