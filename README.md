@@ -5,7 +5,8 @@
 Ohjelma mahdollistaa saldon pyörittelyn ja jatkossa tähtää erikoistumaan </br> 
 elintarviketuotannon resurssien hallintaan. Tällaisia toiminnallisuuksia ovat </br>
 eräpäiväseuranta sekä raaka-aineiden muuttaminen lopputuotteeksi reseptin mukaan. </br>
-Pyrkimys on myöhemmin toteuttaa moninaista tilastointia ja useita käyttäjä profiileita.
+Pyrkimys on myöhemmin toteuttaa moninaista tilastointia ja useita käyttäjä profiileita. </br>
+Tällä hetkellä erikoistumista ei ole ehditty tehdä.
 </p>
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Login%20screen.PNG" width="400"> 
