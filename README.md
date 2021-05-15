@@ -38,15 +38,15 @@ kontrollerin palveluita. Hubissa hyödynnetään tietokantaa warehouse.
 ### Ohjelman ajaminen:
 __Tapa 1: Käynnistä projektikansiosta main metodi__
 ```
-$ mvn compile exec:java -Dexec.mainClass=fi.orderly.ui.Main
+mvn compile exec:java -Dexec.mainClass=fi.orderly.ui.Main
 ```
 __Tapa 2: Pakkaa jar tiedostoksi__
 ```
-$ mvn package
+mvn package
 ```
 __Aja .jar__
 ```
-$ cd target/ && java -jar .jar
+cd target/ && java -jar .jar
 ```
 __Tapa 3: Lataa release__
 
@@ -57,37 +57,37 @@ __Linux__ </br>
 Linuxilla saatat joutua merkitsemään tiedoston ajettavaksi (executable) </br>
 Korvaa ```Orderly-1.0-SNAPSHOT.jar``` käyttämäsi julkaisun tiedostonimellä.
 ```
-$ chmod +x Orderly-1.0-SNAPSHOT.jar
+chmod +x Orderly-1.0-SNAPSHOT.jar
 ```
 Sen jälkeen voit kokeilla ajaa tiedoston komennolla
 ```
-$ java -jar Orderly-1.0-SNAPSHOT.jar
+java -jar Orderly-1.0-SNAPSHOT.jar
 ```
 Vaihtoehtoisesti voit tuplaklikata tiedostoa -> ominaisuudet -> luvat -> rastita ruutu.
 
 ### Testien ajaminen
 Automaattisten testien ajaminen
 ```
-$ mvn test
+mvn test
 ```
 Testikattavuus raportin luominen
 ```
-$ mvn test jacoco:report
+mvn test jacoco:report
 ```
 Checkstyle raportin luominen
 ```
-$ mvn jxr:jxr checkstyle:checkstyle
+mvn jxr:jxr checkstyle:checkstyle
 ```
 Jos testien ajamisessa on ongelmia, aja
 ```
-$ mvn clean
+mvn clean
 ```
 IDE kannattaa myös sulkea eikä jättää päälle yöksi.
 
 ### JavaDoc
 Dokumentaation luominen
 ```
-$ mvn javadoc:javadoc
+mvn javadoc:javadoc
 ```
 
 ### Uusimmat julkaisut
