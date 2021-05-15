@@ -3,7 +3,7 @@
 ##### Sisältö
 
 [Grafiikan hakeminen ja esittäminen](#grafiikan-hakeminen-ja-esittäminen) </br>
-[Tietokanta osaksi näkymää](#tietokanta-osaksi-näkymää) </br>
+[Tavaran vastaanottaminen](#tavaran-vastaanottaminen) </br>
 [Tietokannan taulut](#tietokannan-taulut) </br>
 [Toiminnallisuus ja logiikka](#toiminnallisuus-ja-logiikka) </br>
 [Sekvenssikaavioita grafiikasta](#sekvenssikaavioita-grafiikasta) </br>
@@ -20,16 +20,12 @@ palauttaa VBox olion. Tämä VBox olio asetetaan Hubissa olevan _workspaceParent
 jolloin se näkyy käyttäjälle. </br>
 Jokaisella valikon hyperlinkillä on lambda joka asettaa setWorkspace() parametriksi sopivan metodin kuten </br>
 ```event -> setWorkSpace(workSpaces.addRoomWorkspace())``` </br>
+Tavaran vastaanottaminen on poikkeus, jossa Workspace pyytää _ReceiveShipmentTable_-luokkaa rakentamaan UI elementin.</br>
 
-### Tietokanta osaksi näkymää
+### Tavaran vastaanottaminen
 
-Aina näkymälle ei löydy suoraa vastinetta tietokannasta. Näin ollen olen toteuttanut pakkaukseen _dao_ </br>
-luokkia joiden tehtävänä on rakentaa sopiva tietorakenne ja tarjota pääsy tähän tietoon. </br>
-_Shipment_-luokka sisältää metodit tiedon hakemiseen, yhdistämiseen, ja tarjoamiseen. Shipment rakentaa </br>
-_DataPackage_-aliluokan avulla käyttäjälle näkyvään taulukkoon rivejä, jotka se tallettaa listaan. </br>
-Listaan tarjotaan pääsy getDataPackage(int index) kautta, joka mahdollistaa listan helpon iteroimisen. </br>
-DataPackage-aliluokka omaa vain gettereitä. Syy toteuttaa DataPackage aliluokkana taulukon sijaan on </br> 
-inhimmillisten virheiden minimointi. Tulee vähemmän sekaannuksia, kun kutsuu getName() list[i] sijaan. </br>
+Aina näkymälle ei löydy suoraa vastinetta tietokannasta. Näin ollen olen toteuttanut pakkaukseen _dao_ luokkia joiden tehtävänä on rakentaa sopiva tietorakenne ja tarjota pääsy tähän tietoon. _ReceiveShipmentTable_ rakentaa taulukon tavaran vastaanottamista varten. Se käsittelee tietoa _Shipment_-luokkan kautta. _Shipment_ sisältää metodit tiedon hakemiseen, yhdistämiseen, ja tarjoamiseen. Shipment sisältää listan jonka indeksit vastaavat riviä taulukossa. Tiedon tallettava tietorakenne on _DataPackage_-aliluokka.
+Listaan tarjotaan pääsy getDataPackage(int index) kautta, joka mahdollistaa listan helpon iteroimisen. DataPackage-aliluokka omaa gettereitä ja setterit vain arvoille _amount_ ja _room_, jotka ovat ainoat tiedot, joita käyttäjän halutaan muuttavan tavaaraa vastaanotettaessa. Syy toteuttaa DataPackage aliluokkana taulukon sijaan on inhimmillisten virheiden minimointi. Tulee vähemmän sekaannuksia, kun kutsuu getName() list[i] sijaan. </br>
 
 ### Tietokannan taulut
 
