@@ -58,7 +58,7 @@ Valitse ensin valikosta _Receive shipment_ ja syötä jokin olemassa oleva toimi
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Receive shipment.PNG" width="500">
 
 ### Saldon muuttaminen
-Aina välillä sattuu virheitä ja saldoa pitää muuttaa. _Change balance_ sallii muuttaa saldoa kunhan täyttää tiedot. Toistaiseksi ei ole mahdollisuutta kumulatiiviseen saldon muuttamiseen.
+Aina välillä sattuu virheitä ja saldoa pitää muuttaa. _Change balance_ sallii muuttaa saldoa kunhan täyttää tiedot. Toistaiseksi ei ole mahdollisuutta kumulatiiviseen saldon muuttamiseen. Saldolle ei voi asettaa tuotetta ilman eränumeroa. Erät luodaan sekä saapuvien toimituksien yhteydessä. Ideana on, että jokainen taloon saapuva erä on oma eränsä, joka kuluu loppuun. Elintarvikkeiden kanssa erään liittyy eräpäivä.
 
 ### Siirtäminen
 Siirtäminen tarkoittaa tavaran siirtämistä huoneesta toiseen. Tämä tapahtuu ainakin kerran esimerkki laitoksessa, kun raaka-aineet siirretään tuotantoon. Pääset siirtämään valitsemalla _Transfer_
@@ -66,7 +66,7 @@ Siirtäminen tarkoittaa tavaran siirtämistä huoneesta toiseen. Tämä tapahtuu
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Transfer.PNG" width="500">
 
 ### Valmistus
-Valmistuksessa valitaan kuinka monta valmista tuotetta luodaan. Luomisen jälkeen tuotantotilasta poistetaan vastaavamäärä raaka-aineita. Myöhemmin on tarkoitus tilastoida tätä tapahtumaa. Valmiit tuotteet lisätään esimerkkilaitoksessamme _Valmisvarastoon_. Ominaisuus työn alla.
+Valmistuksessa valitaan kuinka monta valmista tuotetta luodaan. Luomisen jälkeen tuotantotilasta poistetaan vastaavamäärä raaka-aineita. Myöhemmin on tarkoitus tilastoida tätä tapahtumaa. Valmiit tuotteet lisätään esimerkkilaitoksessamme _Valmisvarastoon_. Kunhan eränumeroihin saadaan liitettyä eräpäivät, saa valmistuote lyhyimmän eräpäivän, joka oli käytetyillä raaka-aineilla. Ominaisuus on työn alla.
 
 ### Lähetyksen luominen
 Jotta lähetys voidaan lähettää täytyy se luoda. _New delivery_ vie näkymään, jossa voi toimituksen tapaan luoda uusia rivejä lähetykset tauluun tietokannassa.
