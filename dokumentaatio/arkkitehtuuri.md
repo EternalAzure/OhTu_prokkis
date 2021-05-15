@@ -48,7 +48,7 @@ Jokainen paketin luokka toteuttaa tyhjää rajapintaa _ITable_. Luokissa on gett
 
 ## Toiminnallisuus ja logiikka
 
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Functionality.PNG" width="500">
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Toiminnallisuus.SVG" width="500">
 </br>
 Poislukien sinisen valikon _HubController_ vastaa käyttäjän toiveisiin vastaavasta toiminnallisuudesta. </br>
 Koodin toisteisuuden vähentämiseksi _Utils_-luokka sisältää käteviä pikku metodeja, joita hyödynnetään </br>
