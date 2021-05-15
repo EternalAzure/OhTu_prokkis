@@ -29,13 +29,6 @@ nimettyjen metodien kautta VBox-olioina. Hub ja Workspaces käyttävät saman </
 kontrollerin palveluita. Hubissa hyödynnetään tietokantaa warehouse.
 </p>
 
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Data.PNG" width="400">
-
-<p>
-Lisäksi sovellus pystyy esittämään tietokannasta hakemansa datan graafisesti.</br>
-Kuvassa otetaan vastaan saapuvaa lähetystä.
-</p>
-
 ### Dokumentaatio
 [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md) </br>
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md) </br>
