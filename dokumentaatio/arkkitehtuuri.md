@@ -48,18 +48,13 @@ Jokainen paketin luokka toteuttaa tyhjää rajapintaa _ITable_. Luokissa on gett
 
 ## Toiminnallisuus ja logiikka
 
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Toiminnallisuus.SVG" width="500">
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Toiminnallisuus.SVG" width="1000">
 </br>
-Poislukien sinisen valikon _HubController_ vastaa käyttäjän toiveisiin vastaavasta toiminnallisuudesta. </br>
-Koodin toisteisuuden vähentämiseksi _Utils_-luokka sisältää käteviä pikku metodeja, joita hyödynnetään </br>
-vähän siellä täällä. Kaikki toiminnallisuus on pyrittä toteuttamaan siten, että palveluntarjoajan ei tarvitse </br>
-tuntea palvelun pyytäjää. Tarvittavat riippuvuudet toteutetaan injektioina. Parhaana esimerkkinä Statement olio, </br>
-joka luodaan ensimmäisen kerran yhdessä paikassa ja siitä eteenpäin annetaan eteenpäin tarvittaessa. </br>
-Tämä helpottaa mm. testaamista, kun käytössä on testitietikanta. </br>
-Vaikeuksia on tuottanut virheilmoitusten saaminen logiikalta käyttöliittymälle. Tästä syystä lähes kaikki </br>
-arvot mukaan lukien boolean käsitellään string muodossa. Vaihtoehtoinen toteutus olisi tehtä lisää luokkia. </br>
-Palautusarvona toimiva luokka sisältäisi esimerkiksi booleanin ja virheilmoituksen. </br>
-Kolmas harkinnassa oleva tapa on injektoida kutsuva luokka ja tarjota pääsy sen sisäiseen tilaan. </br>
+Ohjelman pääikkunan on nimeltään hub kuten myös luokka _Hub_ jossa tämä stage olion. Käyttäjän toiveisiin vastaavat sinisen valikon kohdalli lambdat ja _HubController_. Koodin toisteisuuden vähentämiseksi _Utils_-luokka sisältää käteviä pikku metodeja, joita hyödynnetään syötteiden validoinnissa vähän siellä täällä. Kaikki toiminnallisuus on pyritty toteuttamaan siten, että palveluntarjoajan ei tarvitse tuntea palvelun pyytäjää. Tarvittavat riippuvuudet toteutetaan injektioina. Parhaana esimerkkinä Connection olio, joka luodaan ensimmäisen kerran pääikkunan lataamisen yhteydessä ja annetaan _Hub_-luokasta eteenpäin. Tämä helpottaa mm. testaamista, kun käytössä on testitietokanta. Logiikka metodit palauttavat käyttöliittymälle sopivan String arvon riippuen siitä mitä palautetta halutaan antaa. Ohjelman ytimessä on työskentely tietokannan kanssa. Kaikki SQL-koodi on siirretty _logic.dbinterfaces_ pakkaukseen. 
+
+### DatabaseAccess
+
+_DatabaseAccess_ tarjoaa ensisijaisesti SQL operaatioita, jotka käsittelevät useampaa kuin yhtä taulua. Toissijaisesti se tarjoaa erittäin siistin tavan päästä käsiksi muihin tietokantarajapintoihin. ```db.balance.queryBalance();``` missä db on DatabaseAccess ja balance on BalanceInterface. Luokkaa käytetään lähes kaikkialla.
 
 ## Sekvenssikaavioita grafiikasta
 
