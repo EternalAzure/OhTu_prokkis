@@ -27,11 +27,11 @@ public class RoomsTableTest {
 
     @Test
     public void fetchData() throws SQLException {
-        RoomsTable rt1 = new RoomsTable(1, connection);
+        RoomsTable rt1 = new RoomsTable(1, db);
         assertEquals("Room 1", rt1.getRoomName());
         assertEquals("-", rt1.getRoomTemperature());
 
-        RoomsTable rt2 = new RoomsTable(2, connection);
+        RoomsTable rt2 = new RoomsTable(2, db);
         assertEquals("Room 2", rt2.getRoomName());
         assertEquals("4.0", rt2.getRoomTemperature());
 

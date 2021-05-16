@@ -21,7 +21,7 @@ public class RoomsTableView extends TableViewInfiniteScrolling {
                 ids = db.rooms.load50(id);
             }
             for (Integer id: ids) {
-                RoomsTable r = new RoomsTable(id, connection);
+                RoomsTable r = new RoomsTable(id, db);
                 items.add(r);
             }
         } catch (SQLException e) {

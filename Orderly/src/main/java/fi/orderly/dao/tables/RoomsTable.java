@@ -12,8 +12,8 @@ public class RoomsTable implements ITable {
     private String temperature = null;
     DatabaseAccess db;
 
-    public RoomsTable(int index, Connection connection) throws SQLException {
-        db = new DatabaseAccess(connection);
+    public RoomsTable(int index, DatabaseAccess db) throws SQLException {
+        this.db = db;
         fetchData(index);
         setRoomName(name);
         setRoomTemperature(temperature);

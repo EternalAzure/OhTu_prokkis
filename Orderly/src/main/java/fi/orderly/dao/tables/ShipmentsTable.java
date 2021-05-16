@@ -17,8 +17,8 @@ public class ShipmentsTable implements ITable {
 
     DatabaseAccess db;
 
-    public ShipmentsTable(int index, Connection connection) throws SQLException {
-        db = new DatabaseAccess(connection);
+    public ShipmentsTable(int index, DatabaseAccess db) throws SQLException {
+        this.db = db;
         fetchData(index);
         setShipmentNumber(number);
         setProductName(name);

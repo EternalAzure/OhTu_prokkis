@@ -28,7 +28,7 @@ public class ShipmentsTableTest {
 
     @Test
     public void fetchData() throws SQLException {
-        ShipmentsTable st = new ShipmentsTable(1, connection);
+        ShipmentsTable st = new ShipmentsTable(1, db);
         assertEquals("1", st.getShipmentNumber());
         assertEquals("Etiketti", st.getProductName());
         assertEquals("1.0", st.getExpectedAmount());

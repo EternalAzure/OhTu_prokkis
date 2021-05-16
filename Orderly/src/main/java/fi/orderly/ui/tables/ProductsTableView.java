@@ -20,7 +20,7 @@ public class ProductsTableView extends TableViewInfiniteScrolling {
                 ids = db.products.load50(id);
             }
             for (Integer id: ids) {
-                ProductsTable p = new ProductsTable(id, connection);
+                ProductsTable p = new ProductsTable(id, db);
                 items.add(p);
             }
         } catch (SQLException e) {

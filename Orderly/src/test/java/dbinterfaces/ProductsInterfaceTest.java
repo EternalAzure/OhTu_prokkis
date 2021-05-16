@@ -95,7 +95,27 @@ public class ProductsInterfaceTest {
     }
 
     @Test
-    public void queryProduct() throws SQLException {
-        //TODO
+    public void load50() throws SQLException {
+        int[] list = db.products.load50(0);
+        assertEquals(1, list[0]);
+        assertEquals(0, list[1]);
+
+        db.products.insertProduct("A", 2000, "PKT", 1);
+        db.products.insertProduct("B", 3000, "PKT", 1);
+        db.products.insertProduct("C", 4000, "PKT", 1);
+
+        list = db.products.load50(0);
+        assertEquals(1, list[0]);
+        assertEquals(2, list[1]);
+        assertEquals(3, list[2]);
+        assertEquals(4, list[3]);
+        assertEquals(0, list[4]);
+
+        list = db.products.load50(2);
+        assertEquals(3, list[0]);
+        assertEquals(4, list[1]);
+        assertEquals(0, list[2]);
+        assertEquals(0, list[3]);
+        assertEquals(0, list[4]);
     }
 }

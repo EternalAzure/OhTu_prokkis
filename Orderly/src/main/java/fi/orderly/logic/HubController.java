@@ -34,14 +34,6 @@ public class HubController {
         db = new DatabaseAccess(connection);
     }
 
-    public static void logout(Stage currentWindow) {
-        new Login().start(new Stage());
-        currentWindow.close();
-    }
-    public static void exit() {
-        Platform.exit();
-    }
-
     /**
      * Lisää huoneen tauluun rooms.
      * Kutsuu dbinterfaces.RoomsInterface.insertRoom().

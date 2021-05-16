@@ -95,8 +95,42 @@ public class BalanceInterfaceTest {
     }
 
     @Test
-    public void foundProduct() throws SQLException {
+    public void findId() throws SQLException {
+        assertEquals(1, db.balance.findId(1, 1, 1));
 
+        db.balance.insertBalance(1, 1, 2, 200);
+        db.balance.insertBalance(1, 1, 3, 300);
+
+        assertEquals(2, db.balance.findId(1, 1, 2));
+        assertEquals(3, db.balance.findId(1, 1, 3));
+    }
+
+    @Test
+    public void load50() throws SQLException {
+        int[] list = db.balance.load50(0);
+        assertEquals(50, list.length);
+        assertEquals(1, list[0]);
+        assertEquals(0, list[1]);
+        assertEquals(0, list[2]);
+
+        db.balance.truncate();
+        list = db.balance.load50(0);
+        assertEquals(0, list[0]);
+        assertEquals(0, list[1]);
+        assertEquals(0, list[2]);
+
+        db.balance.insertBalance(1, 1, 1, 100);
+        db.balance.insertBalance(1, 1, 2, 200);
+        db.balance.insertBalance(1, 1, 3, 300);
+        list = db.balance.load50(0);
+        assertEquals(1, list[0]);
+        assertEquals(2, list[1]);
+        assertEquals(3, list[2]);
+
+        list = db.balance.load50(2);
+        assertEquals(3, list[0]);
+        assertEquals(0, list[1]);
+        assertEquals(0, list[2]);
     }
 
 }

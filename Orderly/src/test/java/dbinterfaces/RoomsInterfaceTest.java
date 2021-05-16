@@ -86,4 +86,31 @@ public class RoomsInterfaceTest {
         db.rooms.insertRoom("Room 2");
         assertTrue(db.rooms.foundRoom("Room 2"));
     }
+
+    @Test
+    public void load50() throws SQLException {
+        int[] list = db.rooms.load50(0);
+        assertEquals(50, list.length);
+        assertEquals(1, list[0]);
+        assertEquals(0, list[1]);
+
+        db.rooms.insertRoom("Room 2");
+        db.rooms.insertRoom("Room 3");
+        db.rooms.insertRoom("Room 4");
+
+        list = db.rooms.load50(0);
+        assertEquals(1, list[0]);
+        assertEquals(2, list[1]);
+        assertEquals(3, list[2]);
+        assertEquals(4, list[3]);
+        assertEquals(0, list[4]);
+
+        list = db.rooms.load50(3);
+        assertEquals(4, list[0]);
+        assertEquals(0, list[1]);
+        assertEquals(0, list[2]);
+        assertEquals(0, list[3]);
+        assertEquals(0, list[4]);
+        assertEquals(0, list[49]);
+    }
 }

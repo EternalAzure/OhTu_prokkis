@@ -10,13 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import java.sql.Connection;
 
 public class TableViewInfiniteScrolling {
 
     ObservableList<ITable> items = FXCollections.observableArrayList();
     TableView<ITable> table = new TableView<>();
-    Connection connection;
     DatabaseAccess db;
     Stage stage = new Stage();
     Scene scene;
@@ -32,11 +30,10 @@ public class TableViewInfiniteScrolling {
     /**
      * Luo ikkunan, jossa näytetään jokin tietokantataulu.
      * Jos ikkuna on jo avattu, päivittää tiedot.
-     * @param connection yhteys tietokantaan
+     * @param db yhteys tietokantaan
      */
-    public void display(Connection connection) {
-        this.connection = connection;
-        db = new DatabaseAccess(connection);
+    public void display(DatabaseAccess db) {
+        this.db = db;
         table.setItems(items);
         setUp();
 

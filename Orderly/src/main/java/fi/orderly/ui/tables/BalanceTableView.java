@@ -20,7 +20,7 @@ public class BalanceTableView extends TableViewInfiniteScrolling {
                 ids = db.balance.load50(id);
             }
             for (Integer id: ids) {
-                BalanceTable b = new BalanceTable(id, connection);
+                BalanceTable b = new BalanceTable(id, db);
                 items.add(b);
             }
         } catch (SQLException e) {

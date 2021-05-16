@@ -27,7 +27,7 @@ public class ProductsTableTest {
 
     @Test
     public void fetchData() throws SQLException {
-        ProductsTable pt = new ProductsTable(1, connection);
+        ProductsTable pt = new ProductsTable(1, db);
         assertEquals("Etiketti", pt.getProductName());
         assertEquals("9000", pt.getProductCode());
         assertEquals("KPL", pt.getProductUnit());

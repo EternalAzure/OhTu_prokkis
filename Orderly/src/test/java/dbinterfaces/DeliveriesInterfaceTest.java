@@ -42,18 +42,6 @@ public class DeliveriesInterfaceTest {
         n = resultSet.getInt("COUNT(*)");
         assertEquals(1, n);
 
-        /**
-         * This should be in HubControllerTest once there is method for it
-         *
-         *         //Does not accept same delivery number with same product (duplicate)
-         *         db.deliveries.insertDelivery(2, 1, 400);
-         *         resultSet = statement.executeQuery("SELECT COUNT(*) FROM deliveries WHERE number=2");
-         *         resultSet.next();
-         *         n = resultSet.getInt("COUNT(*)");
-         *         assertEquals(1, n);
-         */
-
-
         //Does accepts same delivery number with different product
         db.deliveries.insertDelivery(2, 2, 500);
         resultSet = statement.executeQuery("SELECT COUNT(*) FROM deliveries WHERE number=2");
@@ -91,11 +79,6 @@ public class DeliveriesInterfaceTest {
     }
 
     @Test
-    public void queryDelivery() throws  SQLException {
-        //TODO
-    }
-
-    @Test
     public void numberOfDelivery() throws  SQLException {
         Statement statement = connection.createStatement();
         db.rooms.insertRoom("Room 3");
@@ -104,6 +87,36 @@ public class DeliveriesInterfaceTest {
 
         assertEquals(1, db.deliveries.numberOfDeliveries(1));
         assertEquals(0, db.deliveries.numberOfDeliveries(2));
+    }
+
+    @Test
+    public void findId() throws SQLException {
+        db.rooms.insertRoom("Room");
+        db.products.insertProduct("Kaali", 1000, "KG", 1);
+        db.products.insertProduct("Porkkana", 2000, "KG", 1);
+        db.deliveries.insertDelivery(1, 1, 100);
+        db.deliveries.insertDelivery(2, 2, 200);
+        assertEquals(1, db.deliveries.findId(1, 1));
+        assertEquals(2, db.deliveries.findId(2, 2));
+    }
+
+    @Test
+    public void load50() throws SQLException {
+        db.rooms.insertRoom("Room");
+        db.products.insertProduct("Kaali", 1000, "KG", 1);
+        db.products.insertProduct("Porkkana", 2000, "KG", 1);
+        db.deliveries.insertDelivery(1, 1, 100);
+        db.deliveries.insertDelivery(2, 2, 200);
+
+        int[] list = db.deliveries.load50(0);
+        assertEquals(1, list[0]);
+        assertEquals(2, list[1]);
+        assertEquals(0, list[2]);
+
+        list = db.deliveries.load50(1);
+        assertEquals(2, list[0]);
+        assertEquals(0, list[1]);
+        assertEquals(0, list[2]);
     }
 
     @Test

@@ -1,8 +1,10 @@
 package fi.orderly.ui;
 import fi.orderly.logic.HubController;
 import fi.orderly.logic.ServerConnection;
+import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import fi.orderly.ui.tables.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,6 +19,7 @@ public class Hub  extends Application {
     public static Stage hub;
     final private Connection connection = ServerConnection.createConnection(ServerConnection.DATABASE);
     final private BorderPane workspaceParent = new BorderPane();
+    final private DatabaseAccess db = new DatabaseAccess(connection);
 
     private WorkSpaces workSpaces = new WorkSpaces(connection);
     private HubController hubController = new HubController(connection);
@@ -116,11 +119,11 @@ public class Hub  extends Application {
         //endregion
 
         //MENUBAR SHOW
-        showRooms.setOnAction(event -> roomsView.display(connection));
-        showProducts.setOnAction(event -> productView.display(connection));
-        showBalance.setOnAction(event -> balanceView.display(connection));
-        showShipments.setOnAction(event -> shipmentsView.display(connection));
-        showDeliveries.setOnAction(event -> deliveriesView.display(connection));
+        showRooms.setOnAction(event -> roomsView.display(db));
+        showProducts.setOnAction(event -> productView.display(db));
+        showBalance.setOnAction(event -> balanceView.display(db));
+        showShipments.setOnAction(event -> shipmentsView.display(db));
+        showDeliveries.setOnAction(event -> deliveriesView.display(db));
 
         //MENUBAR POPULATE
         createTestData.setOnAction(event -> hubController.createTestData()); //TESTING
@@ -135,8 +138,12 @@ public class Hub  extends Application {
         truncateDeliveries.setOnAction(event -> hubController.truncateDeliveries());
         truncateAll.setOnAction(event -> hubController.truncateAll());
 
-        logout.setOnMouseClicked(event -> HubController.logout(window));
-        exit.setOnMouseClicked(event -> HubController.exit());
+        //EXIT and LOGOUT
+        logout.setOnMouseClicked(event -> {
+            new Login().start(new Stage());
+            hub.close();
+        });
+        exit.setOnMouseClicked(event -> Platform.exit());
 
         //MENU
         addRoom.setOnAction(event -> setWorkSpace(workSpaces.addRoomWorkspace()));

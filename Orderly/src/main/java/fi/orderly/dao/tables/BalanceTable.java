@@ -17,8 +17,8 @@ public class BalanceTable implements ITable {
     private String room = null;
     DatabaseAccess db;
 
-    public BalanceTable(int index, Connection connection) throws SQLException {
-        db = new DatabaseAccess(connection);
+    public BalanceTable(int index, DatabaseAccess db) throws SQLException {
+        this.db = db;
         fetchData(index);
         setProductName(name);
         setProductCode(code);

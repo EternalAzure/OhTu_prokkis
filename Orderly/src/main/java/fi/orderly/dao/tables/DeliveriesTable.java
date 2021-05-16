@@ -3,7 +3,6 @@ package fi.orderly.dao.tables;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +14,8 @@ public class DeliveriesTable implements ITable {
     private String amount;
 
     DatabaseAccess db;
-    public DeliveriesTable(int index, Connection connection) throws SQLException {
-        db = new DatabaseAccess(connection);
+    public DeliveriesTable(int index, DatabaseAccess db) throws SQLException {
+        this.db = db;
         fetchData(index);
         setDeliveryNumber(number);
         setProductName(product);

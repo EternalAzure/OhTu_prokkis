@@ -20,7 +20,7 @@ public class DeliveriesTableView extends TableViewInfiniteScrolling {
                 ids = db.deliveries.load50(id);
             }
             for (Integer id: ids) {
-                DeliveriesTable d = new DeliveriesTable(id, connection);
+                DeliveriesTable d = new DeliveriesTable(id, db);
                 items.add(d);
             }
         } catch (SQLException e) {

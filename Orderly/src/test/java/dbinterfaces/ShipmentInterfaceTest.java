@@ -59,5 +59,44 @@ public class ShipmentInterfaceTest {
         assertTrue(db.shipments.foundBatch(1));
     }
 
+    @Test
+    public void findId() throws SQLException {
+        assertEquals(1, db.shipments.findId(1, 1, 1));
+
+        db.shipments.insertShipment(1, 1, 2, 20);
+        db.shipments.insertShipment(1, 1, 3, 30);
+
+        assertEquals(2, db.shipments.findId(1, 1, 2));
+        assertEquals(3, db.shipments.findId(1, 1, 3));
+    }
+
+    @Test
+    public void load50() throws SQLException {
+        db.rooms.insertRoom("Room");
+        db.products.insertProduct("Porkkana", 2000, "KG", 1);
+        db.products.insertProduct("Peruna", 3000, "KG", 1);
+        db.shipments.insertShipment(1, 1, 1, 1);
+        db.shipments.insertShipment(1, 2, 1, 1);
+        db.shipments.insertShipment(1, 3, 1, 1);
+        db.shipments.insertShipment(2, 1, 2, 1);
+        int[] list = db.shipments.load50(0);
+        assertEquals(50, list.length);
+        assertEquals(1, list[0]);
+        assertEquals(2, list[1]);
+        assertEquals(3, list[2]);
+        assertEquals(4, list[3]);
+        assertEquals(5, list[4]);
+        assertEquals(0, list[5]);
+        assertEquals(0, list[49]);
+
+        list = db.shipments.load50(3);
+        assertEquals(50, list.length);
+        assertEquals(4, list[0]);
+        assertEquals(5, list[1]);
+        assertEquals(0, list[2]);
+        assertEquals(0, list[3]);
+        assertEquals(0, list[4]);
+        assertEquals(0, list[49]);
+    }
 
 }

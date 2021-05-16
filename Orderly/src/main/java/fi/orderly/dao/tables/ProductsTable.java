@@ -18,8 +18,8 @@ public class ProductsTable implements ITable {
     private String room = null;
     DatabaseAccess db;
 
-    public ProductsTable(int index, Connection connection) throws SQLException {
-        db = new DatabaseAccess(connection);
+    public ProductsTable(int index, DatabaseAccess db) throws SQLException {
+        this.db = db;
         fetchData(index);
         setProductName(name);
         setProductCode(code);

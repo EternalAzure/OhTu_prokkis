@@ -21,7 +21,7 @@ public class ShipmentsTableView extends TableViewInfiniteScrolling{
                 ids = db.shipments.load50(id);
             }
             for (Integer id: ids) {
-                ShipmentsTable s = new ShipmentsTable(id, connection);
+                ShipmentsTable s = new ShipmentsTable(id, db);
                 items.add(s);
             }
         } catch (SQLException e) {
