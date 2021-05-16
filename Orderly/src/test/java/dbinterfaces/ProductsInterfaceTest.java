@@ -45,7 +45,7 @@ public class ProductsInterfaceTest {
 
     @Test
     public void deleteProduct() throws SQLException {
-        db.products.deleteProduct("Nauris");
+        db.products.deleteProduct(1000);
         assertEquals(0, db.products.size());
 
         db.products.insertProduct("Kaali", 1000, "KG", 1);

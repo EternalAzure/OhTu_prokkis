@@ -51,18 +51,6 @@ public class ProductsInterface {
     }
 
     /**
-     * Yrittää poistaa taulusta rivin.
-     * @param product tuotteen nimi
-     * @throws SQLException annettu parametri on virheellinen
-     */
-    public void deleteProduct(String product) throws SQLException {
-        String delete = "DELETE FROM products WHERE product=?";
-        PreparedStatement sql = connection.prepareStatement(delete);
-        sql.setString(1, product);
-        sql.executeUpdate();
-    }
-
-    /**
      * Ytittää poistaa taulusta rivin.
      * @param code tuotteen koodi
      * @throws SQLException annettu parametri on virheellinen

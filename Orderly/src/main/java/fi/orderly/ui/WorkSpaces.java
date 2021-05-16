@@ -110,7 +110,7 @@ public class WorkSpaces {
         VBox vBox = new VBox();
         vBox.setId("workspace");
         TextField product = new TextField();
-        product.setPromptText("Product name");
+        product.setPromptText("Product code");
         Button apply = new Button("Apply");
         Label message = new Label();
 

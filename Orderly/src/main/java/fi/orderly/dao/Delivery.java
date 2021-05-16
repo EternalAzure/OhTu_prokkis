@@ -73,8 +73,6 @@ public class Delivery {
     private void fetchRequest(int deliveryNumber) {
         try {
             collected = new DataPackage[db.deliveries.numberOfDeliveries(deliveryNumber)];
-            System.out.println(db.deliveries.numberOfDeliveries(deliveryNumber));
-
             PreparedStatement sql = db.queryDelivery(deliveryNumber);
             ResultSet result = sql.executeQuery();
             while (result.next()) {
