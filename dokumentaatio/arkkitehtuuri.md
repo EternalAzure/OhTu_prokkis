@@ -58,11 +58,9 @@ _DatabaseAccess_ tarjoaa ensisijaisesti SQL operaatioita, jotka käsittelevät u
 
 ## Sekvenssikaavioita grafiikasta
 
-Ensimmäinen kaavio kuvaa kuinka vaihdetaan työtila yksinkertaiseen näkymään joka ei vaadi dataa tietokannasta.</br>
-Seuraavakaavio kuvaa kuinka tietokannasta haettu data liitetään osaksi näkymää, kun lähetysnumero on annettu.
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Receive%20shipment%201.PNG" width="500">
+Ensimmäinen kaavio kuvaa kuinka tietokannan taulu _products_ näytetään käyttäjälle.
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Taulun haku.PNG" width="500">
 </br>
-</br>
-__Tässä vielä miltä seuravaa lopputulos näyttää__</br>
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Data.PNG" width="500">
-<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Receive%20shipment%202.PNG" width="1000">
+
+Toinen kaavio näyttää kuinka työtila näytetään käyttäjälle.</br>
+<img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Työtilan haku.PNG" width="500">
