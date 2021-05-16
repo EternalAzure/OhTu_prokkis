@@ -80,4 +80,6 @@ Ajat eivät sisällä laskareita.
 | 15.5        | 3           |Virheiden etsimistä ja korjailua. Löydetty: tuotteen poistaminen hajottaa saldo taulun|
 | 16.5        | 2           |Tietokanta taulut toimivat nyt, vaikka asioita poistelee|
 | 16.5        | 2           |Testien tekeminen uusille metodeille viime refaktorointiin liittyen|
-| yht.        | 162         |
+| 16.5        | ?           |Taktinen tauko ja takaisin virkistyneenä|
+| 16.5        | 3           |JavaDoc täydennys ja ties mitä sähläämistä. Vanhentuneiden sekvenssikaavioiden vaihtaminen uusiin|
+| yht.        | 165         |
