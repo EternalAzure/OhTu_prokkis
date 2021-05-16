@@ -35,46 +35,54 @@ __Tavaran liikkeeseen liittyy 7 vaihetta:__
 ## Ohjelman toiminnallisuudet
 
 ### Huoneiden lisääminen ja poistaminen
-Ennen kuin laitos voi aloittaa toimintansa tulee sinne lisätä huoneet. Huoneen lisäämisen yhteydessä huoneelle voi määrittää lämpötilan. Jos tuotetta jonka lämpötila alittaa huoneenlämmön ohjelma varoittaa siitä käyttäjää. Tämä ominaisuus odotta yhä toteuttamista. Huoneita voi lisätä vain yhden samaa nimeä. Poistettaessa huonetta kaikki viittaukset huoneeseen poistuvat tietokannasta. Tämä voi aiheuttaa suurta harmia. Lisääminen ja poistaminen tapahtuvat sinisestä valikosta valitun työtilan kautta. _Add new room_ ja _Remove room_
+ _Add new room_ ja _Remove room_</br>
+Ennen kuin laitos voi aloittaa toimintansa tulee sinne lisätä huoneet. Huoneen lisäämisen yhteydessä huoneelle voi määrittää lämpötilan. Jos tuotetta, jonka lämpötila alittaa huoneenlämmön ohjelma varoittaa siitä käyttäjää. Tämä ominaisuus odotta yhä toteuttamista. Huoneita voi lisätä vain yhden samaa nimeä. Poistettaessa huonetta kaikki viittaukset huoneeseen poistuvat tietokannasta. Tämä voi aiheuttaa suurta harmia. Lisääminen ja poistaminen tapahtuvat sinisestä valikosta valitun työtilan kautta.
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Add new room.PNG" width="500">
 
 ### Tuotteiden lisääminen ja poistaminen
-Seuraavaksi lisätään tuotteet, sillä tuotteen lisääminen vaatii ensin huoneen, joka asetetaan oletus varastohuoneeksi tuotteelle. Oletus huone helpottaa tavaran vastaanottoa ja pitää huolen, että tavara ei jää vastaanottamatta. Poistettaessa kaikki viitteet katoavat tietokannasta.
+_Add new product_ ja _Remove product_</br>
+Seuraavaksi lisätään tuotteet, sillä tuotteen lisääminen vaatii ensin huoneen, joka asetetaan oletus varastohuoneeksi tuotteelle. Oletus huone helpottaa tavaran vastaanottoa ja pitää huolen, että tavara ei jää vastaanottamatta. Poistettaessa kaikki viitteet katoavat tietokannasta. Lisääminen ja poistaminen tapahtuvat sinisestä valikosta valitun työtilan kautta.
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Add new product.PNG" width="500">
 
 ### Saapuvan toimituksen luominen
-Tilaus jää ohjelman ulkopuolelle, mutta tilauksen yhteydessä luodaan tilausta vastaava uusi saapuva toimitus. Sinisestä valikosta löytyy _New shipment_, jota painamalla aukeaa oikealle sitä vastaava työtila. Toimitukset tallennetaan rivi kerrallaan tietokantaan. Toimituksen luomisen yhteydessä tuotteeseen liitetään eränumero (eng. _batch/batch number_) Tuotteiden ja erien suhde on monen suhde moneen. Tietokantaan ei kuitenkaan voi syöttää kahta kertaa samaa tuote-erä yhdistelmää. viimeisenä toimitukseen liitetään tilattu määrä. Tämä auttaa terminaalityöntekijää sekä vastaanottamaan toimituksen sekä nopeasti tarkistamaan jos jotain puuttuu.
+ _New shipment_</br>
+Tilaus jää ohjelman ulkopuolelle, mutta tilauksen yhteydessä luodaan tilausta vastaava uusi saapuva toimitus. Toimitukset tallennetaan rivi kerrallaan tietokantaan. Toimituksen luomisen yhteydessä tuotteeseen liitetään eränumero (eng. _batch/batch number_), joka helpottaa tuoteseurantaa. Tuotteiden ja erien suhde on monen suhde moneen. Tietokantaan ei kuitenkaan voi syöttää kahta kertaa samaa tuote-erä yhdistelmää. Viimeisenä toimitukseen liitetään tilattu määrä. Tämä auttaa terminaalityöntekijää sekä vastaanottamaan toimituksen sekä nopeasti tarkistamaan, jos jotain puuttuu.
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/New shipment.PNG" width="500">
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/shipments data.PNG" width="500">
-Tietokanta näyttää tältä kun olemme lisänneet toimitukseen viisi eri tuotetta kaikki samalla erällä.
-
+Tietokanta näyttää tältä, kun olemme lisänneet toimitukseen viisi eri tuotetta kaikki samalla erällä.
 
 ### Vastaanottaminen
-Valitse ensin valikosta _Receive shipment_ ja syötä jokin olemassa oleva toimitusnumero. Tämän jälkeen ohjelma näyttää tietokannasta toimituksen sekä muita hyödyllisiä tietoja, jotka auttavat käyttäjää. Syötä määrä ja valitse oikea varasto.
+_Receive shipment_</br>
+Syötä jokin olemassa oleva toimitusnumero. Tämän jälkeen ohjelma näyttää tietokannasta toimituksen tiedot. Syötä oikea määrä ja vaihda tarvittaessa oletus varasto toiseen.
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Receive shipment.PNG" width="500">
 
 ### Saldon muuttaminen
-Aina välillä sattuu virheitä ja saldoa pitää muuttaa. _Change balance_ sallii muuttaa saldoa kunhan täyttää tiedot. Toistaiseksi ei ole mahdollisuutta kumulatiiviseen saldon muuttamiseen. Saldolle ei voi asettaa tuotetta ilman eränumeroa. Erät luodaan sekä saapuvien toimituksien yhteydessä. Ideana on, että jokainen taloon saapuva erä on oma eränsä, joka kuluu loppuun. Elintarvikkeiden kanssa erään liittyy eräpäivä.
+_Change balance_</br>
+Aina välillä sattuu virheitä ja saldoa pitää muuttaa. Toistaiseksi ei ole mahdollisuutta kumulatiiviseen saldon muuttamiseen. Saldolle ei voi asettaa tuotetta ilman eränumeroa. Erät luodaan saapuvien toimituksien yhteydessä. Elintarvikkeiden kanssa erään liittyy eräpäivä (toteutumatta).
 
 ### Siirtäminen
-Siirtäminen tarkoittaa tavaran siirtämistä huoneesta toiseen. Tämä tapahtuu ainakin kerran esimerkki laitoksessa, kun raaka-aineet siirretään tuotantoon. Pääset siirtämään valitsemalla _Transfer_
+_Transfer_</br>
+Siirtäminen tarkoittaa tavaran siirtämistä huoneesta toiseen. Tämä tapahtuu ainakin kerran esimerkki tuotteen elinkaaressa, kun raaka-aineet siirretään tuotantoon. Et voi siirtää enempää kuin saldolla on. Jos saldo meinaa ylittyä muuta saldoa vastaamaan oikeaa määrää.
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Transfer.PNG" width="500">
 
 ### Valmistus
-Valmistuksessa valitaan kuinka monta valmista tuotetta luodaan. Luomisen jälkeen tuotantotilasta poistetaan vastaavamäärä raaka-aineita. Myöhemmin on tarkoitus tilastoida tätä tapahtumaa. Valmiit tuotteet lisätään esimerkkilaitoksessamme _Valmisvarastoon_. Kunhan eränumeroihin saadaan liitettyä eräpäivät, saa valmistuote lyhyimmän eräpäivän, joka oli käytetyillä raaka-aineilla. Ominaisuus on työn alla.
+(Toteuttamatta)</br>
+Valmistuksessa valitaan kuinka monta valmista tuotetta luodaan. Luomisen jälkeen tuotantotilasta poistetaan vastaava määrä raaka-aineita. Myöhemmin on tarkoitus tilastoida tätä tapahtumaa. Valmiit tuotteet lisätään esimerkkilaitoksessamme _Valmisvarastoon_. Kunhan eränumeroihin saadaan liitettyä eräpäivät, saa valmistuote lyhyimmän eräpäivän, joka oli käytetyillä raaka-aineilla. Ominaisuus on työn alla.
 
 ### Lähetyksen luominen
-Jotta lähetys voidaan lähettää täytyy se luoda. _New delivery_ vie näkymään, jossa voi toimituksen tapaan luoda uusia rivejä lähetykset tauluun tietokannassa.
+ _New delivery_</br>
+Jotta tuotteet voidaan lähettää, täytyy luoda lähetys, joka sisältää tuotteet. 
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/New delivery.PNG" width="500">
 
 ### Kerääminen
-_Collect delivery_ vie näkymään, joka kysyy lähetysnumeroa. Annettuasi olemassa olevan lähetysnumeron, voit kerätä tuotteita, jotka ovat merkitty kyseiseen lähetykseen. Tuotteet ja niiden määrät tallennetaan lähetystä varten
+_Collect delivery_</br>
+Ensin kysytään lähetysnumeroa. Annettuasi olemassa olevan lähetysnumeron, voit kerätä tuotteita, jotka ovat merkitty kyseiseen lähetykseen. Tuotteet ja niiden määrät tallennetaan lähetystä varten. Et voi kerätä vahingossa vääriä tuotteita.
 
 <img src="https://github.com/EternalAzure/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/Collect delivery.PNG" width="500">
 
