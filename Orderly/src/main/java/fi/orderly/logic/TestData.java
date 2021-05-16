@@ -7,6 +7,10 @@ import fi.orderly.logic.dbinterfaces.ShipmentsInterface;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Vain ohjelman testaamista varten.
+ * Luo tarvittavat tiedot tietokantaan, jotta laitoksessa voidaan testata koko tuotteen elinkaari.
+ */
 public class TestData {
 
     RoomsInterface roomsInterface;
@@ -21,6 +25,10 @@ public class TestData {
         deliveriesInterface = new DeliveriesInterface(connection);
     }
 
+    /**
+     * Luo testi dataa tietokantaan, jonka yhteys on annettu konstruktorissa.
+     * Tulostaa terminaaliin tiedon, kun valmista.
+     */
     public void createShipmentAndDelivery() {
         addRooms();
         addProducts();

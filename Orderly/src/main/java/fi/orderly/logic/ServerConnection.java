@@ -1,14 +1,21 @@
 package fi.orderly.logic;
 
 import fi.orderly.ui.AlertWindow;
-
 import java.sql.*;
 
+/**
+ * Luokan tarkoitus on ottaa yhteystietokantaan.
+ */
 public class ServerConnection {
 
     public static final String DATABASE = "warehouse";
     public static final String TEST_DATABASE = "test";
 
+    /**
+     * Oletus yhteys Azure pilvipalveluun.
+     * @param database tietokannan nimi
+     * @return yhteys
+     */
     public static Connection createConnection(String database) {
         final String dbUrl = "jdbc:mysql://mysql-demo-varasto.mysql.database.azure.com:3306/login?useSSL=true&requireSSL=false";
         final String user = "mefistofeles@mysql-demo-varasto";
@@ -27,6 +34,14 @@ public class ServerConnection {
         return null;
     }
 
+    /**
+     * Kun oletus tietokanta halutaan vaihtaa toiseen.
+     * @param database tietokanta
+     * @param dbUrl serverin url osoite
+     * @param user käyttäjänimi
+     * @param password salasana
+     * @return yhteys
+     */
     public static Connection customConnection(String database, String dbUrl, String user, String password) {
         String driver = "jdbc:mysql://";
         String url = driver + dbUrl;

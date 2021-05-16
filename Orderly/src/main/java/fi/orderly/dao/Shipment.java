@@ -4,9 +4,11 @@ import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import java.sql.*;
 
 /**
+ * Luokan tarkoitus on helpottaa käyttäjälle näytettävän taulukon luomista ja tallettaa käyttäjän
+ * tekemät muutokset tietoihin, jotta ne voidaan välittää eteenpäin.
  * Luokka sisältää DataPackage[] taulun, jossa jokainen DataPackage vastaa yhtä riviä käyttäjälle
  * esitettävästä taulukosta. Lista muodostetaan luokan luomisen yhteydessä hakemalla toimitusnumeroa
- * vastaavat rivit taulusta shipments ja hakemalla vierasavainten kautta muu oleellinen tieto.
+ * vastaavat rivit tietokannan taulusta shipments ja hakemalla vierasavainten kautta muu oleellinen tieto.
  */
 
 public class Shipment {
@@ -57,6 +59,9 @@ public class Shipment {
         return shipmentNumber;
     }
 
+    /**
+     * Aliluokan tarkoitus on vain tallettaa tietoa ja mahdollistaa vain määrän ja huoneen muuttamisen.
+     */
     public static class DataPackage {
 
         String name;
@@ -66,6 +71,15 @@ public class Shipment {
         String unit;
         String storageRoom;
 
+        /**
+         * Konstuktoria on tarkoitus käyttää vain yläluokan fetchData() metodissa.
+         * @param name Tuotteen nimi
+         * @param code Tuotteen koodi
+         * @param batch Eränumero
+         * @param amount Tilattu määrä
+         * @param unit Mittayksikkö
+         * @param storageRoom Huone, jonne tuote oletusarvoisesti varastoidaan
+         */
         public DataPackage(String name, String code, String batch, String amount, String unit, String storageRoom) {
             this.name = name;
             this.code = code;

@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * Luokan tarkoitus on tarjota pääsy tietokannan tauluun balance.
  * Sisältää SQL komentoja. Metodit, jotka ottavat parametreja eivät käsittele virheitä.
- * Käsittelee taulua balance.
  */
 public class BalanceInterface {
 
@@ -88,6 +88,14 @@ public class BalanceInterface {
         return resultSet.getDouble("amount");
     }
 
+    /**
+     * Yrittää löytää id annetuilla parametreilla.
+     * @param roomId huoneen id (vierasavain)
+     * @param productId tuotteen id (vierasavain)
+     * @param batch eränumero
+     * @return löytyikö id
+     * @throws SQLException annattu parametri on virheellinen
+     */
     public int findId(int roomId, int productId, int batch) throws SQLException {
         String select = "SELECT id FROM balance WHERE room_id=? AND product_id=? AND batch=?";
         PreparedStatement sql = connection.prepareStatement(select);
@@ -99,6 +107,12 @@ public class BalanceInterface {
         return resultSet.getInt("id");
     }
 
+    /**
+     * Yrittää palauttaa annetusta id:stä seuraavat 50 id:tä
+     * @param id lähtökohta
+     * @return taulukko jossa id:t
+     * @throws SQLException annettu parametri on virheellinen
+     */
     public int[] load50(int id) throws SQLException {
         String query = "SELECT id FROM balance WHERE id>? LIMIT 50";
         PreparedStatement sql = connection.prepareStatement(query);

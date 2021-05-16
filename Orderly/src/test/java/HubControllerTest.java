@@ -273,11 +273,6 @@ public class HubControllerTest {
     }
 
     @Test
-    public void collect(){
-        //TODO
-    }
-
-    @Test
     public void newShipment() throws SQLException {
         db.rooms.insertRoom("Room 1");
         db.products.insertProduct("Kaali", 1000, "KG", 1);

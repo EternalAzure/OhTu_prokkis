@@ -4,16 +4,15 @@ import fi.orderly.dao.Delivery;
 import fi.orderly.dao.Shipment;
 import fi.orderly.logic.dbinterfaces.*;
 import fi.orderly.ui.ConfirmWindow;
-import fi.orderly.ui.Login;
-import javafx.application.Platform;
-import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Random;
 
 /**
- * HubController tarjoaa toiminnallisuuden Luokalle Hub.
+ * Luokan tarkoitus on tarjota sovelluksen päälogiikka.
+ * Kaikki muu on olemassa, jotta tämä luokka toimisi.
+ * HubController tarjoaa toiminnallisuuden Käyttöliittymälle.
  * Checkstyle rajoitteiden vuoksi metodit on jaettu kolmeen osaan:
  * Emometodi, validaatio ja toteutus. Myös lyhyet metodit toteuttavat
  * tätä rakennetta yhdenmukaisuuden vuoksi.
@@ -230,10 +229,10 @@ public class HubController {
     }
 
     /**
-     * Lisää rivin tauluun balance.
+     * Lisää saldon tai muuttaa sitä taulussa balance.
      * Kutsuu joko dbinterfaces.BalanceInterface.insertBalance()
      * tai dbinterfaces.BalanceInterface.updateBalance()
-     * @param room huoneen nimi, jossa muutos tapahtuu
+     * @param room huoneen, jossa muutos tapahtuu, nimi
      * @param code tuotteen, jota muutetaan, koodi
      * @param batch tuotteen, jota muutetaan, erä
      * @param newBalance uusi saldo
@@ -289,8 +288,8 @@ public class HubController {
 
     /**
      *
-     * @param from huoneen nimi, josta siirretään
-     * @param to huoneen nimi, johon siirretään
+     * @param from huoneen, josta siirretään, nimi
+     * @param to huoneen, johon siirretään, nimi
      * @param code tuotteen, jota siirretään, koodi
      * @param batch tuotteen, jota siirretään, erä
      * @param amount määrä, joka siirretään
@@ -353,6 +352,7 @@ public class HubController {
     }
 
     /**
+     * Toimituksen vastaanottaminen.
      * Lisää rivejä tauluun balance.
      * Iteroi toimimuksen läpi ja kutsuu changeBalance().
      * Lopuksi poistaa toimituksen.
@@ -377,8 +377,8 @@ public class HubController {
 
     /**
      * Vähentää saldoa taulusta balance rivikerrallaan.
-     * Iteroi lähetyksen läpi ja kutsuu SaldoOperation.subtractBalance().
-     * Negatiivinen saldo on sallittu.
+     * Iteroi lähetyksen läpi ja kutsuu subtractBalance().
+     * Negatiivinen saldo on sallittu. Saldon ylityksiä ei vielä kirjata ylös.
      * @param delivery lähtevä toimitus
      * @return viesti onnistumisesta tai epäonnistumisesta
      */
@@ -414,7 +414,7 @@ public class HubController {
      * Kutsuu dbinterfaces.ShipmentsInterface.insertShipment().
      * @param number toimitusnumero
      * @param productCode vastaanotettavan tuotteen koodi
-     * @param batchNumber vastaanotettavan tuotteen erä
+     * @param batchNumber vastaanotettavan tuotteen eränumero
      * @param expectedAmount tilattu määrä
      * @return viesti onnistumisesta tai epäonnistumisesta
      */

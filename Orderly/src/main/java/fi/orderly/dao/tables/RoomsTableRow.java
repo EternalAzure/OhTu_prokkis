@@ -3,16 +3,24 @@ package fi.orderly.dao.tables;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.sql.Connection;
 import java.sql.SQLException;
 
-public class RoomsTable implements ITable {
+/**
+ * Luokan tarkoitus on helpottaa taulukon täyttämistä RoomsTableView luokassa.
+ * Jokainen instanssi vastaa yhtä riviä tietokannan taulussa balance. Tieto haetaan
+ * instanssin luomisen yhteydessä fetchData() metodilla. Tieto esitetään
+ * StringPropertyjen avulla. Luokka implementoi tyhjän rajapinnan ITable, koska
+ * tarvittiin tapa asettaa kaikki *TableRow-luokat listaan ObservableList<ITable> items.
+ * Rajapinta ei vaadi metodia fetchData koska se on parempi pitää yksityisenä ja kutsua
+ * konstruktorista.
+ */
+public class RoomsTableRow implements ITable {
 
     private String name = null;
     private String temperature = null;
     DatabaseAccess db;
 
-    public RoomsTable(int index, DatabaseAccess db) throws SQLException {
+    public RoomsTableRow(int index, DatabaseAccess db) throws SQLException {
         this.db = db;
         fetchData(index);
         setRoomName(name);

@@ -1,4 +1,5 @@
 package fi.orderly.ui.tables;
+
 import fi.orderly.dao.tables.ITable;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.value.ObservableValue;
@@ -11,6 +12,11 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
+/**
+ * Luokan tarkoitus on näyttää käyttäjälle ikkuna, jossa näkyy tietokannan taulu.
+ * Ikkunaa voi rullata alaspäin ja luokka lataa lisää rivejä tauluun 50 kerrallaan.
+ * Metodit addItems() ja setUp() toteutetaan luokissa, jotka perivät tämän luokan.
+ */
 public class TableViewInfiniteScrolling {
 
     ObservableList<ITable> items = FXCollections.observableArrayList();
@@ -19,17 +25,22 @@ public class TableViewInfiniteScrolling {
     Stage stage = new Stage();
     Scene scene;
 
+    /**
+     * Lisää ITable listaan items. ITable vastaa yhtä riviä taulussa.
+     */
     void addItems() {
 
     }
 
+    /**
+     * Asettaa sarakkeet tauluun ja dao.tables StringPropertyt soluihin.
+     */
     void setUp() {
 
     }
 
     /**
      * Luo ikkunan, jossa näytetään jokin tietokantataulu.
-     * Jos ikkuna on jo avattu, päivittää tiedot.
      * @param db yhteys tietokantaan
      */
     public void display(DatabaseAccess db) {

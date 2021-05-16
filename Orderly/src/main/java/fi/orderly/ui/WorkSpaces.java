@@ -12,6 +12,22 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+/**
+ * Luokan tarkoitus on olla Hub-luokan jatke. Tämän luokan palauttamat oliot
+ * ovat osa pääikkunaa. Niiden sijainti on oikealla puolella ja ne tunnistaa
+ * pääasiassa valkoisesta väristä. Näitä näkymiä kutsutaan työtiloiksi sillä
+ * kaikki sovelluksessa tehtävä työ tapahtuu niissä.
+ *
+ * Jokaiselle työtilalle on yksi metodi, joka on nimetty temaattisesti.
+ * Kahdessa tapauksessa työnkulku on jaettu kahteen osaan. Metodit ovat nimetty
+ * temaattisesti *Workspace1 ja *Workspace2 työvaiheen mukaan.
+ *
+ * Jokaisessa työtilassa on nappi, jolla vahvistetaan annetut syötteet.
+ * Jokaisessa setOnAction() määrittelyssä tapahtuu jotain tai kaikkia seuraavista:
+ * 1. Syötteen validoiminen
+ * 2. Logiikan kutsuminen
+ * 3. Palautteen näyttäminen
+ */
 public class WorkSpaces {
 
     HubController hubController;

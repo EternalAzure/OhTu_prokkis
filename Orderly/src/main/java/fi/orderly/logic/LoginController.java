@@ -6,6 +6,9 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.sql.*;
 
+/**
+ * Tarjoaa logiikan sisäänkirjautumisikkunalle.
+ */
 public class LoginController {
 
     final private Hub hub;
@@ -15,6 +18,11 @@ public class LoginController {
         this.hub = hub;
     }
 
+    /**
+     * Salasanallinen kirjautuminen.
+     * @param username käyttäjänimi
+     * @param password salasana
+     */
     public void login(String username, String password) {
         try {
             PreparedStatement sql = connection.prepareStatement("SELECT password FROM users WHERE BINARY name=?");
@@ -32,6 +40,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * Salasanaton kirjautuminen testauksen nopeuttamiseksi.
+     */
     public void passwordlessLogin() {
         //For testing purposes
         new Hub().start(new Stage());

@@ -1,6 +1,6 @@
 package tables;
 
-import fi.orderly.dao.tables.DeliveriesTable;
+import fi.orderly.dao.tables.DeliveriesTableRow;
 import fi.orderly.logic.ServerConnection;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 
-public class DeliveriesTableTest {
+public class DeliveriesTableRowTest {
 
     final String database = ServerConnection.TEST_DATABASE;
     Connection connection = ServerConnection.createConnection(database);
@@ -27,7 +27,7 @@ public class DeliveriesTableTest {
 
     @Test
     public void fetchData() throws SQLException {
-        DeliveriesTable dt = new DeliveriesTable(1, db);
+        DeliveriesTableRow dt = new DeliveriesTableRow(1, db);
         assertEquals("1", dt.getDeliveryNumber());
         assertEquals("Etiketti", dt.getProductName());
         assertEquals("1.0", dt.getExpectedAmount());

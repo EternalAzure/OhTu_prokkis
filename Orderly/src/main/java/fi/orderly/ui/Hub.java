@@ -1,4 +1,5 @@
 package fi.orderly.ui;
+
 import fi.orderly.logic.HubController;
 import fi.orderly.logic.ServerConnection;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
@@ -14,6 +15,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.sql.Connection;
 
+/**
+ * Sovelluksen pääikkuna.
+ */
 public class Hub  extends Application {
 
     public static Stage hub;
@@ -178,6 +182,12 @@ public class Hub  extends Application {
         workspaceParent.getChildren().clear();
         workspaceParent.setCenter(workSpaceLayout);
     }
+
+    /**
+     * Asettaa VBox olion workspaceParent nimisen BorderPane olion keskelle.
+     * Näin saadaan valittu työtila näkymään käyttäjälle.
+     * @param workSpaceLayout työtila
+     */
     public void setWorkSpace(ScrollPane workSpaceLayout) {
         workspaceParent.getChildren().clear();
         VBox vBox = new VBox();
@@ -185,8 +195,6 @@ public class Hub  extends Application {
         vBox.getChildren().add(workSpaceLayout);
         workspaceParent.setCenter(vBox);
     }
-
-
 
     private void changeDatabase(String database, String dbUrl, String user, String password) {
         Connection c = ServerConnection.customConnection(database, dbUrl, user, password);

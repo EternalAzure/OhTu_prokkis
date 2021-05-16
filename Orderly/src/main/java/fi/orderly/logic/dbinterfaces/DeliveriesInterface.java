@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * Luokan tarkoitus on tarjota pääsy tietokannan tauluun deliveries.
  * Sisältää SQL komentoja. Metodit, jotka ottavat parametreja eivät käsittele virheitä.
- * Käsittelee taulua deliveries.
  */
 public class DeliveriesInterface {
 
@@ -92,6 +92,13 @@ public class DeliveriesInterface {
         return resultSet.getInt("COUNT(*)");
     }
 
+    /**
+     * Yrittää palauttaa id, joka löytyy annetuilla parametreilla.
+     * @param number lähtevän toimituksen numero
+     * @param productId tuotteen id (vierasavain)
+     * @return id
+     * @throws SQLException annettu parametri on väärä
+     */
     public int findId(int number, int productId) throws SQLException {
         String select = "SELECT id FROM deliveries WHERE number=? AND product_id=?";
         PreparedStatement sql = connection.prepareStatement(select);
@@ -102,6 +109,12 @@ public class DeliveriesInterface {
         return resultSet.getInt("id");
     }
 
+    /**
+     * Yrittää palauttaa annetusta id:stä seuraavat 50 id:tä
+     * @param id lähtökohta
+     * @return taulukko jossa id:t
+     * @throws SQLException annettu parametri on väärä
+     */
     public int[] load50(int id) throws SQLException {
         String query = "SELECT id FROM deliveries WHERE id>? LIMIT 50";
         PreparedStatement sql = connection.prepareStatement(query);
@@ -132,6 +145,9 @@ public class DeliveriesInterface {
         return 0;
     }
 
+    /**
+     * Tyhjentää taulun ja nollaa indeksit.
+     */
     public void truncate() {
         try {
             PreparedStatement a = connection.prepareStatement("BEGIN;");

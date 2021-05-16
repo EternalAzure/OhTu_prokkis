@@ -9,21 +9,35 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Luokan tarkoitus on rakentaa VBox olio joka näyttää taulukolta.
+ * Taulukon kuudesta sarakkeesta vain Amount ja Room ovat käyttäjän
+ * muokattavissa. Ne ovat mallia TextField ja muut 4 saraketta ovat Label.
+ *
+ * Lisäksi luokka tarjoaa metodin updateShipment(), joka lukee datan
+ * tektikentistä ja päivittää Shipment olion tiedot.
+ */
 public class ReceiveShipmentTable {
+
     DatabaseAccess db;
     private Button apply;
     private Label message;
     private TextField[] amounts;
     private TextField[] rooms;
     Shipment shipment;
+
     public ReceiveShipmentTable(Shipment shipment, Connection connection) {
         this.shipment = shipment;
         this.db = new DatabaseAccess(connection);
     }
+
+    /**
+     * Rakentaa GUI käyttäjälle toimituksen vastaanottamista varten.
+     * @return osa käyttöliittymää
+     */
     public VBox getTable() {
         amounts = new TextField[shipment.getLength()];
         rooms = new TextField[shipment.getLength()];
@@ -82,14 +96,28 @@ public class ReceiveShipmentTable {
         return  layout;
     }
 
+    /**
+     * Tarjoaa pääsyn nappiin, jolla vahvistetaan toimituksen vastaanotto.
+     * @return nappi
+     */
     public Button getApply() {
         return apply;
     }
 
+    /**
+     * Tarjoaa pääsyn kylttiin, jolla viestitään syötteiden laadusta.
+     * Metodia käytetään asettamaan HubControllerista tullut viesti.
+     * @return kyltti
+     */
     public Label getMessage() {
         return message;
     }
 
+    /**
+     * Kun käyttäjä painaa nappia, metodia kutsutaan ja tiedot tekstikentistä luetaan.
+     * Tiedot tallennetaan Shipment olioon joka annetaan eteenpäin HubControlleriin.
+     * @return onnistuiko tietojen päivitys
+     */
     public boolean updateShipment() {
         boolean valid = validateInput();
         if (!valid) return false;

@@ -2,8 +2,11 @@ package fi.orderly.logic.dbinterfaces;
 import java.sql.*;
 
 /**
+ * Luokan tarkoitus on tarjota pääsy tietokannan tauluihin.
+ * Luokkamuuttujat ovat julkisia. Tämä mahdollistaa erittäin miellyttävän
+ * konvention, jossa tietokantarajapintaa kutsutaan db.*.metodi().
  * Sisältää SQL komentoja, jotka koskettavat useampaa kuin yhtä taulua.
- * Metodit jotka ottavat parametreja eivät käsittele virheitä.
+ * Metodit, jotka ottavat parametreja eivät käsittele virheitä.
  */
 public class DatabaseAccess {
 
@@ -39,6 +42,8 @@ public class DatabaseAccess {
 
     /**
      * Palauttaa SQL-koodin, jolla saadaan saapuvaan toimituseen liittyvät tiedot.
+     * Tämä siistii koodia siellä, missä metodia kutsutaan. Valmista ResultSet oliota
+     * ei voi palauttaa.
      * @param shipmentNumber toimitusnumero
      * @return SQL-koodi
      * @throws SQLException annettu parametri on väärä
@@ -55,6 +60,8 @@ public class DatabaseAccess {
 
     /**
      * Palauttaa SQL-koodin, jolla saadaan lähtevään toimitukseen liittyvät tiedot.
+     * Tämä siistii koodia siellä, missä metodia kutsutaan. Valmista ResultSet oliota
+     * ei voi palauttaa.
      * @param deliveryNumber toimitusnumero
      * @return SQL-koodi
      * @throws SQLException annettu parametri on väärä
@@ -71,6 +78,8 @@ public class DatabaseAccess {
 
     /**
      * Palauttaa SQL-koodin, jolla saadaan shipments taulun tiedot.
+     * Tämä siistii koodia siellä, missä metodia kutsutaan. Valmista ResultSet oliota
+     * ei voi palauttaa.
      * @param id id
      * @return SQL-koodi
      * @throws SQLException annettu parametri on väärä
@@ -85,6 +94,8 @@ public class DatabaseAccess {
 
     /**
      * Palauttaa SQL-koodin, jolla saadaan products taulun tiedot.
+     * Tämä siistii koodia siellä, missä metodia kutsutaan. Valmista ResultSet oliota
+     * ei voi palauttaa.
      * @param id id
      * @return SQL-koodi
      * @throws SQLException annettu parametri on väärä
@@ -99,6 +110,8 @@ public class DatabaseAccess {
 
     /**
      * Palauttaa SQL-koodin, jolla saadaan deliveries taulun tiedot.
+     * Tämä siistii koodia siellä, missä metodia kutsutaan. Valmista ResultSet oliota
+     * ei voi palauttaa.
      * @param id id
      * @return SQL-koodi
      * @throws SQLException annettu parametri on väärä
@@ -113,6 +126,8 @@ public class DatabaseAccess {
 
     /**
      * Palauttaa SQL-koodin, jolla saadaan balance taulun tiedot.
+     * Tämä siistii koodia siellä, missä metodia kutsutaan. Valmista ResultSet oliota
+     * ei voi palauttaa.
      * @param id id
      * @return SQL-koodi
      * @throws SQLException annettu parametri on väärä

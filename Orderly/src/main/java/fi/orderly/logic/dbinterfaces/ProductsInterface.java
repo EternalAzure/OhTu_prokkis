@@ -2,8 +2,8 @@ package fi.orderly.logic.dbinterfaces;
 import java.sql.*;
 
 /**
+ * Luokan tarkoitus on tarjota pääsy tietokannan tauluun products.
  * Sisältää SQL komentoja. Metodit, jotka ottavat parametreja eivät käsittele virheitä.
- * Käsittelee taulua products.
  */
 public class ProductsInterface {
 
@@ -137,6 +137,12 @@ public class ProductsInterface {
         return resultSet.getInt("code");
     }
 
+    /**
+     * Yrittää palauttaa annetusta id:stä seuraavat 50 id:tä
+     * @param id lähtökohta
+     * @return taulukko jossa id:t
+     * @throws SQLException annettu parametri on virheellinen
+     */
     public int[] load50(int id) throws SQLException {
         String query = "SELECT id FROM products WHERE id>? LIMIT 50";
         PreparedStatement sql = connection.prepareStatement(query);

@@ -11,6 +11,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Sovelluksen sisäänkirjautumisikkuna
+ */
 public class Login extends Application {
 
     public static Stage window;

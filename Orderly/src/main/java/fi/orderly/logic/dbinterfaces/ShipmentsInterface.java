@@ -106,6 +106,14 @@ public class ShipmentsInterface {
         return resultSet.getInt("COUNT(*)");
     }
 
+    /**
+     * Yrittää palauttaa id, joka löytyy annetuilla parametreilla.
+     * @param number saapuvan toimituksen numero
+     * @param productId tuotteen id (vierasavin)
+     * @param batch eränumero
+     * @return id
+     * @throws SQLException annettu parametri on väärä
+     */
     public int findId(int number, int productId, int batch) throws SQLException {
         String select = "SELECT id FROM shipments WHERE number=? AND product_id=? AND batch=?";
         PreparedStatement sql = connection.prepareStatement(select);
@@ -116,7 +124,12 @@ public class ShipmentsInterface {
         resultSet.next();
         return resultSet.getInt("id");
     }
-
+    /**
+    * Yrittää palauttaa annetusta id:stä seuraavat 50 id:tä
+     * @param id lähtökohta
+     * @return taulukko jossa id:t
+     * @throws SQLException annettu parametri on väärä
+     */
     public int[] load50(int id) throws SQLException {
         String query = "SELECT id FROM shipments WHERE id>? LIMIT 50";
         PreparedStatement sql = connection.prepareStatement(query);

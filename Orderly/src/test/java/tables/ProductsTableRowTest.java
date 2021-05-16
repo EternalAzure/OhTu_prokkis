@@ -1,7 +1,6 @@
 package tables;
 
-import fi.orderly.dao.tables.ProductsTable;
-import fi.orderly.dao.tables.RoomsTable;
+import fi.orderly.dao.tables.ProductsTableRow;
 import fi.orderly.logic.ServerConnection;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
@@ -12,7 +11,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 
-public class RoomsTableTest {
+public class ProductsTableRowTest {
 
     final String database = ServerConnection.TEST_DATABASE;
     Connection connection = ServerConnection.createConnection(database);
@@ -22,18 +21,16 @@ public class RoomsTableTest {
     public void setUp() throws SQLException {
         db.truncateAll();
         db.rooms.insertRoom("Room 1");
-        db.rooms.insertRoom("Room 2", 4);
+        db.products.insertProduct("Etiketti", 9000, "KPL", 4, 1);
     }
 
     @Test
     public void fetchData() throws SQLException {
-        RoomsTable rt1 = new RoomsTable(1, db);
-        assertEquals("Room 1", rt1.getRoomName());
-        assertEquals("-", rt1.getRoomTemperature());
-
-        RoomsTable rt2 = new RoomsTable(2, db);
-        assertEquals("Room 2", rt2.getRoomName());
-        assertEquals("4.0", rt2.getRoomTemperature());
-
+        ProductsTableRow pt = new ProductsTableRow(1, db);
+        assertEquals("Etiketti", pt.getProductName());
+        assertEquals("9000", pt.getProductCode());
+        assertEquals("KPL", pt.getProductUnit());
+        assertEquals("Room 1", pt.getDefaultRoom());
+        assertEquals("4.0", pt.getProductTemp());
     }
 }

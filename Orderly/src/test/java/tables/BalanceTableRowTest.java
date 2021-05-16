@@ -1,6 +1,6 @@
 package tables;
 
-import fi.orderly.dao.tables.BalanceTable;
+import fi.orderly.dao.tables.BalanceTableRow;
 import fi.orderly.logic.ServerConnection;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
-public class BalanceTableTest {
+public class BalanceTableRowTest {
 
     final String database = ServerConnection.TEST_DATABASE;
     Connection connection = ServerConnection.createConnection(database);
@@ -27,7 +27,7 @@ public class BalanceTableTest {
 
     @Test
     public void fetchData() throws SQLException {
-        BalanceTable bt = new BalanceTable(1, db);
+        BalanceTableRow bt = new BalanceTableRow(1, db);
         assertEquals("Etiketti", bt.getProductName());
         assertEquals("9000", bt.getProductCode());
         assertEquals("1", bt.getProductBatch());

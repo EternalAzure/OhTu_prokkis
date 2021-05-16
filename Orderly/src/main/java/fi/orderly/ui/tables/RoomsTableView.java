@@ -1,13 +1,15 @@
 package fi.orderly.ui.tables;
 
 import fi.orderly.dao.tables.ITable;
-import fi.orderly.dao.tables.ProductsTable;
-import fi.orderly.dao.tables.RoomsTable;
+import fi.orderly.dao.tables.RoomsTableRow;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.sql.SQLException;
 
+/**
+ * Luokan tarkoitus on näyttää käyttäjälle ikkuna, jossa näkyy tietokannan taulu.
+ * Ikkunaa voi rullata alaspäin ja luokka lataa lisää rivejä tauluun 50 kerrallaan.
+ */
 public class RoomsTableView extends TableViewInfiniteScrolling {
 
     @Override
@@ -21,7 +23,7 @@ public class RoomsTableView extends TableViewInfiniteScrolling {
                 ids = db.rooms.load50(id);
             }
             for (Integer id: ids) {
-                RoomsTable r = new RoomsTable(id, db);
+                RoomsTableRow r = new RoomsTableRow(id, db);
                 items.add(r);
             }
         } catch (SQLException e) {
@@ -40,7 +42,7 @@ public class RoomsTableView extends TableViewInfiniteScrolling {
     }
 
     private int getDbIndexOfLastItemOnItems() throws SQLException {
-        RoomsTable rt = (RoomsTable) items.get(items.size()-1);
+        RoomsTableRow rt = (RoomsTableRow) items.get(items.size()-1);
         String name = rt.getRoomName();
         return db.rooms.findIdByName(name);
     }

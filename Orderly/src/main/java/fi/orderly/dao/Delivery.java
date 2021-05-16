@@ -10,9 +10,11 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
- * Luokka säilyttää tiedon siitä mitä pitää vielä kerätä ja mitä on jo kerätty.
+ * Luokkan tarkoitus on säilyttää tieto siitä mitä pitää vielä kerätä ja mitä on jo kerätty.
  * Luomisen yhteydessä haetaan tietokannasta tieto kerättävistä tuotteista
- * toimitusnumeron perusteella.
+ * toimitusnumeron perusteella. Tieto kerättävistä tallennetaan HasMappiin requested, josta
+ * ne poistetaan sitä mukaa kuin tuotteita kerätään. Tieto kerätyistä tuotteista tallennetaan
+ * taulukkoon DataPackage[] collected.
  */
 
 public class Delivery {
@@ -100,6 +102,9 @@ public class Delivery {
         return deliveryNumber;
     }
 
+    /**
+     * Aliluokka vastaa vain tiedon talletuksesta.
+     */
     public static class DataPackage {
         int code;
         int batch;

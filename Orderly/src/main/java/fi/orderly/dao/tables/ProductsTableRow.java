@@ -1,15 +1,22 @@
 package fi.orderly.dao.tables;
 
-import fi.orderly.logic.Utils;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProductsTable implements ITable {
+/**
+ * Luokan tarkoitus on helpottaa taulukon täyttämistä ProductsTableView luokassa.
+ * Jokainen instanssi vastaa yhtä riviä tietokannan taulussa balance. Tieto haetaan
+ * instanssin luomisen yhteydessä fetchData() metodilla. Tieto esitetään
+ * StringPropertyjen avulla. Luokka implementoi tyhjän rajapinnan ITable, koska
+ * tarvittiin tapa asettaa kaikki *TableRow-luokat listaan ObservableList<ITable> items.
+ * Rajapinta ei vaadi metodia fetchData koska se on parempi pitää yksityisenä ja kutsua
+ * konstruktorista.
+ */
+public class ProductsTableRow implements ITable {
 
     private String name = null;
     private String code = null;
@@ -18,7 +25,7 @@ public class ProductsTable implements ITable {
     private String room = null;
     DatabaseAccess db;
 
-    public ProductsTable(int index, DatabaseAccess db) throws SQLException {
+    public ProductsTableRow(int index, DatabaseAccess db) throws SQLException {
         this.db = db;
         fetchData(index);
         setProductName(name);

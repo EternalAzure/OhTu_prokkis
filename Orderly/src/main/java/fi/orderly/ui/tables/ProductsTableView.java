@@ -1,12 +1,15 @@
 package fi.orderly.ui.tables;
-import fi.orderly.dao.tables.ProductsTable;
-import fi.orderly.dao.tables.ITable;
 
+import fi.orderly.dao.tables.ProductsTableRow;
+import fi.orderly.dao.tables.ITable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.sql.SQLException;
 
+/**
+ * Luokan tarkoitus on näyttää käyttäjälle ikkuna, jossa näkyy tietokannan taulu.
+ * Ikkunaa voi rullata alaspäin ja luokka lataa lisää rivejä tauluun 50 kerrallaan.
+ */
 public class ProductsTableView extends TableViewInfiniteScrolling {
 
     @Override
@@ -20,7 +23,7 @@ public class ProductsTableView extends TableViewInfiniteScrolling {
                 ids = db.products.load50(id);
             }
             for (Integer id: ids) {
-                ProductsTable p = new ProductsTable(id, db);
+                ProductsTableRow p = new ProductsTableRow(id, db);
                 items.add(p);
             }
         } catch (SQLException e) {
@@ -48,7 +51,7 @@ public class ProductsTableView extends TableViewInfiniteScrolling {
     }
 
     private int getDbIndexOfLastItemOnItems() throws SQLException {
-        ProductsTable pt = (ProductsTable) items.get(items.size()-1);
+        ProductsTableRow pt = (ProductsTableRow) items.get(items.size()-1);
         int code = Integer.parseInt(pt.getProductCode());
         return db.products.findIdByCode(code);
     }
