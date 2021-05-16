@@ -7,14 +7,15 @@
 Mahdollisuuden mukaan tarkoitus on erikoistua elintarviketuotantolaitoksen </br>
 kokonaisvaltaiseksi hallinnointijärjestelmäksi. Valmis ohjelma hallinnoi varastoa, </br>
 luo tilastoja lopputuotteiden keräilyn tehokkuudesta, tilastoja toteutuneista </br>
-raaka-aineen muutoksista lopputuotteiksi sekä hävikkitilastoja. 
+raaka-aineen muutoksista lopputuotteiksi sekä hävikkitilastoja. </br>
+Edelle toivottua erikoistumista ei ehditty toteuttaa. Toteutui geneerinen varastonhallinta.
 </p>
 
 ---
 ## Käyttäjät
 Aluksi sovelluksessa on yksi käyttäjä. Myöhemmin saatetaan lisätä erottelu </br>
 _varastonhoitajien_ ja _keräilijöiden_ välillä. Sekä yleinen _esimies_ ,joka voi </br>
-lisätä ja poistaa käyttäjiä.
+lisätä ja poistaa käyttäjiä. Pohjatyö on tehty, mutta käyttäjä profiileita ei ole toteutettu.
 
 ----
 ## Perusversio
