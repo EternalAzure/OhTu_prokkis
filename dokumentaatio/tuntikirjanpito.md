@@ -82,4 +82,5 @@ Ajat eivät sisällä laskareita.
 | 16.5        | 2           |Testien tekeminen uusille metodeille viime refaktorointiin liittyen|
 | 16.5        | ?           |Taktinen tauko ja takaisin virkistyneenä|
 | 16.5        | 3           |JavaDoc täydennys ja ties mitä sähläämistä. Vanhentuneiden sekvenssikaavioiden vaihtaminen uusiin|
-| yht.        | 165         |
+| 16.5        | 1           |Paljon kaikkea ja ihan oikeita korjauksia ja lopullinen palautus
+| yht.        | 166         |
