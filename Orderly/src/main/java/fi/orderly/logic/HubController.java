@@ -446,6 +446,9 @@ public class HubController {
         if (Utils.notInt(new String[] { number, productCode, batchNumber })) {
             return integer;
         }
+        if (Integer.parseInt(number) < 0) {
+            return "Can not be negative";
+        }
         if (Utils.notDouble(expectedAmount)) {
             return decimal;
         }
@@ -491,6 +494,9 @@ public class HubController {
         }
         if (Utils.notInt(new String[] { number, productCode })) {
             return integer;
+        }
+        if (Integer.parseInt(number) < 0) {
+            return "Can not be negative";
         }
         if (Utils.notDouble(new String[] { productCode, expectedAmount })) {
             return decimal;

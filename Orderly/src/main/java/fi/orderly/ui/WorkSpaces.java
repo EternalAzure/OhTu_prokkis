@@ -413,6 +413,7 @@ public class WorkSpaces {
                 message.setId("error");
             }
             message.setText(feedback);
+            number.clear(); code.clear(); batch.clear(); amount.clear();
         });
         return vBox;
     }
@@ -438,6 +439,7 @@ public class WorkSpaces {
                 message.setId("error");
             }
             message.setText(feedback);
+            number.clear();code.clear();amount.clear();
         });
         return vBox;
     }
