@@ -498,61 +498,6 @@ public class HubController {
         return "";
     }
 
-    // MENUBAR TRUNCATE
-    public void truncateRooms() {
-        db.rooms.truncate();
-    }
-    public void truncateProducts() {
-        db.products.truncate();
-    }
-    public void truncateBalance() {
-        db.balance.truncate();
-    }
-    public void truncateShipments() {
-        db.shipments.truncate();
-    }
-    public void truncateDeliveries() {
-        db.deliveries.truncate();
-    }
-    public void truncateAll() {
-        db.rooms.truncate();
-        db.products.truncate();
-        db.balance.truncate();
-        db.shipments.truncate();
-        db.deliveries.truncate();
-    }
-
-    //MENUBAR POPULATE
-    public void generateRooms() {
-        int n = db.rooms.size();
-        for (int i = n; i < n + 10; i++) {
-            Random r = new Random();
-            int temp = r.nextInt(44) - 22;
-            addRoom("Room " + i, "" + temp);
-        }
-        System.out.println("10 rooms generated");
-    }
-    public void generateProducts() {
-        addRoom("Room 1", "");
-        String[] prefixes = new String[]
-        { "ba", "bo", "bi", "ce", "ci", "ca", "doo", "fu", "gua", "gas", "hedd", "hull", "hym", "j", "kappa", "luu", "luo", "las", "mello" };
-        String[] suffixes = new String[] {"aas", "er", "nips", "seed", "ror", "berry", "beet", "root", "leaf", "ddi", "llon", "sprout"};
-        Random r = new Random();
-
-        int counter = 0;
-        int i = db.products.size();
-        while (counter < 50) {
-            int pre = r.nextInt(prefixes.length);
-            int suf = r.nextInt(suffixes.length);
-            int n = r.nextInt(1000);
-
-            if (addProduct(prefixes[pre] + suffixes[suf] + n, "" + (i + counter), "KG", "", "Room 1").equals("Success")) {
-                counter++;
-            }
-        }
-        System.out.println("50 products generated");
-    }
-
     //Strictly for testing purposes
     public void createTestData() {
         testData.createShipmentAndDelivery();

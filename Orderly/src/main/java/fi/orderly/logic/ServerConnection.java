@@ -9,7 +9,7 @@ import java.sql.*;
 public class ServerConnection {
 
     public static final String DATABASE = "warehouse";
-    public static final String TEST_DATABASE = "test";
+    public static String TEST_DATABASE = "test";
 
     /**
      * Oletus yhteys Azure pilvipalveluun.
@@ -42,7 +42,7 @@ public class ServerConnection {
      * @param password salasana
      * @return yhteys
      */
-    public static Connection customConnection(String database, String dbUrl, String user, String password) {
+    public static Connection customConnection(String database, String dbUrl, String user, String password, String testDatabaseName) {
         String driver = "jdbc:mysql://";
         String url = driver + dbUrl;
         try {
@@ -56,6 +56,8 @@ public class ServerConnection {
             AlertWindow.display("Could not establish connection\n" +
                     "to SQL database.");
         }
+
+        TEST_DATABASE = testDatabaseName;
         return null;
     }
 }

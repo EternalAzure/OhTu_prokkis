@@ -1,6 +1,5 @@
 package fi.orderly.ui;
 
-import fi.orderly.logic.HubController;
 import fi.orderly.logic.ServerConnection;
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import fi.orderly.ui.tables.*;
@@ -23,10 +22,9 @@ public class Hub  extends Application {
     public static Stage hub;
     final private Connection connection = ServerConnection.createConnection(ServerConnection.DATABASE);
     final private BorderPane workspaceParent = new BorderPane();
-    final private DatabaseAccess db = new DatabaseAccess(connection);
+    private DatabaseAccess db = new DatabaseAccess(connection);
 
     private WorkSpaces workSpaces = new WorkSpaces(connection);
-    private HubController hubController = new HubController(connection);
     final private TableViewInfiniteScrolling roomsView = new RoomsTableView();
     final private TableViewInfiniteScrolling productView = new ProductsTableView();
     final private TableViewInfiniteScrolling balanceView = new BalanceTableView();
@@ -54,22 +52,6 @@ public class Hub  extends Application {
         HBox.setHgrow(menuBar, Priority.ALWAYS);
         HBox.setHgrow(logout, Priority.NEVER);
         HBox.setHgrow(exit, Priority.NEVER);
-
-        Menu testing = new Menu("Populate");
-        MenuItem createTestData = new MenuItem("Create test data");
-        MenuItem generateProducts = new MenuItem("Generate 50 products");
-        MenuItem generateRooms = new MenuItem("Generate 10 rooms");
-        testing.getItems().addAll(createTestData, generateRooms, generateProducts);
-
-        //TRUNCATE MENU
-        Menu dataBase = new Menu("Truncate");
-        MenuItem truncateRooms = new MenuItem("Truncate 'rooms'");
-        MenuItem truncateProducts = new MenuItem("Truncate 'products'");
-        MenuItem truncateBalance = new MenuItem("Truncate 'balance'");
-        MenuItem truncateShipments = new MenuItem("Truncate 'shipments'");
-        MenuItem truncateDeliveries = new MenuItem("Truncate 'deliveries'");
-        MenuItem truncateAll = new MenuItem("Truncate all");
-        dataBase.getItems().addAll(truncateAll, truncateRooms, truncateProducts, truncateBalance, truncateShipments, truncateDeliveries);
 
         //SHOW MENU
         Menu showTables = new Menu("Show tables");
@@ -106,7 +88,7 @@ public class Hub  extends Application {
         Hyperlink newShipment = new Hyperlink("New shipment");
         Hyperlink newDelivery = new Hyperlink("New delivery");
 
-        menuBar.getMenus().addAll(testing, dataBase, showTables, databaseSettings); //MENUBAR
+        menuBar.getMenus().addAll(showTables, databaseSettings); //MENUBAR
         leftMenu.getChildren().addAll(
                 addRoom,
                 addProduct,
@@ -128,19 +110,6 @@ public class Hub  extends Application {
         showBalance.setOnAction(event -> balanceView.display(db));
         showShipments.setOnAction(event -> shipmentsView.display(db));
         showDeliveries.setOnAction(event -> deliveriesView.display(db));
-
-        //MENUBAR POPULATE
-        createTestData.setOnAction(event -> hubController.createTestData()); //TESTING
-        generateRooms.setOnAction(event -> hubController.generateRooms());
-        generateProducts.setOnAction(event -> hubController.generateProducts());
-
-        //MENUBAR TRUNCATE
-        truncateRooms.setOnAction(event -> hubController.truncateRooms());
-        truncateProducts.setOnAction(event -> hubController.truncateProducts());
-        truncateBalance.setOnAction(event -> hubController.truncateBalance());
-        truncateShipments.setOnAction(event -> hubController.truncateShipments());
-        truncateDeliveries.setOnAction(event -> hubController.truncateDeliveries());
-        truncateAll.setOnAction(event -> hubController.truncateAll());
 
         //EXIT and LOGOUT
         logout.setOnMouseClicked(event -> {
@@ -196,10 +165,10 @@ public class Hub  extends Application {
         workspaceParent.setCenter(vBox);
     }
 
-    private void changeDatabase(String database, String dbUrl, String user, String password) {
-        Connection c = ServerConnection.customConnection(database, dbUrl, user, password);
+    private void changeDatabase(String database, String dbUrl, String user, String password, String testDatabaseName) {
+        Connection c = ServerConnection.customConnection(database, dbUrl, user, password, testDatabaseName);
         workSpaces = new WorkSpaces(c);
-        hubController = new HubController(c);
+        db = new DatabaseAccess(c);
     }
 
     private VBox setDatabaseWorkspace() {
@@ -224,10 +193,13 @@ public class Hub  extends Application {
 
         TextField database = new TextField();
         database.setPromptText("database");
+
+        TextField testDatabase = new TextField();
+        testDatabase.setPromptText("test database");
         Button apply = new Button("Apply");
 
-        vBox.getChildren().addAll(note, urlNote, url, user, pw, db, database, apply);
-        apply.setOnAction(event -> changeDatabase(database.getText(), url.getText(), user.getText(), pw.getText()));
+        vBox.getChildren().addAll(note, urlNote, url, user, pw, db, database, testDatabase, apply);
+        apply.setOnAction(event -> changeDatabase(database.getText(), url.getText(), user.getText(), pw.getText(), testDatabase.getText()));
         return vBox;
     }
 }

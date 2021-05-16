@@ -1,15 +1,11 @@
-
 import fi.orderly.dao.Delivery;
 import fi.orderly.logic.ServerConnection;
 import fi.orderly.dao.Shipment;
 import fi.orderly.logic.HubController;
-import fi.orderly.logic.Utils;
-
 import fi.orderly.logic.dbinterfaces.DatabaseAccess;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 import java.sql.*;
 
 public class HubControllerTest {
@@ -159,7 +155,7 @@ public class HubControllerTest {
     }
 
     @Test
-    public void removeProduct() throws SQLException {
+    public void removeProduct() {
         hubController.addRoom("Room", "");
         hubController.addProduct("Herne", "92", "PKT", "7", "Room");
         assertEquals(1, db.products.size());
@@ -451,30 +447,6 @@ public class HubControllerTest {
         hubController.sendDelivery(delivery);
         assertEquals(0, db.deliveries.numberOfDeliveries(1));
         assertEquals(5, db.balance.numberOfZero());
-    }
-
-    @Test
-    public void generateProducts() {
-        hubController.generateProducts();
-        assertEquals(50, db.products.size());
-
-        hubController.generateProducts();
-        assertEquals(100, db.products.size());
-
-        hubController.generateProducts();
-        assertEquals(150, db.products.size());
-    }
-
-    @Test
-    public void generateRooms() {
-        hubController.generateRooms();
-        assertEquals(10, db.rooms.size());
-
-        hubController.generateRooms();
-        assertEquals(20, db.rooms.size());
-
-        hubController.generateRooms();
-        assertEquals(30, db.rooms.size());
     }
 
     @Test
