@@ -23,44 +23,6 @@ public class HubControllerTest {
         db.truncateAll();
     }
 
-
-    public void sqlSpeed() throws SQLException {
-        long start = System.nanoTime();
-        for (int i = 1; i <= 100; i++) {
-            //db.rooms.insertRoom(""+i);
-            connection.createStatement().execute("INSERT INTO rooms (room) VALUES ("+i+")");
-        }
-        long time = System.nanoTime() - start;
-        System.out.println("Insert time: " + time/100/1000000 + " millis");
-        System.out.println("Sum: " + time/1000000000);
-        assertEquals(100, db.rooms.size());
-
-
-        long start2 = System.nanoTime();
-        for (int i = 1; i <= 100; i++) {
-            db.rooms.queryRoom(i);
-        }
-        long time2 = System.nanoTime() - start2;
-        System.out.println("Query time: " + time2/100/1000000 + " millis");
-        System.out.println("Sum: " + time2/1000000000);
-
-        long start3 = System.nanoTime();
-        for (int i = 1; i <= 100; i++) {
-            db.rooms.foundRoom("50");
-        }
-        long time3 = System.nanoTime() - start3;
-        System.out.println("foundRoom(50) time: " + time3/100/1000000 + " millis");
-        System.out.println("Sum: " + time3/1000000000);
-
-        long start4 = System.nanoTime();
-        for (int i = 1; i <= 100; i++) {
-            db.rooms.foundRoom("100");
-        }
-        long time4 = System.nanoTime() - start4;
-        System.out.println("foundRoom(100) time: " + time4/100/1000000 + " millis");
-        System.out.println("Sum: " + time4/1000000000);
-    }
-
     @Test
     public void addRoom() {
         //-- SHOULD PASS --//
