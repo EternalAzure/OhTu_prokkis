@@ -77,4 +77,5 @@ Ajat eivät sisällä laskareita.
 | 14.5        | 1           |Refaktoroin toimituksen vastaan ottamisen. Siirsin ShipmentWorkspace ui osan Workspace luokkaan ja dao osan dao pakettiin.|
 | 14.5        | 2           |Löysin ison virheen tavaran vastaanottamisesta ja aloitin korjaamisen|
 | 15.5        | 2           |Korjasin tavaran vastaanottamisen. Nyt muutokset toimitukseen rekisteröidään. Iso rakenteelline muutos sitä koskien|
-| yht.        | 155         |
+| 15.5        | 3           |Virheiden etsimistä ja korjailua. Löydetty: tuotteen poistaminen hajottaa saldo taulun|
+| yht.        | 158         |
