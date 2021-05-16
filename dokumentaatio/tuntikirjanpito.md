@@ -78,4 +78,5 @@ Ajat eivät sisällä laskareita.
 | 14.5        | 2           |Löysin ison virheen tavaran vastaanottamisesta ja aloitin korjaamisen|
 | 15.5        | 2           |Korjasin tavaran vastaanottamisen. Nyt muutokset toimitukseen rekisteröidään. Iso rakenteelline muutos sitä koskien|
 | 15.5        | 3           |Virheiden etsimistä ja korjailua. Löydetty: tuotteen poistaminen hajottaa saldo taulun|
-| yht.        | 158         |
+| 16.5        | 2           |Tietokanta taulut toimivat nyt, vaikka asioita poistelee|
+| yht.        | 160         |
