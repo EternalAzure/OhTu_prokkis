@@ -112,6 +112,20 @@ public class RoomsInterface {
         return result;
     }
 
+    public int[] load50(int id) throws SQLException {
+        String query = "SELECT id FROM rooms WHERE id>? LIMIT 50";
+        PreparedStatement sql = connection.prepareStatement(query);
+        sql.setInt(1, id);
+        ResultSet resultSet = sql.executeQuery();
+        int[] list = new int[50];
+        int i = 0;
+        while (resultSet.next()) {
+            list[i] = resultSet.getInt(1);
+            i++;
+        }
+        return list;
+    }
+
     /**
      * Palauttaa taulun rivien lukumäärän.
      * @return lukumäärä

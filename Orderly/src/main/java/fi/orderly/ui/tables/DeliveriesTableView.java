@@ -5,20 +5,26 @@ import fi.orderly.dao.tables.ITable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.SQLException;
+
 public class DeliveriesTableView extends TableViewInfiniteScrolling {
 
     @Override
     void addItems() {
-        int limit = items.size() + 30;
-        for (int i = items.size(); i < limit; i++) {
-            if (i >= db.deliveries.size()) {
-                break;
+        int[] ids;
+        try {
+            if (items.size() == 0) {
+                ids = db.deliveries.load50(0);
+            } else {
+                int id = getDbIndexOfLastItemOnItems();
+                ids = db.deliveries.load50(id);
             }
-            DeliveriesTable s = new DeliveriesTable(items.size() + 1, connection);
-            if (s.getDeliveryNumber().isEmpty()) {
-                continue;
+            for (Integer id: ids) {
+                DeliveriesTable d = new DeliveriesTable(id, connection);
+                items.add(d);
             }
-            items.add(s);
+        } catch (SQLException e) {
+            //ignore
         }
     }
 
@@ -47,5 +53,12 @@ public class DeliveriesTableView extends TableViewInfiniteScrolling {
         TableColumn<ITable, String> amount = new TableColumn<>("Amount");
         amount.setCellValueFactory(new PropertyValueFactory<>("expectedAmount"));
         table.getColumns().setAll(number, product, amount);
+    }
+
+    private int getDbIndexOfLastItemOnItems() throws SQLException {
+        DeliveriesTable dt = (DeliveriesTable) items.get(items.size()-1);
+        int name = Integer.parseInt(dt.getProductName());
+        int number = Integer.parseInt(dt.getProductName());
+        return db.deliveries.findId(number, name);
     }
 }

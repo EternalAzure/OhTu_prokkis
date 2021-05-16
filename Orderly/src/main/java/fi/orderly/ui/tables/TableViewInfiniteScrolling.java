@@ -37,14 +37,14 @@ public class TableViewInfiniteScrolling {
     public void display(Connection connection) {
         this.connection = connection;
         db = new DatabaseAccess(connection);
-        addItems();
         table.setItems(items);
-
         setUp();
 
         if (scene == null) {
             scene = new Scene(table, 400, 400);
             stage.setScene(scene);
+            items.clear();
+            addItems();
         } else {
             items.clear();
             addItems();

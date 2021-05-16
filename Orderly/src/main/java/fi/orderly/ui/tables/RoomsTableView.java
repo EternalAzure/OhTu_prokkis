@@ -1,25 +1,31 @@
 package fi.orderly.ui.tables;
 
 import fi.orderly.dao.tables.ITable;
+import fi.orderly.dao.tables.ProductsTable;
 import fi.orderly.dao.tables.RoomsTable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.sql.SQLException;
 
 public class RoomsTableView extends TableViewInfiniteScrolling {
 
     @Override
      void addItems() {
-        int limit = items.size() + 30;
-        for (int i = items.size(); i < limit; i++) {
-            if (i >= db.rooms.size()) {
-                break;
+        int[] ids;
+        try {
+            if (items.size() == 0) {
+                ids = db.rooms.load50(0);
+            } else {
+                int id = getDbIndexOfLastItemOnItems();
+                ids = db.rooms.load50(id);
             }
-
-            RoomsTable r = new RoomsTable(items.size() + 1, connection);
-            if (r.getRoomName() == null || r.getRoomName().isEmpty()) {
-                continue;
+            for (Integer id: ids) {
+                RoomsTable r = new RoomsTable(id, connection);
+                items.add(r);
             }
-            items.add(r);
+        } catch (SQLException e) {
+            //ignore
         }
     }
 
@@ -31,5 +37,11 @@ public class RoomsTableView extends TableViewInfiniteScrolling {
         TableColumn<ITable, String> temperature = new TableColumn<>("Room temperature");
         temperature.setCellValueFactory(new PropertyValueFactory<>("roomTemperature"));
         table.getColumns().setAll(name, temperature);
+    }
+
+    private int getDbIndexOfLastItemOnItems() throws SQLException {
+        RoomsTable rt = (RoomsTable) items.get(items.size()-1);
+        String name = rt.getRoomName();
+        return db.rooms.findIdByName(name);
     }
 }

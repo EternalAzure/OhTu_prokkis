@@ -92,6 +92,30 @@ public class DeliveriesInterface {
         return resultSet.getInt("COUNT(*)");
     }
 
+    public int findId(int number, int productId) throws SQLException {
+        String select = "SELECT id FROM deliveries WHERE number=? AND product_id=?";
+        PreparedStatement sql = connection.prepareStatement(select);
+        sql.setInt(1, number);
+        sql.setInt(2, productId);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("id");
+    }
+
+    public int[] load50(int id) throws SQLException {
+        String query = "SELECT id FROM deliveries WHERE id>? LIMIT 50";
+        PreparedStatement sql = connection.prepareStatement(query);
+        sql.setInt(1, id);
+        ResultSet resultSet = sql.executeQuery();
+        int[] list = new int[50];
+        int i = 0;
+        while (resultSet.next()) {
+            list[i] = resultSet.getInt(1);
+            i++;
+        }
+        return list;
+    }
+
     /**
      * Palauttaa taulun rivien lukumäärän.
      * @return lukumäärä
@@ -122,16 +146,6 @@ public class DeliveriesInterface {
             e.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void deleteAll() {
-        try {
-            String delete = "DELETE FROM deliveries";
-            PreparedStatement sql = connection.prepareStatement(delete);
-            sql.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Didn't delete rows in deliveries");
         }
     }
 }

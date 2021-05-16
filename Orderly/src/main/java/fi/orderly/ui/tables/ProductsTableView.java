@@ -5,20 +5,26 @@ import fi.orderly.dao.tables.ITable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.SQLException;
+
 public class ProductsTableView extends TableViewInfiniteScrolling {
 
     @Override
     void addItems() {
-        int limit = items.size() + 30;
-        for (int i = items.size(); i < limit; i++) {
-            if (i >= db.products.size()) { //
-                break;
+        int[] ids;
+        try {
+            if (items.size() == 0) {
+                ids = db.products.load50(0);
+            } else {
+                int id = getDbIndexOfLastItemOnItems();
+                ids = db.products.load50(id);
             }
-            ProductsTable p = new ProductsTable(items.size() + 1, connection);
-            if (p.getProductCode().isEmpty()) {
-                continue;
+            for (Integer id: ids) {
+                ProductsTable p = new ProductsTable(id, connection);
+                items.add(p);
             }
-            items.add(p);
+        } catch (SQLException e) {
+            //ignore
         }
     }
 
@@ -39,5 +45,11 @@ public class ProductsTableView extends TableViewInfiniteScrolling {
         TableColumn<ITable, String> room = new TableColumn<>("Default storage");
         room.setCellValueFactory(new PropertyValueFactory<>("defaultRoom"));
         table.getColumns().setAll(name, code, unit, temperature, room);
+    }
+
+    private int getDbIndexOfLastItemOnItems() throws SQLException {
+        ProductsTable pt = (ProductsTable) items.get(items.size()-1);
+        int code = Integer.parseInt(pt.getProductCode());
+        return db.products.findIdByCode(code);
     }
 }

@@ -17,7 +17,7 @@ public class BalanceTable implements ITable {
     private String room = null;
     DatabaseAccess db;
 
-    public BalanceTable(int index, Connection connection) {
+    public BalanceTable(int index, Connection connection) throws SQLException {
         db = new DatabaseAccess(connection);
         fetchData(index);
         setProductName(name);
@@ -94,19 +94,14 @@ public class BalanceTable implements ITable {
         return productAmount;
     }
 
-    private void fetchData(int id) {
-        try {
-            PreparedStatement sql = db.tableBalance(id);
-            ResultSet resultSet = sql.executeQuery();
-            resultSet.next();
-            name = resultSet.getString("product");
-            code = String.valueOf(resultSet.getInt("code"));
-            batch = String.valueOf(resultSet.getInt("batch"));
-            amount = String.valueOf(resultSet.getDouble("amount"));
-            room = resultSet.getString("room");
-        } catch (
-                SQLException e) {
-            e.printStackTrace();
-        }
+    private void fetchData(int id) throws SQLException {
+        PreparedStatement sql = db.tableBalance(id);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        name = resultSet.getString("product");
+        code = String.valueOf(resultSet.getInt("code"));
+        batch = String.valueOf(resultSet.getInt("batch"));
+        amount = String.valueOf(resultSet.getDouble("amount"));
+        room = resultSet.getString("room");
     }
 }

@@ -88,6 +88,31 @@ public class BalanceInterface {
         return resultSet.getDouble("amount");
     }
 
+    public int findId(int roomId, int productId, int batch) throws SQLException {
+        String select = "SELECT id FROM balance WHERE room_id=? AND product_id=? AND batch=?";
+        PreparedStatement sql = connection.prepareStatement(select);
+        sql.setInt(1, roomId);
+        sql.setInt(2, productId);
+        sql.setInt(3, batch);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        return resultSet.getInt("id");
+    }
+
+    public int[] load50(int id) throws SQLException {
+        String query = "SELECT id FROM balance WHERE id>? LIMIT 50";
+        PreparedStatement sql = connection.prepareStatement(query);
+        sql.setInt(1, id);
+        ResultSet resultSet = sql.executeQuery();
+        int[] list = new int[50];
+        int i = 0;
+        while (resultSet.next()) {
+            list[i] = resultSet.getInt(1);
+            i++;
+        }
+        return list;
+    }
+
     /**
      * Yrittää kysellä löytyykö taulusta riviä.
      * @param roomId huoneen id (vierasavain)

@@ -12,7 +12,7 @@ public class RoomsTable implements ITable {
     private String temperature = null;
     DatabaseAccess db;
 
-    public RoomsTable(int index, Connection connection) {
+    public RoomsTable(int index, Connection connection) throws SQLException {
         db = new DatabaseAccess(connection);
         fetchData(index);
         setRoomName(name);
@@ -47,12 +47,8 @@ public class RoomsTable implements ITable {
         return roomTemperature;
     }
 
-    private void fetchData(int id) {
-        try {
-            name = db.rooms.queryRoom(id)[0];
-            temperature = db.rooms.queryRoom(id)[1];
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void fetchData(int id) throws SQLException {
+        name = db.rooms.queryRoom(id)[0];
+        temperature = db.rooms.queryRoom(id)[1];
     }
 }

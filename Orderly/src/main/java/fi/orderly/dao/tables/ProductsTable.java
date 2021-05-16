@@ -18,7 +18,7 @@ public class ProductsTable implements ITable {
     private String room = null;
     DatabaseAccess db;
 
-    public ProductsTable(int index, Connection connection) {
+    public ProductsTable(int index, Connection connection) throws SQLException {
         db = new DatabaseAccess(connection);
         fetchData(index);
         setProductName(name);
@@ -98,18 +98,14 @@ public class ProductsTable implements ITable {
         return defaultRoom;
     }
 
-    private void fetchData(int id) {
-        try {
-            PreparedStatement sql = db.tableProducts(id);
-            ResultSet resultSet = sql.executeQuery();
-            resultSet.next();
-            name = String.valueOf(resultSet.getString("product"));
-            code = String.valueOf(resultSet.getInt("code"));
-            unit = String.valueOf(resultSet.getString("unit"));
-            temperature = String.valueOf(resultSet.getDouble("temperature"));
-            room = resultSet.getString("room");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void fetchData(int id) throws SQLException {
+        PreparedStatement sql = db.tableProducts(id);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        name = String.valueOf(resultSet.getString("product"));
+        code = String.valueOf(resultSet.getInt("code"));
+        unit = String.valueOf(resultSet.getString("unit"));
+        temperature = String.valueOf(resultSet.getDouble("temperature"));
+        room = resultSet.getString("room");
     }
 }

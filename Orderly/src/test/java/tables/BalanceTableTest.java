@@ -26,7 +26,7 @@ public class BalanceTableTest {
     }
 
     @Test
-    public void fetchData() {
+    public void fetchData() throws SQLException {
         BalanceTable bt = new BalanceTable(1, connection);
         assertEquals("Etiketti", bt.getProductName());
         assertEquals("9000", bt.getProductCode());

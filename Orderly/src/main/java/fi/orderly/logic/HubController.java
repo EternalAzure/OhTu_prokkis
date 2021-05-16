@@ -199,36 +199,37 @@ public class HubController {
     /**
      * Poistaa tuotteen taulusta products.
      * Kutsuu dbinterfaces.ProductsInterface.removeProduct().
-     * @param product tuotteen nimi
+     * @param code tuotteen koodi
      * @return viesti onnistumisesta tai epäonnistumisesta
      */
-    public String removeProduct(String product) {
-        if (!validate04(product).isEmpty()) {
-            return validate04(product);
+    public String removeProduct(String code) {
+        if (!validate04(code).isEmpty()) {
+            return validate04(code);
         }
-        if (!execute04(product).isEmpty()) {
-            return execute04(product);
+        if (!execute04(Integer.parseInt(code)).isEmpty()) {
+            return execute04(Integer.parseInt(code));
         }
         return "Success";
     }
-    private String validate04(String product) {
+    private String validate04(String code) {
         try {
-            if (product.isEmpty()) {
+            if (code.isEmpty()) {
                 return empty;
             }
-            if (!db.products.foundProduct(product)) {
+            if (Utils.notInt(code)) {
+                return integer;
+            }
+            if (!db.products.foundProduct(Integer.parseInt(code))) {
                 return "Product not found";
             }
         } catch (SQLException e) {
-            e.getErrorCode();
-            e.printStackTrace();
             return sqlError;
         }
         return "";
     }
-    private String execute04(String product) {
+    private String execute04(int code) {
         try {
-            db.products.deleteProduct(product);
+            db.products.deleteProduct(code);
         } catch (SQLException e) {
             e.printStackTrace();
             return sqlError;

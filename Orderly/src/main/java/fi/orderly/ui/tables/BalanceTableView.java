@@ -4,22 +4,27 @@ import fi.orderly.dao.tables.BalanceTable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.SQLException;
+
 public class BalanceTableView extends TableViewInfiniteScrolling {
 
 
     @Override
     void addItems() {
-        int limit = items.size() + 30;
-        for (int i = items.size(); i < limit; i++) {
-            if (i >= db.balance.size()) {
-                break;
+        int[] ids;
+        try {
+            if (items.size() == 0) {
+                ids = db.balance.load50(0);
+            } else {
+                int id = getDbIndexOfLastItemOnItems();
+                ids = db.balance.load50(id);
             }
-
-            BalanceTable b = new BalanceTable(items.size() + 1, connection);
-            if (b.getRoomName().isEmpty()) {
-                continue;
+            for (Integer id: ids) {
+                BalanceTable b = new BalanceTable(id, connection);
+                items.add(b);
             }
-            items.add(b);
+        } catch (SQLException e) {
+            //ignore
         }
     }
 
@@ -41,5 +46,14 @@ public class BalanceTableView extends TableViewInfiniteScrolling {
         amount.setCellValueFactory(new PropertyValueFactory<>("productAmount"));
 
         table.getColumns().setAll(room, productName, code, batch, amount);
+    }
+
+    private int getDbIndexOfLastItemOnItems() throws SQLException {
+        BalanceTable bt = (BalanceTable) items.get(items.size()-1);
+        int code = Integer.parseInt(bt.getProductCode());
+        int productId = db.products.findIdByCode(code);
+        int roomId = db.rooms.findIdByName(bt.getRoomName());
+        int batch = Integer.parseInt(bt.getProductBatch());
+        return db.balance.findId(roomId, productId, batch);
     }
 }

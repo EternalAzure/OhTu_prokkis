@@ -15,7 +15,7 @@ public class DeliveriesTable implements ITable {
     private String amount;
 
     DatabaseAccess db;
-    public DeliveriesTable(int index, Connection connection) {
+    public DeliveriesTable(int index, Connection connection) throws SQLException {
         db = new DatabaseAccess(connection);
         fetchData(index);
         setDeliveryNumber(number);
@@ -65,16 +65,12 @@ public class DeliveriesTable implements ITable {
         return expectedAmount;
     }
 
-    private void fetchData(int id) {
-        try {
-            PreparedStatement sql = db.tableDeliveries(id);
-            ResultSet resultSet = sql.executeQuery();
-            resultSet.next();
-            number = String.valueOf(resultSet.getInt("number"));
-            product = resultSet.getString("product");
-            amount = String.valueOf(resultSet.getDouble("amount"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void fetchData(int id) throws  SQLException {
+        PreparedStatement sql = db.tableDeliveries(id);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        number = String.valueOf(resultSet.getInt("number"));
+        product = resultSet.getString("product");
+        amount = String.valueOf(resultSet.getDouble("amount"));
     }
 }

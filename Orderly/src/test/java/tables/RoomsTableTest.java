@@ -26,7 +26,7 @@ public class RoomsTableTest {
     }
 
     @Test
-    public void fetchData() {
+    public void fetchData() throws SQLException {
         RoomsTable rt1 = new RoomsTable(1, connection);
         assertEquals("Room 1", rt1.getRoomName());
         assertEquals("-", rt1.getRoomTemperature());

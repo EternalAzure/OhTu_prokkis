@@ -17,7 +17,7 @@ public class ShipmentsTable implements ITable {
 
     DatabaseAccess db;
 
-    public ShipmentsTable(int index, Connection connection) {
+    public ShipmentsTable(int index, Connection connection) throws SQLException {
         db = new DatabaseAccess(connection);
         fetchData(index);
         setShipmentNumber(number);
@@ -83,17 +83,13 @@ public class ShipmentsTable implements ITable {
         return expectedAmount;
     }
 
-    private void fetchData(int id) {
-        try {
-            PreparedStatement sql = db.tableShipments(id);
-            ResultSet resultSet = sql.executeQuery();
-            resultSet.next();
-            number = String.valueOf(resultSet.getInt("number"));
-            name = resultSet.getString("product");
-            batch = String.valueOf(resultSet.getInt("batch"));
-            amount = String.valueOf(resultSet.getDouble("amount"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void fetchData(int id) throws SQLException {
+        PreparedStatement sql = db.tableShipments(id);
+        ResultSet resultSet = sql.executeQuery();
+        resultSet.next();
+        number = String.valueOf(resultSet.getInt("number"));
+        name = resultSet.getString("product");
+        batch = String.valueOf(resultSet.getInt("batch"));
+        amount = String.valueOf(resultSet.getDouble("amount"));
     }
 }

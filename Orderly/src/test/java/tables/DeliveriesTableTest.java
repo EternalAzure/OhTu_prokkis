@@ -26,7 +26,7 @@ public class DeliveriesTableTest {
     }
 
     @Test
-    public void fetchData() {
+    public void fetchData() throws SQLException {
         DeliveriesTable dt = new DeliveriesTable(1, connection);
         assertEquals("1", dt.getDeliveryNumber());
         assertEquals("Etiketti", dt.getProductName());
