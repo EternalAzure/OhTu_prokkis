@@ -55,7 +55,7 @@ Ohjelman pääikkuna on nimeltään hub kuten myös luokka _Hub_, jossa tämä s
 
 ### DatabaseAccess
 
-_DatabaseAccess_ tarjoaa ensisijaisesti SQL operaatioita, jotka käsittelevät useampaa kuin yhtä taulua. Toissijaisesti se tarjoaa erittäin siistin tavan päästä käsiksi muihin tietokantarajapintoihin. ```db.rooms.insertRoom("Huone");``` missä db on DatabaseAccess ja balance on BalanceInterface. Luokkaa käytetään lähes kaikkialla.
+_DatabaseAccess_ tarjoaa ensisijaisesti SQL operaatioita, jotka käsittelevät useampaa kuin yhtä taulua. Toissijaisesti se tarjoaa erittäin siistin tavan päästä käsiksi muihin tietokantarajapintoihin. ```db.rooms.insertRoom("Huone");``` missä db on DatabaseAccess ja rooms on RoomsInterface. Luokkaa käytetään lähes kaikkialla.
 
 ## Sekvenssikaavioita grafiikasta
 
