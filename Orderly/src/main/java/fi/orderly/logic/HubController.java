@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Random;
 
+import org.sqlite.SQLiteException;
+
 /**
  * Luokan tarkoitus on tarjota sovelluksen päälogiikka.
  * Kaikki muu on olemassa, jotta tämä luokka toimisi.
@@ -85,6 +87,7 @@ public class HubController {
         } catch (SQLException e) {
             e.printStackTrace();
             if (e.getErrorCode() == 1062) {
+                System.out.println(e.getErrorCode());
                 return duplicate;
             }
             return sqlError;
@@ -126,6 +129,7 @@ public class HubController {
                 return "Room not found";
             }
         } catch (SQLException e) {
+            System.out.println("validate02 exception");
             return sqlError;
         }
         return "";
@@ -141,8 +145,16 @@ public class HubController {
             }
         } catch (SQLIntegrityConstraintViolationException e) {
             return duplicate;
+        } catch(SQLiteException e) {
+            // MySQL has different error code than SQLite
+            if (e.getErrorCode() == 19) {
+                return duplicate;
+            }
+            return sqlError;
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("execute02 exception");
+            System.out.println(e.getMessage());
             return sqlError;
         }
         return "";

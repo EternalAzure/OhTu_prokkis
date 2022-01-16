@@ -12,24 +12,23 @@ public class ServerConnection {
     public static String TEST_DATABASE = "test";
 
     /**
-     * Oletus yhteys Azure pilvipalveluun.
-     * @param database tietokannan nimi
+     * Oletus yhteys sqlite3 tietokantaan.
+     * @param database tietokatatiedoston nimi
      * @return yhteys
      */
     public static Connection createConnection(String database) {
-        final String dbUrl = "jdbc:mysql://mysql-demo-varasto.mysql.database.azure.com:3306/login?useSSL=true&requireSSL=false";
-        final String user = "mefistofeles@mysql-demo-varasto";
-        final String pass = "#demoDatabase30";
-
         try {
-            Connection connection = DriverManager.getConnection(dbUrl, user, pass);
-            Statement statement = connection.createStatement();
-            statement.execute("USE " + database);
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:"+ database +".db");
             return connection;
 
         } catch (SQLException exception) {
             AlertWindow.display("Could not establish connection\n" +
                     "to SQL database.");
+            System.out.println(exception.getMessage());
+        } catch (Exception e) {
+            System.out.println("Class not found for org.sqlite.JDBC");
+            System.out.println("error: " + e.getMessage());
+            return null;
         }
         return null;
     }
