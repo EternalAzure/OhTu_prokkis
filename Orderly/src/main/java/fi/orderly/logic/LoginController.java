@@ -37,7 +37,6 @@ public class LoginController {
             }
         } catch (SQLException e) {
             //ignore
-            System.out.println(e.getMessage());
         }
     }
 

@@ -8,7 +8,7 @@ import java.sql.*;
  */
 public class ServerConnection {
 
-    public static final String DATABASE = "warehouse";
+    public static String DATABASE = "warehouse";
     public static String TEST_DATABASE = "test";
 
     /**
@@ -35,20 +35,14 @@ public class ServerConnection {
 
     /**
      * Kun oletus tietokanta halutaan vaihtaa toiseen.
-     * @param database tietokanta
      * @param dbUrl serverin url osoite
-     * @param user käyttäjänimi
-     * @param password salasana
      * @return yhteys
      */
-    public static Connection customConnection(String database, String dbUrl, String user, String password, String testDatabaseName) {
-        String driver = "jdbc:mysql://";
+    public static Connection customConnection(String dbUrl) {
+        String driver = "jdbc:sqlite:";
         String url = driver + dbUrl;
         try {
-            Connection connection = DriverManager.getConnection(url, user, password);
-            Statement statement = connection.createStatement();
-            statement.execute("USE " + database);
-            System.out.println("Connection created");
+            Connection connection = DriverManager.getConnection(url);
             return connection;
 
         } catch (SQLException exception) {
@@ -56,7 +50,8 @@ public class ServerConnection {
                     "to SQL database.");
         }
 
-        TEST_DATABASE = testDatabaseName;
+        TEST_DATABASE = "test.db";
+        DATABASE = dbUrl;
         return null;
     }
 }

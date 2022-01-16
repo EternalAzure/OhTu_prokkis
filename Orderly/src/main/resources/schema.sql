@@ -1,5 +1,5 @@
 -- SQLite
-CREATE TABLE [IF NOT EXISTS] rooms (
+CREATE TABLE rooms (
     id INTEGER PRIMARY KEY,
     room TEXT NOT NULL UNIQUE,
     temperature REAL DEFAULT NULL

@@ -145,6 +145,7 @@ public class RoomsInterface {
             sql.close();
             return result;
         } catch (SQLException e) {
+            System.out.println("RoomsInterface.size() failed:");
             e.printStackTrace();
         }
         return 0;

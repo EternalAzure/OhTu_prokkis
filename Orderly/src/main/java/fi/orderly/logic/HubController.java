@@ -73,6 +73,10 @@ public class HubController {
                 return "Aborted";
             }
         } catch (SQLException e) {
+            // Missing database. No such table: rooms
+            if (e.getErrorCode() == 1) {
+                return e.getMessage();
+            }
             return sqlError;
         }
         return "";
@@ -129,7 +133,10 @@ public class HubController {
                 return "Room not found";
             }
         } catch (SQLException e) {
-            System.out.println("validate02 exception");
+            // Missing database. No such table: products
+            if (e.getErrorCode() == 1) {
+                return e.getMessage();
+            }
             return sqlError;
         }
         return "";

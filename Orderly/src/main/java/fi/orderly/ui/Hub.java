@@ -165,41 +165,33 @@ public class Hub  extends Application {
         workspaceParent.setCenter(vBox);
     }
 
-    private void changeDatabase(String database, String dbUrl, String user, String password, String testDatabaseName) {
-        Connection c = ServerConnection.customConnection(database, dbUrl, user, password, testDatabaseName);
+    private void changeDatabase(String dbUrl) {
+        Connection c = ServerConnection.customConnection(dbUrl);
         workSpaces = new WorkSpaces(c);
         db = new DatabaseAccess(c);
     }
 
     private VBox setDatabaseWorkspace() {
-        AlertWindow.display("This is not well tested! \nBe sure to use schema at \n resources/skeema.txt");
+        AlertWindow.display("This is not well tested! \nBe sure to use schema at \n resources/schema.sql");
         VBox vBox = new VBox();
         vBox.setId("workspace");
-        Label note = new Label("DriverManager.getConnection(url, user, pw);");
+
+        Label note = new Label("Path to your sqlite .db file");
         note.setId("instruction");
-        Label urlNote = new Label("jdbc:mysql://<your url>");
+        Label note2 = new Label("DriverManager.getConnection(url);");
+        note2.setId("instruction");
+        
+
+        Label urlNote = new Label("jdbc:sqlite:<your URI>");
         urlNote.setId("instruction");
 
         TextField url = new TextField();
-        url.setPromptText("url");
+        url.setPromptText("URI (eg. 'warehouse.db')");
 
-        TextField user = new TextField();
-        user.setPromptText("user");
-        TextField pw = new TextField();
-        pw.setPromptText("password");
-
-        Label db = new Label("sql: USE <database>;");
-        db.setId("instruction");
-
-        TextField database = new TextField();
-        database.setPromptText("database");
-
-        TextField testDatabase = new TextField();
-        testDatabase.setPromptText("test database");
         Button apply = new Button("Apply");
 
-        vBox.getChildren().addAll(note, urlNote, url, user, pw, db, database, testDatabase, apply);
-        apply.setOnAction(event -> changeDatabase(database.getText(), url.getText(), user.getText(), pw.getText(), testDatabase.getText()));
+        vBox.getChildren().addAll(note, note2, urlNote, url, apply);
+        apply.setOnAction(event -> changeDatabase(url.getText()));
         return vBox;
     }
 }
