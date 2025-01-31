@@ -48,8 +48,8 @@ __Aja .jar__
 ```
 cd target/ && java -jar .jar
 ```
-__Tapa 3: Lataa release__
-
+__Tapa 3: Lataa release__</br>
+[Java 8 Run time](https://www.java.com/download/ie_manual.jsp)</br>
 __Windows__ </br>
 Lataa viimeisimmän julkaisun jar-tiedosto koneellesi.</br>
 Tuplaklikkaa tiedostoa. </br>
